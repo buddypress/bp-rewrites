@@ -80,4 +80,4 @@ final class BP_Rewrites {
 function bp_rewrites() {
 	return BP_Rewrites::start();
 }
-add_action( 'bp_include', __NAMESPACE__ . '\bp_rewrites', 1 );
+add_action( 'bp_loaded', __NAMESPACE__ . '\bp_rewrites', 0 );

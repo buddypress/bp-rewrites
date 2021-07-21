@@ -29,4 +29,4 @@ function globals() {
 	// URL.
 	$bpr->url = plugins_url( dirname( __FILE__ ) );
 }
-add_action( 'bp_include', __NAMESPACE__ . '\globals', 2 );
+add_action( 'bp_loaded', __NAMESPACE__ . '\globals', 1 );

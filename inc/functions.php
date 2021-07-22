@@ -222,3 +222,36 @@ function bp_component_pre_query( $return = null, \WP_Query $query ) {
 
 	return null;
 }
+
+/**
+ * Code to move inside BP_Core::register_post_types().
+ *
+ * @since ?.0.0
+ */
+function bp_core_register_post_types() {
+	if ( (int) get_current_blog_id() === bp_get_post_type_site_id() ) {
+		register_post_type(
+			'buddypress',
+			array(
+				'label'               => _x( 'BuddyPress Components', 'Post Type label used in the Admin menu.', 'buddypress' ),
+				'labels'              => array(
+					'singular_name' => _x( 'BuddyPress Component', 'Post Type singular name', 'buddypress' ),
+				),
+				'description'         => __( 'The BuddyPress Component Post Type is used when Pretty URLs are active.', 'buddypress' ),
+				'public'              => false,
+				'hierarchical'        => true,
+				'exclude_from_search' => true,
+				'publicly_queryable'  => false,
+				'show_ui'             => true, // @todo this should be `false`.
+				'show_in_nav_menus'   => true,
+				'show_in_rest'        => false,
+				'supports'            => array( 'title' ),
+				'has_archive'         => false,
+				'rewrite'             => false,
+				'query_var'           => false,
+				'delete_with_user'    => false,
+			)
+		);
+	}
+}
+add_action( 'bp_core_register_post_types', __NAMESPACE__ . '\bp_core_register_post_types' );

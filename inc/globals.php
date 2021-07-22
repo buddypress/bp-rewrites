@@ -24,9 +24,20 @@ function globals() {
 	$bpr->version = '1.0.0-alpha';
 
 	// Path.
-	$bpr->dir = plugin_dir_path( dirname( __FILE__ ) );
+	$plugin_dir = plugin_dir_path( dirname( __FILE__ ) );
+	$bpr->dir   = $plugin_dir;
 
 	// URL.
-	$bpr->url = plugins_url( dirname( __FILE__ ) );
+	$plugin_url = plugins_url( dirname( __FILE__ ) );
+	$bpr->url   = $plugin_url;
+
+	/**
+	 * Private (do not use) hook used to include files early.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $plugin_dir The plugin root directory.
+	 */
+	do_action( '_bp_rewrites_includes', $plugin_dir );
 }
 add_action( 'bp_loaded', __NAMESPACE__ . '\globals', 1 );

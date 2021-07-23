@@ -210,7 +210,7 @@ function bp_component_parse_query( \WP_Query $query ) {
  * @return null|array       Null if not displaying a BuddyPress page.
  *                          An array containing the BuddyPress directory Post otherwise.
  */
-function bp_component_pre_query( $return = null, \WP_Query $query ) {
+function bp_component_pre_query( $return = null, \WP_Query $query = null ) {
 	// This should be `array( $this, 'pre_query' )`.
 	remove_filter( 'posts_pre_query', __NAMESPACE__ . '\bp_component_pre_query', 10, 2 );
 

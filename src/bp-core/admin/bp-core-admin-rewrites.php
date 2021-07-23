@@ -119,9 +119,6 @@ function bp_core_admin_rewrites_setup_handler() {
 	$current_page_slugs   = wp_list_pluck( bp_core_get_directory_pages(), 'slug', 'id' );
 	$directory_slug_edits = array();
 
-	// Do not check post slugs.
-	remove_filter( 'wp_unique_post_slug', __NAMESPACE__ . '\bp_unique_page_slug', 10, 6 );
-
 	$components = wp_unslash( $_POST['components'] ); // phpcs:ignore
 	foreach ( $components as $page_id => $slugs ) {
 		$postarr = array();

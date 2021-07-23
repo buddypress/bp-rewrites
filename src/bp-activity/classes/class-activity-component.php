@@ -58,12 +58,27 @@ class Activity_Component extends \BP_Activity_Component {
 	 * @param array $sub_nav  Optional. See BP_Component::setup_nav() for description.
 	 */
 	public function setup_nav( $main_nav = array(), $sub_nav = array() ) { /* phpcs:ignore */
+		// The `$main_nav` needs to include a `rewrite_id` property.
+		add_action( 'bp_' . $this->id . '_setup_nav', array( $this, 'setup_main_nav_rewrite_id' ) );
 
-		/*
-		 * @todo Add the `'rewrite_id' => 'bp_member_' . $slug,` argument
-		 * to main nav.
-		 */
 		parent::setup_nav( $main_nav, $sub_nav );
+	}
+
+	/**
+	 * Setup the main nav rewrite id.
+	 *
+	 * This should be done inside `bp_core_new_nav_item()`.
+	 *
+	 * @since 1.0.0
+	 */
+	public function setup_main_nav_rewrite_id() {
+		remove_action( 'bp_' . $this->id . '_setup_nav', array( $this, 'setup_main_nav_rewrite_id' ) );
+
+		$main_nav               = (array) buddypress()->members->nav->get( $this->id );
+		$slug                   = bp_get_activity_slug();
+		$main_nav['rewrite_id'] = 'bp_member_' . $slug;
+
+		buddypress()->members->nav->edit_nav( $main_nav, $slug );
 	}
 
 	/**

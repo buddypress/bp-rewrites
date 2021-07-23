@@ -56,6 +56,18 @@ final class BP_Rewrites {
 	}
 
 	/**
+	 * Toggle Directory pages post types.
+	 *
+	 * @since 1.0.0
+	 */
+	public static function toggle_post_types() {
+		require_once plugin_dir_path( __FILE__ ) . 'inc/update.php';
+
+		// Run the updater.
+		updater();
+	}
+
+	/**
 	 * Return an instance of this class.
 	 *
 	 * @since 1.0.0
@@ -82,3 +94,10 @@ function bp_rewrites() {
 	return BP_Rewrites::start();
 }
 add_action( 'bp_loaded', __NAMESPACE__ . '\bp_rewrites', 0 );
+
+/**
+ * Use Activation and Deactivation to switch directory pages post type between WP pages
+ * and BuddyPress one.
+ */
+register_activation_hook( __FILE__, array( __NAMESPACE__ . '\BP_Rewrites', 'toggle_post_types' ) );
+register_deactivation_hook( __FILE__, array( __NAMESPACE__ . '\BP_Rewrites', 'toggle_post_types' ) );

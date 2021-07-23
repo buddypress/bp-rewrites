@@ -132,7 +132,7 @@ function bp_component_add_rewrite_rules( $rewrite_rules = array() ) {
 				continue;
 			}
 
-			if ( ! isset( $rewrite_rule['priority'] ) || ! ! $rewrite_rule['priority'] ) {
+			if ( ! isset( $rewrite_rule['priority'] ) || ! $rewrite_rule['priority'] ) {
 				$rewrite_rule['priority'] = $priority;
 			}
 
@@ -216,7 +216,7 @@ function bp_component_pre_query( $return = null, \WP_Query $query ) {
 
 	$queried_object = $query->get_queried_object();
 
-	if ( $queried_object instanceof WP_Post && 'bp_directories' === get_post_type( $queried_object ) ) {
+	if ( is_a( $queried_object, 'WP_Post' ) && 'buddypress' === get_post_type( $queried_object ) ) {
 		return array( $queried_object );
 	}
 
@@ -233,16 +233,16 @@ function bp_core_register_post_types() {
 		register_post_type(
 			'buddypress',
 			array(
-				'label'               => _x( 'BuddyPress Components', 'Post Type label used in the Admin menu.', 'buddypress' ),
+				'label'               => _x( 'BuddyPress Directories', 'Post Type label', 'buddypress' ),
 				'labels'              => array(
-					'singular_name' => _x( 'BuddyPress Component', 'Post Type singular name', 'buddypress' ),
+					'singular_name' => _x( 'BuddyPress Directory', 'Post Type singular name', 'buddypress' ),
 				),
-				'description'         => __( 'The BuddyPress Component Post Type is used when Pretty URLs are active.', 'buddypress' ),
+				'description'         => __( 'The BuddyPress Post Type is used when Pretty URLs are active.', 'buddypress' ),
 				'public'              => false,
 				'hierarchical'        => true,
 				'exclude_from_search' => true,
 				'publicly_queryable'  => false,
-				'show_ui'             => true, // @todo this should be `false`.
+				'show_ui'             => false,
 				'show_in_nav_menus'   => true,
 				'show_in_rest'        => false,
 				'supports'            => array( 'title' ),
@@ -255,3 +255,34 @@ function bp_core_register_post_types() {
 	}
 }
 add_action( 'bp_core_register_post_types', __NAMESPACE__ . '\bp_core_register_post_types' );
+
+/**
+ * Neutralize the BuddyPress Legacy URL parser.
+ *
+ * @since 1.0.0
+ */
+function disable_buddypress_legacy_url_parser() {
+	remove_action( 'bp_init', 'bp_core_set_uri_globals', 2 );
+
+	// Stop hooking `bp_init` to setup the canonical stack & BP document title.
+	remove_action( 'bp_init', 'bp_setup_canonical_stack', 5 );
+	remove_action( 'bp_init', 'bp_setup_title', 8 );
+
+	// Start hooking `bp_parse_query` to setup the canonical stack & BP document title.
+	add_action( 'bp_parse_query', 'bp_setup_canonical_stack', 11 );
+	add_action( 'bp_parse_query', 'bp_setup_title', 14 );
+
+	/**
+	 * On front-end, hook to `bp_parse_query` instead of `bp_init` to set up the navigation.
+	 *
+	 * @todo replace `apply_filters( 'wp_using_themes', defined( 'WP_USE_THEMES' ) && WP_USE_THEMES )`
+	 * with `wp_using_themes()` once BP Required version is >= 5.1
+	 *
+	 * @see `bp_nav_menu_get_loggedin_pages()`
+	 */
+	if ( apply_filters( 'wp_using_themes', defined( 'WP_USE_THEMES' ) && WP_USE_THEMES ) ) {
+		remove_action( 'bp_init', 'bp_setup_nav', 6 );
+		add_action( 'bp_parse_query', 'bp_setup_nav', 12 );
+	}
+}
+add_action( 'bp_init', __NAMESPACE__ . '\disable_buddypress_legacy_url_parser', 1 );

@@ -53,6 +53,10 @@ final class BP_Rewrites {
 		require $inc_path . 'globals.php';
 		require $inc_path . 'functions.php';
 		require $inc_path . 'loader.php';
+
+		if ( is_admin() ) {
+			require $inc_path . 'admin.php';
+		}
 	}
 
 	/**

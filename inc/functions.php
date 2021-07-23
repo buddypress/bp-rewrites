@@ -286,3 +286,22 @@ function disable_buddypress_legacy_url_parser() {
 	}
 }
 add_action( 'bp_init', __NAMESPACE__ . '\disable_buddypress_legacy_url_parser', 1 );
+
+/**
+ * This should be inside `bp_core_get_directory_pages()`.
+ *
+ * @since 1.0.0
+ *
+ * @param object $pages Object holding BuddyPress directory page names and slugs.
+ * @return object       The same objects with custom slugs.
+ */
+function get_components_custom_slugs( $pages = null ) {
+	if ( $pages ) {
+		foreach ( $pages as $component_id => $page ) {
+			$pages->{$component_id}->custom_slugs = get_post_meta( $page->id, '_bp_component_slugs', true );
+		}
+	}
+
+	return $pages;
+}
+add_filter( 'bp_core_get_directory_pages', __NAMESPACE__ . '\get_components_custom_slugs', 1 );

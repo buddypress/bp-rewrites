@@ -70,3 +70,24 @@ function bp_unique_page_slug( $slug = '', $post_ID = 0, $post_status = '', $post
 	return $slug;
 }
 add_filter( 'wp_unique_post_slug', __NAMESPACE__ . '\bp_unique_page_slug', 10, 6 );
+
+/**
+ * Sets BuddyPress directory link.
+ *
+ * @since ?.0.0
+ *
+ * @param  string  $link The post type link.
+ * @param  WP_Post $post The post type object.
+ * @return string        The post type link.
+ */
+function bp_page_directory_link( $link, \WP_Post $post ) {
+	if ( 'buddypress' !== get_post_type( $post ) ) {
+		return $link;
+	}
+
+	$directory_pages = wp_filter_object_list( (array) bp_core_get_directory_pages(), array( 'id' => $post->ID ) ) ;
+	$component       = key( $directory_pages );
+
+	return bp_rewrites_get_link( array( 'component_id' => $component ) );
+}
+add_filter( 'post_type_link', __NAMESPACE__ . '\bp_page_directory_link', 1, 2 );

@@ -85,4 +85,7 @@ function updater() {
 			);
 		}
 	}
+
+	// Finally make sure to rebuilt permalinks at next page load.
+	bp_delete_rewrite_rules();
 }

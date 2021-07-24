@@ -36,6 +36,63 @@ function bp_has_pretty_urls() {
 }
 
 /**
+ * Get needed data to find a member single item from the request.
+ *
+ * @since ?.0.0
+ *
+ * @param string $request The request used during parsing.
+ * @return array Data to find a member single item from the request.
+ */
+function bp_rewrites_get_member_data( $request = '' ) {
+	$member_data = array( 'field' => 'slug' );
+
+	if ( bp_is_username_compatibility_mode() ) {
+		$member_data = array( 'field' => 'login' );
+	}
+
+	if ( bp_core_enable_root_profiles() ) {
+		if ( ! $request ) {
+			$request = $GLOBALS['wp']->request;
+		}
+
+		$request_chunks = explode( '/', ltrim( $request, '/' ) );
+		$member_chunk   = reset( $request_chunks );
+
+		// Try to get an existing member to eventually reset the WP Query.
+		$member_data['object'] = get_user_by( $member_data['field'], $member_chunk );
+	}
+
+	return $member_data;
+}
+
+/**
+ * Returns the members single item (member) slug.
+ *
+ * @since ?.0.0
+ *
+ * @param int $user_id The User ID.
+ * @return string The member slug.
+ */
+function bp_rewrites_get_member_slug( $user_id = 0 ) {
+	$bp = buddypress();
+
+	$prop = 'user_nicename';
+	if ( bp_is_username_compatibility_mode() ) {
+		$prop = 'user_login';
+	}
+
+	if ( (int) $user_id === (int) bp_displayed_user_id() ) {
+		$slug = isset( $bp->displayed_user->userdata->{$prop} ) ? $bp->displayed_user->userdata->{$prop} : null;
+	} elseif ( (int) $user_id === (int) bp_loggedin_user_id() ) {
+		$slug = isset( $bp->loggedin_user->userdata->{$prop} ) ? $bp->loggedin_user->userdata->{$prop} : null;
+	} else {
+		$slug = bp_core_get_username( $user_id );
+	}
+
+	return $slug;
+}
+
+/**
  * Returns the slug to use for the nav item of the requested component.
  *
  * @since ?.0.0

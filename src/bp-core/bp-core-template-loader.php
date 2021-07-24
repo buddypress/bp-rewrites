@@ -53,3 +53,92 @@ function bp_parse_query( $posts_query ) {
 }
 remove_action( 'parse_query', 'bp_parse_query', 2 );
 add_action( 'parse_query', __NAMESPACE__ . '\bp_parse_query', 2 );
+
+/**
+ * Resets the query to fit our permalink structure if needed.
+ *
+ * This is used for specific cases such as Root Member's profile or Ajax.
+ *
+ * @since ?.0.0
+ *
+ * @param string $bp_request A specific BuddyPress request.
+ * @param \WP_Query $query The WordPress query object.
+ * @return true
+ */
+function bp_reset_query( $bp_request = '', \WP_Query $query ) {
+	global $wp;
+
+	// Get BuddyPress main instance.
+	$bp = buddypress();
+
+	// Back up request uri.
+	$reset_server_request_uri = $_SERVER['REQUEST_URI'];
+
+	// Temporarly override it.
+	if ( isset( $wp->request ) ) {
+		$_SERVER['REQUEST_URI'] = str_replace( $wp->request, $bp_request, $reset_server_request_uri );
+
+		// Reparse request.
+		$wp->parse_request();
+
+		// Reparse query.
+		bp_remove_all_filters( 'parse_query' );
+		$query->parse_query( $wp->query_vars );
+		bp_restore_all_filters( 'parse_query' );
+
+	} elseif ( isset( $bp->ajax ) ) {
+		$_SERVER['REQUEST_URI'] = $bp_request;
+
+		if ( bp_has_pretty_urls() ) {
+			$bp->ajax->WP->parse_request();
+
+			// Extra step to check for root profiles.
+			$member = bp_rewrites_get_member_data( $bp->ajax->WP->request );
+			if ( isset( $member['object'] ) && $member['object'] ) {
+				$_SERVER['REQUEST_URI'] = trailingslashit( $bp->members->root_slug ) . $bp->ajax->WP->request;
+
+				// Reparse the request.
+				$bp->ajax->WP->parse_request();
+			}
+
+			$matched_query = $bp->ajax->WP->matched_query;
+		} else {
+			$matched_query = wp_parse_url( $bp_request, PHP_URL_QUERY );
+		}
+
+		$query->parse_query( $matched_query );
+
+		/*
+		 * BP Parse the request in components only once per Ajax request.
+		 *
+		 * This should be `remove_action( 'parse_query', 'bp_parse_query', 2 );` in BP Core.
+		 */
+		remove_action( 'parse_query', __NAMESPACE__ . '\bp_parse_query', 2 );
+	}
+
+	// Restore request uri.
+	$_SERVER['REQUEST_URI'] = $reset_server_request_uri;
+
+	// The query is reset.
+	return true;
+}
+
+/**
+ * Makes sure BuddyPress globals are set during Ajax requests.
+ *
+ * @since ?.0.0
+ */
+function bp_reset_ajax_query() {
+	if ( ! wp_doing_ajax() ) {
+		return;
+	}
+
+	// Get BuddyPress main instance.
+	$bp       = buddypress();
+	$bp->ajax = (object) array(
+		'WP' => new \WP(),
+	);
+
+	bp_reset_query( bp_get_referer_path(), $GLOBALS['wp_query'] );
+}
+add_action( 'bp_admin_init', __NAMESPACE__ . '\bp_reset_ajax_query' );

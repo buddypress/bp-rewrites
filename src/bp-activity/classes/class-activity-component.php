@@ -1,6 +1,6 @@
 <?php
 /**
- * BP Rewrites Globals.
+ * BP Rewrites Activity Component.
  *
  * @package bp-rewrites\src\bp-activity\classes
  * @since 1.0.0
@@ -97,11 +97,11 @@ class Activity_Component extends \BP_Activity_Component {
 			),
 			'single-item-action'           => array(
 				'id'    => '%' . $this->rewrite_ids['single_item_action'] . '%',
-				'regex' => '([^/])',
+				'regex' => '([^/]+)',
 			),
 			'single-item-action-variables' => array(
 				'id'    => '%' . $this->rewrite_ids['single_item_action_variables'] . '%',
-				'regex' => '([^/])',
+				'regex' => '(.*?)',
 			),
 		);
 
@@ -125,11 +125,11 @@ class Activity_Component extends \BP_Activity_Component {
 				'query' => 'index.php?' . $this->rewrite_ids['directory'] . '=1&paged=$matches[1]',
 			),
 			'single-item-action-variables' => array(
-				'regex' => $this->root_slug . '/([^/])\/(.?)/?$',
+				'regex' => $this->root_slug . '/([^/]+)/(.*?)/?$',
 				'query' => 'index.php?' . $this->rewrite_ids['directory'] . '=1&' . $this->rewrite_ids['single_item_action'] . '=$matches[1]&' . $this->rewrite_ids['single_item_action_variables'] . '=$matches[2]',
 			),
 			'single-item-action'           => array(
-				'regex' => $this->root_slug . '/([^/])/?$',
+				'regex' => $this->root_slug . '/([^/]+)/?$',
 				'query' => 'index.php?' . $this->rewrite_ids['directory'] . '=1&' . $this->rewrite_ids['single_item_action'] . '=$matches[1]',
 			),
 			'directory'                    => array(

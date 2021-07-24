@@ -20,13 +20,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function bp_core_admin_rewrites_settings() {
 	$bp = buddypress();
-
-	/*
-	 * @todo directly use $bp->pages.
-	 * For now testing with the Activity component only.
-	 */
-	$bp_pages           = new \stdClass();
-	$bp_pages->activity = $bp->pages->activity;
 	?>
 	<div class="wrap">
 
@@ -39,7 +32,7 @@ function bp_core_admin_rewrites_settings() {
 
 		<form action="" method="post" id="bp-admin-rewrites-form">
 
-			<?php foreach ( $bp_pages as $component_id => $directory_data ) : ?>
+			<?php foreach ( $bp->pages as $component_id => $directory_data ) : ?>
 
 				<h3><?php echo esc_html( $directory_data->title ); ?></h3>
 				<table class="form-table" role="presentation">

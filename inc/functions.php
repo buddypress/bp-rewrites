@@ -25,6 +25,17 @@ function bp_setup_activity() {
 }
 
 /**
+ * Setup the Members Component.
+ *
+ * @since 1.0.0
+ */
+function bp_setup_members() {
+	require_once bp_rewrites()->dir . 'src/bp-members/classes/class-members-component.php';
+
+	buddypress()->members = new Members_Component();
+}
+
+/**
  * Disable BuddyPress Components.
  *
  * @since 1.0.0
@@ -35,6 +46,10 @@ function disable_bp_components() {
 		'activity' => array(
 			'callback' => 'bp_setup_activity',
 			'priority' => 6,
+		),
+		'members' => array(
+			'callback' => 'bp_setup_members',
+			'priority' => 1,
 		),
 	);
 
@@ -216,7 +231,7 @@ function bp_component_pre_query( $return = null, \WP_Query $query = null ) {
 
 	$queried_object = $query->get_queried_object();
 
-	if ( is_a( $queried_object, 'WP_Post' ) && 'buddypress' === get_post_type( $queried_object ) ) {
+	if ( $queried_object instanceof \WP_Post && 'buddypress' === get_post_type( $queried_object ) ) {
 		return array( $queried_object );
 	}
 

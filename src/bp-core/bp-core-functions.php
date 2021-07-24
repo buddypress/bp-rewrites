@@ -72,12 +72,71 @@ function bp_unique_page_slug( $slug = '', $post_ID = 0, $post_status = '', $post
 add_filter( 'wp_unique_post_slug', __NAMESPACE__ . '\bp_unique_page_slug', 10, 6 );
 
 /**
+ * Make sure newly created Directory pages have the `buddypress` post type.
+ *
+ * @todo This should be managed into `\bp_core_add_page_mappings()`.
+ *
+ * @since ?.0.0
+ *
+ * @param array $previous_bp_pages The previous BuddyPress directory pages.
+ * @param array $bp_pages          The current BuddyPress directory pages.
+ */
+function bp_core_add_page_mappings( $previous_bp_pages = array(), $bp_pages = array() ) {
+	// Prevent infinite loops.
+	remove_action( 'update_option_bp-pages', __NAMESPACE__ . '\bp_core_add_page_mappings', 10, 2 );
+
+	$page_switches = array();
+
+	if ( $bp_pages ) {
+		$bp_pages = (array) $bp_pages;
+
+		$pages = get_pages(
+			array(
+				'include' => $bp_pages,
+				'number'  => count( $bp_pages ),
+			)
+		);
+
+		if ( $pages ) {
+			$updates = wp_filter_object_list( $pages, array( 'post_type' => 'page' ) );
+			if ( $updates ) {
+				foreach ( $updates as $update ) {
+					if ( 'buddypress' === get_post_type( $update ) ) {
+						continue;
+					}
+
+					$page_switches[] = $update->ID;
+				}
+			}
+		}
+	}
+
+	if ( $page_switches ) {
+		// Do not check post slugs.
+		remove_filter( 'wp_unique_post_slug', __NAMESPACE__ . '\bp_unique_page_slug', 10, 6 );
+
+		foreach ( $page_switches as $page_id ) {
+			wp_update_post(
+				array(
+					'ID'        => $page_id,
+					'post_type' => 'buddypress',
+				)
+			);
+		}
+	}
+
+	// Reset rewrite rules at next page load.
+	bp_delete_rewrite_rules();
+}
+add_action( 'update_option_bp-pages', __NAMESPACE__ . '\bp_core_add_page_mappings', 10, 2 );
+
+/**
  * Sets BuddyPress directory link.
  *
  * @since ?.0.0
  *
- * @param  string  $link The post type link.
- * @param  WP_Post $post The post type object.
+ * @param  string   $link The post type link.
+ * @param  \WP_Post $post The post type object.
  * @return string        The post type link.
  */
 function bp_page_directory_link( $link, \WP_Post $post ) {
@@ -85,7 +144,7 @@ function bp_page_directory_link( $link, \WP_Post $post ) {
 		return $link;
 	}
 
-	$directory_pages = wp_filter_object_list( (array) bp_core_get_directory_pages(), array( 'id' => $post->ID ) ) ;
+	$directory_pages = wp_filter_object_list( (array) bp_core_get_directory_pages(), array( 'id' => $post->ID ) );
 	$component       = key( $directory_pages );
 
 	return bp_rewrites_get_link( array( 'component_id' => $component ) );

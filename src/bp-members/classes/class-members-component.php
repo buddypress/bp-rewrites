@@ -9,7 +9,7 @@
 namespace BP\Rewrites;
 
 /**
- * Activity Class.
+ * Defines the BuddyPress Members Component.
  *
  * @since 1.0.0
  */
@@ -52,7 +52,7 @@ class Members_Component extends \BP_Members_Component {
 			$this
 		);
 
-		// Set-up Extra permastructs for the register and activate pages
+		// Set-up Extra permastructs for the register and activate pages.
 		$this->register_permastruct = bp_get_signup_slug() . '/%' . $this->rewrite_ids['member_register'] . '%';
 		$this->activate_permastruct = bp_get_activate_slug() . '/%' . $this->rewrite_ids['member_activate'] . '%';
 	}
@@ -186,11 +186,11 @@ class Members_Component extends \BP_Members_Component {
 				'query' => 'index.php?' . $this->rewrite_ids['member_activate'] . '=1',
 			),
 			'paged-directory-type'         => array(
-				'regex' => $this->root_slug . '/' . bp_get_members_member_type_base() . '/([^/]+)/page/?([0-9]{1,})/?$' ,
+				'regex' => $this->root_slug . '/' . bp_get_members_member_type_base() . '/([^/]+)/page/?([0-9]{1,})/?$',
 				'query' => 'index.php?' . $this->rewrite_ids['directory'] . '=1&' . $this->rewrite_ids['directory_type'] . '=$matches[1]&paged=$matches[2]',
 			),
 			'directory-type'               => array(
-				'regex' => $this->root_slug . '/' . bp_get_members_member_type_base() . '/([^/]+)/?$' ,
+				'regex' => $this->root_slug . '/' . bp_get_members_member_type_base() . '/([^/]+)/?$',
 				'query' => 'index.php?' . $this->rewrite_ids['directory'] . '=1&' . $this->rewrite_ids['directory_type'] . '=$matches[1]',
 			),
 			'paged-directory'              => array(
@@ -235,7 +235,7 @@ class Members_Component extends \BP_Members_Component {
 	public function add_permastructs( $permastructs = array() ) {
 		$permastructs = array(
 			// Directory permastruct.
-			$this->rewrite_ids['directory'] => array(
+			$this->rewrite_ids['directory']       => array(
 				'permastruct' => $this->directory_permastruct,
 				'args'        => array(),
 			),
@@ -266,9 +266,9 @@ class Members_Component extends \BP_Members_Component {
 	 */
 	public function parse_query( $query ) {
 		// Init the current member and member type.
-		$member       = false;
-		$member_type  = false;
-		$member_data  = bp_rewrites_get_member_data();
+		$member      = false;
+		$member_type = false;
+		$member_data = bp_rewrites_get_member_data();
 
 		if ( isset( $member_data['object'] ) && $member_data['object'] ) {
 			bp_reset_query( trailingslashit( $this->root_slug ) . $GLOBALS['wp']->request, $query );
@@ -336,7 +336,7 @@ class Members_Component extends \BP_Members_Component {
 					$bp->displayed_user->domain = bp_core_get_user_domain( bp_displayed_user_id() );
 				}
 
-				// If A user is displayed, check if there is a front template
+				// If A user is displayed, check if there is a front template.
 				if ( bp_get_displayed_user() ) {
 					$bp->displayed_user->front_template = bp_displayed_user_get_front_template();
 				}
@@ -359,19 +359,21 @@ class Members_Component extends \BP_Members_Component {
 
 				$action_variables = $query->get( $this->rewrite_ids['single_item_action_variables'] );
 				if ( $action_variables ) {
-					if ( ! is_array( $action_variables ) )  {
+					if ( ! is_array( $action_variables ) ) {
 						$bp->action_variables = explode( '/', ltrim( $action_variables, '/' ) );
 					} else {
 						$bp->action_variables = $action_variables;
 					}
 				}
 
-			// Is this a member type query ?
+				// Is this a member type query?
 			} elseif ( $member_type_slug ) {
-				$member_type = bp_get_member_types( array(
-					'has_directory'  => true,
-					'directory_slug' => $member_type_slug,
-				) );
+				$member_type = bp_get_member_types(
+					array(
+						'has_directory'  => true,
+						'directory_slug' => $member_type_slug,
+					)
+				);
 
 				if ( $member_type ) {
 					$member_type             = reset( $member_type );
@@ -395,11 +397,11 @@ class Members_Component extends \BP_Members_Component {
 				$query->queried_object->directory_type_name = $member_type;
 			}
 
-		// Handle the custom registration page.
+			// Handle the custom registration page.
 		} elseif ( $is_register_component ) {
 			$bp->current_component = 'register';
 
-		// Handle the custom activation page.
+			// Handle the custom activation page.
 		} elseif ( $is_activate_component ) {
 			$bp->current_component = 'activate';
 

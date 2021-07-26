@@ -25,6 +25,17 @@ function bp_setup_activity() {
 }
 
 /**
+ * Setup the Blogs Component.
+ *
+ * @since 1.0.0
+ */
+function bp_setup_blogs() {
+	require_once bp_rewrites()->dir . 'src/bp-blogs/classes/class-blogs-component.php';
+
+	buddypress()->blogs = new Blogs_Component();
+}
+
+/**
  * Setup the Members Component.
  *
  * @since 1.0.0
@@ -47,13 +58,21 @@ function disable_bp_components() {
 			'callback' => 'bp_setup_activity',
 			'priority' => 6,
 		),
-		'members' => array(
+		'blogs'    => array(
+			'callback' => 'bp_setup_blogs',
+			'priority' => 6,
+		),
+		'members'  => array(
 			'callback' => 'bp_setup_members',
 			'priority' => 1,
 		),
 	);
 
 	foreach ( $bp_components as $component => $hook ) {
+		if ( ! bp_is_active( $component ) ) {
+			continue;
+		}
+
 		// Unregister BuddyPress components.
 		remove_action( 'bp_setup_components', $hook['callback'], $hook['priority'] );
 

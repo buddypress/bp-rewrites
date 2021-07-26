@@ -64,7 +64,7 @@ function bp_core_admin_rewrites_settings() {
 										printf(
 											/* translators: %s is the primary nav item name */
 											esc_html__( '"%s" slug', 'buddypress' ),
-											esc_html( $primary_nav_item['name'] )
+											esc_html( _bp_strip_spans_from_title( $primary_nav_item['name'] ) )
 										);
 										?>
 									</label>

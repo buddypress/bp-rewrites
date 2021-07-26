@@ -29,6 +29,10 @@ function includes( $plugin_dir = '' ) {
 	require $path . 'src/bp-core/bp-core-catchuri.php';
 	require $path . 'src/bp-core/bp-core-functions.php';
 
+	if ( bp_is_active( 'blogs' ) ) {
+		require $path . 'src/bp-blogs/bp-blogs-template.php';
+	}
+
 	if ( is_admin() ) {
 		require $path . 'src/bp-core/admin/bp-core-admin-functions.php';
 		require $path . 'src/bp-core/admin/bp-core-admin-rewrites.php';

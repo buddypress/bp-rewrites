@@ -61,7 +61,7 @@ add_action( 'parse_query', __NAMESPACE__ . '\bp_parse_query', 2 );
  *
  * @since ?.0.0
  *
- * @param string $bp_request A specific BuddyPress request.
+ * @param string    $bp_request A specific BuddyPress request.
  * @param \WP_Query $query The WordPress query object.
  * @return true
  */
@@ -72,7 +72,10 @@ function bp_reset_query( $bp_request = '', \WP_Query $query ) {
 	$bp = buddypress();
 
 	// Back up request uri.
-	$reset_server_request_uri = $_SERVER['REQUEST_URI'];
+	$reset_server_request_uri = '';
+	if ( isset( $_SERVER['REQUEST_URI'] ) ) {
+		$reset_server_request_uri = wp_unslash( $_SERVER['REQUEST_URI'] ); // phpcs:ignore
+	}
 
 	// Temporarly override it.
 	if ( isset( $wp->request ) ) {

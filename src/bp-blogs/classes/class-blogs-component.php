@@ -1,21 +1,21 @@
 <?php
 /**
- * BP Rewrites Activity Component.
+ * BP Rewrites Blogs Component.
  *
- * @package bp-rewrites\src\bp-activity\classes
+ * @package bp-rewrites\src\bp-blogs\classes
  * @since 1.0.0
  */
 
 namespace BP\Rewrites;
 
 /**
- * Main Activity Class.
+ * Creates our Blogs component.
  *
  * @since 1.0.0
  */
-class Activity_Component extends \BP_Activity_Component {
+class Blogs_Component extends \BP_Blogs_Component {
 	/**
-	 * Start the activity component setup process.
+	 * Start the blogs component setup process.
 	 *
 	 * @since 1.0.0
 	 */
@@ -38,9 +38,9 @@ class Activity_Component extends \BP_Activity_Component {
 		bp_component_setup_globals(
 			array(
 				'rewrite_ids' => array(
-					'directory'                    => 'bp_activities',
-					'single_item_action'           => 'bp_activity_action',
-					'single_item_action_variables' => 'bp_activity_action_variables',
+					'directory'                    => 'bp_blogs',
+					'single_item_action'           => 'bp_blogs_action',
+					'single_item_action_variables' => 'bp_blogs_action_variables',
 				),
 			),
 			$this
@@ -59,7 +59,7 @@ class Activity_Component extends \BP_Activity_Component {
 	 */
 	public function setup_nav( $main_nav = array(), $sub_nav = array() ) { /* phpcs:ignore */
 		// The `$main_nav` needs to include a `rewrite_id` property.
-		add_action( 'bp_' . $this->id . '_setup_nav', array( $this, 'setup_main_nav_rewrite_id' ) );
+		add_action( 'bp_' . $this->id . '_setup_nav', array( $this, 'setup_main_nav_rewrite_id' ), 10 );
 
 		parent::setup_nav( $main_nav, $sub_nav );
 	}
@@ -72,13 +72,53 @@ class Activity_Component extends \BP_Activity_Component {
 	 * @since 1.0.0
 	 */
 	public function setup_main_nav_rewrite_id() {
-		remove_action( 'bp_' . $this->id . '_setup_nav', array( $this, 'setup_main_nav_rewrite_id' ) );
+		remove_action( 'bp_' . $this->id . '_setup_nav', array( $this, 'setup_main_nav_rewrite_id' ), 10 );
 
 		$main_nav               = (array) buddypress()->members->nav->get( $this->id );
-		$slug                   = bp_get_activity_slug();
+		$slug                   = bp_get_blogs_slug();
 		$main_nav['rewrite_id'] = 'bp_member_' . $slug;
 
 		buddypress()->members->nav->edit_nav( $main_nav, $slug );
+	}
+
+	/**
+	 * Set up bp-blogs integration with the WordPress admin bar.
+	 *
+	 * @since 1.5.0
+	 *
+	 * @see BP_Component::setup_admin_bar() for a description of arguments.
+	 *
+	 * @param array $wp_admin_nav See BP_Component::setup_admin_bar()
+	 *                            for description.
+	 */
+	public function setup_admin_bar( $wp_admin_nav = array() ) {
+		add_filter( 'bp_' . $this->id . '_admin_nav', array( $this, 'adjust_admin_bar' ), 10, 1 );
+
+		parent::setup_admin_bar( $wp_admin_nav );
+	}
+
+	/**
+	 * Adjust WordPress admin bar items.
+	 *
+	 * This should be done inside `BP_Blogs_Component::setup_admin_bar()`.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array $wp_admin_nav The Admin Bar items.
+	 * @return array The Admin Bar items.
+	 */
+	public function adjust_admin_bar( $wp_admin_nav = array() ) {
+		remove_filter( 'bp_' . $this->id . '_admin_nav', array( $this, 'adjust_admin_bar' ), 10, 1 );
+
+		foreach ( $wp_admin_nav as $key_item_nav => $item_nav ) {
+			if ( 'my-account-' . $this->id . '-create' !== $item_nav['id'] ) {
+				continue;
+			}
+
+			$wp_admin_nav[ $key_item_nav ]['href'] = bp_get_blog_create_link();
+		}
+
+		return $wp_admin_nav;
 	}
 
 	/**
@@ -90,6 +130,10 @@ class Activity_Component extends \BP_Activity_Component {
 	 *                            description.
 	 */
 	public function add_rewrite_tags( $rewrite_tags = array() ) {
+		if ( ! is_multisite() ) {
+			return parent::add_rewrite_tags( $rewrite_tags );
+		}
+
 		$rewrite_tags = array(
 			'directory'                    => array(
 				'id'    => '%' . $this->rewrite_ids['directory'] . '%',
@@ -119,6 +163,10 @@ class Activity_Component extends \BP_Activity_Component {
 	 *                             description.
 	 */
 	public function add_rewrite_rules( $rewrite_rules = array() ) {
+		if ( ! is_multisite() ) {
+			return parent::add_rewrite_rules( $rewrite_rules );
+		}
+
 		$rewrite_rules = array(
 			'paged-directory'              => array(
 				'regex' => $this->root_slug . '/page/?([0-9]{1,})/?$',
@@ -152,6 +200,10 @@ class Activity_Component extends \BP_Activity_Component {
 	 *                            description.
 	 */
 	public function add_permastructs( $permastructs = array() ) {
+		if ( ! is_multisite() ) {
+			return parent::add_permastructs( $structs );
+		}
+
 		$permastructs = array(
 			// Directory permastruct.
 			$this->rewrite_ids['directory'] => array(
@@ -174,11 +226,15 @@ class Activity_Component extends \BP_Activity_Component {
 	 *                        description.
 	 */
 	public function parse_query( $query ) {
-		if ( 1 === (int) $query->get( $this->rewrite_ids['directory'] ) ) {
-			$bp = buddypress();
+		if ( ! is_multisite() ) {
+			return parent::parse_query( $query );
+		}
 
-			// Set the Activity component as current.
-			$bp->current_component = 'activity';
+		// Get the BuddyPress main instance.
+		$bp = buddypress();
+
+		if ( 1 === (int) $query->get( $this->rewrite_ids['directory'] ) ) {
+			$bp->current_component = 'blogs';
 
 			$current_action = $query->get( $this->rewrite_ids['single_item_action'] );
 			if ( $current_action ) {
@@ -194,15 +250,11 @@ class Activity_Component extends \BP_Activity_Component {
 				}
 			}
 
-			/**
-			 * Set the BuddyPress queried object.
-			 */
-			$query->queried_object    = get_post( $bp->pages->activity->id );
+			// Set the BuddyPress queried object.
+			$query->queried_object    = get_post( $bp->pages->blogs->id );
 			$query->queried_object_id = $query->queried_object->ID;
 		}
 
-		bp_component_parse_query( $query );
-
-		\BP_Component::parse_query( $query );
+		parent::parse_query( $query );
 	}
 }

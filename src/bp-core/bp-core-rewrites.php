@@ -81,9 +81,9 @@ function bp_rewrites_get_member_slug( $user_id = 0 ) {
 		$prop = 'user_login';
 	}
 
-	if ( (int) $user_id === (int) bp_displayed_user_id() ) {
+	if ( (int) bp_displayed_user_id() === (int) $user_id ) {
 		$slug = isset( $bp->displayed_user->userdata->{$prop} ) ? $bp->displayed_user->userdata->{$prop} : null;
-	} elseif ( (int) $user_id === (int) bp_loggedin_user_id() ) {
+	} elseif ( (int) bp_loggedin_user_id() === (int) $user_id ) {
 		$slug = isset( $bp->loggedin_user->userdata->{$prop} ) ? $bp->loggedin_user->userdata->{$prop} : null;
 	} else {
 		$slug = bp_core_get_username( $user_id );

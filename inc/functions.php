@@ -36,6 +36,17 @@ function bp_setup_blogs() {
 }
 
 /**
+ * Setup the Friends Component.
+ *
+ * @since 1.0.0
+ */
+function bp_setup_friends() {
+	require_once bp_rewrites()->dir . 'src/bp-friends/classes/class-friends-component.php';
+
+	buddypress()->friends = new Friends_Component();
+}
+
+/**
  * Setup the Members Component.
  *
  * @since 1.0.0
@@ -47,6 +58,39 @@ function bp_setup_members() {
 }
 
 /**
+ * Setup the Messages Component.
+ *
+ * @since 1.0.0
+ */
+function bp_setup_messages() {
+	require_once bp_rewrites()->dir . 'src/bp-messages/classes/class-messages-component.php';
+
+	buddypress()->messages = new Messages_Component();
+}
+
+/**
+ * Setup the Notifications Component.
+ *
+ * @since 1.0.0
+ */
+function bp_setup_notifications() {
+	require_once bp_rewrites()->dir . 'src/bp-notifications/classes/class-notifications-component.php';
+
+	buddypress()->notifications = new Notifications_Component();
+}
+
+/**
+ * Setup the Settings Component.
+ *
+ * @since 1.0.0
+ */
+function bp_setup_settings() {
+	require_once bp_rewrites()->dir . 'src/bp-settings/classes/class-settings-component.php';
+
+	buddypress()->settings = new Settings_Component();
+}
+
+/**
  * Disable BuddyPress Components.
  *
  * @since 1.0.0
@@ -54,17 +98,33 @@ function bp_setup_members() {
 function disable_bp_components() {
 	// @todo Add other BP Components.
 	$bp_components = array(
-		'activity' => array(
+		'activity'      => array(
 			'callback' => 'bp_setup_activity',
 			'priority' => 6,
 		),
-		'blogs'    => array(
+		'blogs'         => array(
 			'callback' => 'bp_setup_blogs',
 			'priority' => 6,
 		),
-		'members'  => array(
+		'friends'       => array(
+			'callback' => 'bp_setup_friends',
+			'priority' => 6,
+		),
+		'members'       => array(
 			'callback' => 'bp_setup_members',
 			'priority' => 1,
+		),
+		'messages'      => array(
+			'callback' => 'bp_setup_messages',
+			'priority' => 6,
+		),
+		'notifications' => array(
+			'callback' => 'bp_setup_notifications',
+			'priority' => 6,
+		),
+		'settings'      => array(
+			'callback' => 'bp_setup_settings',
+			'priority' => 6,
 		),
 	);
 

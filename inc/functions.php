@@ -47,6 +47,17 @@ function bp_setup_friends() {
 }
 
 /**
+ * Set up the Groups component.
+ *
+ * @since 1.0.0
+ */
+function bp_setup_groups() {
+	require_once bp_rewrites()->dir . 'src/bp-groups/classes/class-groups-component.php';
+
+	buddypress()->groups = new Groups_Component();
+}
+
+/**
  * Setup the Members Component.
  *
  * @since 1.0.0
@@ -108,6 +119,10 @@ function disable_bp_components() {
 		),
 		'friends'       => array(
 			'callback' => 'bp_setup_friends',
+			'priority' => 6,
+		),
+		'groups'        => array(
+			'callback' => 'bp_setup_groups',
 			'priority' => 6,
 		),
 		'members'       => array(

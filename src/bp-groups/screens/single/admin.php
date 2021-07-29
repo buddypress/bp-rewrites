@@ -1,0 +1,31 @@
+<?php
+/**
+ * Group: Admin screen.
+ *
+ * @package buddypress\bp-groups\screens\single
+ * @since 3.0.0
+ */
+
+namespace BP\Rewrites;
+
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+/**
+ * This code should move inside `\groups_screen_group_admin()`.
+ *
+ * @since ?.0.0
+ */
+function groups_screen_group_admin() {
+	if ( ! bp_is_groups_component() || ! bp_is_current_action( 'admin' ) ) {
+		return false;
+	}
+
+	if ( bp_action_variables() ) {
+		return false;
+	}
+
+	bp_core_redirect( bp_get_group_admin_form_action( 'edit-details', groups_get_current_group() ) );
+}

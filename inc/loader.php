@@ -33,6 +33,11 @@ function includes( $plugin_dir = '' ) {
 		require $path . 'src/bp-blogs/bp-blogs-template.php';
 	}
 
+	if ( bp_is_active( 'groups' ) ) {
+		require $path . 'src/bp-groups/bp-groups-template.php';
+		require $path . 'src/bp-groups/bp-groups-rewrites.php';
+	}
+
 	if ( is_admin() ) {
 		require $path . 'src/bp-core/admin/bp-core-admin-functions.php';
 		require $path . 'src/bp-core/admin/bp-core-admin-rewrites.php';

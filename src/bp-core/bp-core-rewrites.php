@@ -151,7 +151,7 @@ function bp_rewrites_get_custom_slug_rewrite_id( $component_id = '', $slug = '' 
  * @param array $args An array of parameters.
  * @return string The BuddyPress link.
  */
-function bp_rewrites_get_link( $args = array() ) {
+function bp_rewrites_get_url( $args = array() ) {
 	$bp   = buddypress();
 	$link = '#';
 

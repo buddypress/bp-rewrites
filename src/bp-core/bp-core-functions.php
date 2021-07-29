@@ -147,6 +147,6 @@ function bp_page_directory_link( $link, \WP_Post $post ) {
 	$directory_pages = wp_filter_object_list( (array) bp_core_get_directory_pages(), array( 'id' => $post->ID ) );
 	$component       = key( $directory_pages );
 
-	return bp_rewrites_get_link( array( 'component_id' => $component ) );
+	return bp_rewrites_get_url( array( 'component_id' => $component ) );
 }
 add_filter( 'post_type_link', __NAMESPACE__ . '\bp_page_directory_link', 1, 2 );

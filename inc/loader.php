@@ -29,6 +29,9 @@ function includes( $plugin_dir = '' ) {
 	require $path . 'src/bp-core/bp-core-catchuri.php';
 	require $path . 'src/bp-core/bp-core-functions.php';
 
+	// The Members component is always active.
+	require $path . 'src/bp-members/bp-members-rewrites.php';
+
 	if ( bp_is_active( 'blogs' ) ) {
 		require $path . 'src/bp-blogs/bp-blogs-template.php';
 	}

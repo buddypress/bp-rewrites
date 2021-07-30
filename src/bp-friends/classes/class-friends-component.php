@@ -34,26 +34,45 @@ class Friends_Component extends \BP_Friends_Component {
 	 * @param array $sub_nav  Optional. See BP_Component::setup_nav() for description.
 	 */
 	public function setup_nav( $main_nav = array(), $sub_nav = array() ) { /* phpcs:ignore */
-		// The `$main_nav` needs to include a `rewrite_id` property.
-		add_action( 'bp_' . $this->id . '_setup_nav', array( $this, 'setup_main_nav_rewrite_id' ) );
+		// The `$main_nav` needs to be reset.
+		add_action( 'bp_' . $this->id . '_setup_nav', array( $this, 'reset_nav' ), 20 );
 
 		parent::setup_nav( $main_nav, $sub_nav );
 	}
 
 	/**
-	 * Setup the main nav rewrite id.
-	 *
-	 * This should be done inside `bp_core_new_nav_item()`.
+	 * Reset the component's navigation using BP Rewrites.
 	 *
 	 * @since 1.0.0
 	 */
-	public function setup_main_nav_rewrite_id() {
-		remove_action( 'bp_' . $this->id . '_setup_nav', array( $this, 'setup_main_nav_rewrite_id' ) );
+	public function reset_nav() {
+		remove_action( 'bp_' . $this->id . '_setup_nav', array( $this, 'reset_nav' ), 20 );
 
-		$main_nav               = (array) buddypress()->members->nav->get( $this->id );
-		$slug                   = bp_get_friends_slug();
-		$main_nav['rewrite_id'] = 'bp_member_' . $slug;
+		// Get the main nav.
+		$main_nav = buddypress()->members->nav->get_primary( array( 'component_id' => $this->id ), false );
 
+		// Set the main nav slug.
+		$main_nav = reset( $main_nav );
+		$slug     = $main_nav['slug'];
+
+		// Set the main nav`rewrite_id` property.
+		$main_nav['rewrite_id'] = sprintf( 'bp_member_%s', bp_get_friends_slug() );
+
+		// Reset the link using BP Rewrites.
+		$main_nav['link'] = bp_members_rewrites_get_nav_url( $main_nav );
+
+		// Update the primary nav item.
 		buddypress()->members->nav->edit_nav( $main_nav, $slug );
+
+		// Get the sub nav items for this main nav.
+		$sub_nav_items = buddypress()->members->nav->get_secondary( array( 'parent_slug' => $slug ), false );
+
+		// Loop inside it to reset the link using BP Rewrites before updating it.
+		foreach ( $sub_nav_items as $sub_nav_item ) {
+			$sub_nav_item['link'] = bp_members_rewrites_get_nav_url( $sub_nav_item );
+
+			// Update the secondary nav item.
+			buddypress()->members->nav->edit_nav( $sub_nav_item, $sub_nav_item['slug'], $slug );
+		}
 	}
 }

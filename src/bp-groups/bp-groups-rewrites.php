@@ -1,6 +1,6 @@
 <?php
 /**
- * BuddyPress Groups Template Tags.
+ * BuddyPress Groups Rewrites.
  *
  * @package buddypress\bp-groups
  * @since ?.0.0

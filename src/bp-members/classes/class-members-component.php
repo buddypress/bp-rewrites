@@ -142,6 +142,52 @@ class Members_Component extends \BP_Members_Component {
 	}
 
 	/**
+	 * Set up bp-members integration with the WordPress admin bar.
+	 *
+	 * @since 1.5.0
+	 *
+	 * @see BP_Component::setup_admin_bar() for a description of arguments.
+	 *
+	 * @param array $wp_admin_nav See BP_Component::setup_admin_bar()
+	 *                            for description.
+	 */
+	public function setup_admin_bar( $wp_admin_nav = array() ) {
+		if ( is_user_logged_in() ) {
+			$action = 'bp_' . $this->id . '_admin_nav';
+
+			if ( bp_is_active( 'xprofile' ) ) {
+				$action = 'bp_xprofile_admin_nav';
+			}
+
+			add_filter( $action, array( $this, 'reset_admin_nav' ), 10, 1 );
+		}
+
+		parent::setup_admin_bar( $wp_admin_nav );
+	}
+
+	/**
+	 * Reset WordPress admin bar nav items for the component.
+	 *
+	 * This should be done inside `BP_Members_Component::setup_admin_bar()`.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array $wp_admin_nav The Admin Bar items.
+	 * @return array The Admin Bar items.
+	 */
+	public function reset_admin_nav( $wp_admin_nav = array() ) {
+		remove_filter( current_action(), array( $this, 'reset_admin_nav' ), 10, 1 );
+
+		foreach ( $wp_admin_nav as $key_item_nav => $item_nav ) {
+			// Set the rewrite_id.
+			$item_nav['rewrite_id']                = 'bp_member_profile';
+			$wp_admin_nav[ $key_item_nav ]['href'] = bp_members_rewrites_get_admin_nav_url( $item_nav );
+		}
+
+		return $wp_admin_nav;
+	}
+
+	/**
 	 * Add the component's rewrite tags.
 	 *
 	 * @since ?.0.0

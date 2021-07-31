@@ -111,13 +111,13 @@ class Blogs_Component extends \BP_Blogs_Component {
 	 *                            for description.
 	 */
 	public function setup_admin_bar( $wp_admin_nav = array() ) {
-		add_filter( 'bp_' . $this->id . '_admin_nav', array( $this, 'adjust_admin_bar' ), 10, 1 );
+		add_filter( 'bp_' . $this->id . '_admin_nav', array( $this, 'reset_admin_nav' ), 10, 1 );
 
 		parent::setup_admin_bar( $wp_admin_nav );
 	}
 
 	/**
-	 * Adjust WordPress admin bar items.
+	 * Reset WordPress admin bar nav items for the component.
 	 *
 	 * This should be done inside `BP_Blogs_Component::setup_admin_bar()`.
 	 *
@@ -126,15 +126,19 @@ class Blogs_Component extends \BP_Blogs_Component {
 	 * @param array $wp_admin_nav The Admin Bar items.
 	 * @return array The Admin Bar items.
 	 */
-	public function adjust_admin_bar( $wp_admin_nav = array() ) {
-		remove_filter( 'bp_' . $this->id . '_admin_nav', array( $this, 'adjust_admin_bar' ), 10, 1 );
+	public function reset_admin_nav( $wp_admin_nav = array() ) {
+		remove_filter( 'bp_' . $this->id . '_admin_nav', array( $this, 'reset_admin_nav' ), 10, 1 );
+
+		// Set the rewrite_id.
+		$rewrite_id = sprintf( 'bp_member_%s', bp_get_blogs_slug() );
 
 		foreach ( $wp_admin_nav as $key_item_nav => $item_nav ) {
-			if ( 'my-account-' . $this->id . '-create' !== $item_nav['id'] ) {
-				continue;
+			if ( 'my-account-' . $this->id . '-create' === $item_nav['id'] ) {
+				$wp_admin_nav[ $key_item_nav ]['href'] = bp_get_blog_create_link();
+			} else {
+				$item_nav['rewrite_id']                = $rewrite_id;
+				$wp_admin_nav[ $key_item_nav ]['href'] = bp_members_rewrites_get_admin_nav_url( $item_nav );
 			}
-
-			$wp_admin_nav[ $key_item_nav ]['href'] = bp_get_blog_create_link();
 		}
 
 		return $wp_admin_nav;

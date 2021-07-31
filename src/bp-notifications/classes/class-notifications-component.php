@@ -75,4 +75,44 @@ class Notifications_Component extends \BP_Notifications_Component {
 			buddypress()->members->nav->edit_nav( $sub_nav_item, $sub_nav_item['slug'], $slug );
 		}
 	}
+
+	/**
+	 * Set up bp-notifications integration with the WordPress admin bar.
+	 *
+	 * @since 1.5.0
+	 *
+	 * @see BP_Component::setup_admin_bar() for a description of arguments.
+	 *
+	 * @param array $wp_admin_nav See BP_Component::setup_admin_bar()
+	 *                            for description.
+	 */
+	public function setup_admin_bar( $wp_admin_nav = array() ) {
+		add_filter( 'bp_' . $this->id . '_admin_nav', array( $this, 'reset_admin_nav' ), 10, 1 );
+
+		parent::setup_admin_bar( $wp_admin_nav );
+	}
+
+	/**
+	 * Reset WordPress admin bar nav items for the component.
+	 *
+	 * This should be done inside `BP_Notifications_Component::setup_admin_bar()`.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array $wp_admin_nav The Admin Bar items.
+	 * @return array The Admin Bar items.
+	 */
+	public function reset_admin_nav( $wp_admin_nav = array() ) {
+		remove_filter( 'bp_' . $this->id . '_admin_nav', array( $this, 'reset_admin_nav' ), 10, 1 );
+
+		// Set the rewrite_id.
+		$rewrite_id = sprintf( 'bp_member_%s', bp_get_notifications_slug() );
+
+		foreach ( $wp_admin_nav as $key_item_nav => $item_nav ) {
+			$item_nav['rewrite_id']                = $rewrite_id;
+			$wp_admin_nav[ $key_item_nav ]['href'] = bp_members_rewrites_get_admin_nav_url( $item_nav );
+		}
+
+		return $wp_admin_nav;
+	}
 }

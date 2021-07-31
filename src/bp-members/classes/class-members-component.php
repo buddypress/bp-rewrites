@@ -66,9 +66,14 @@ class Members_Component extends \BP_Members_Component {
 		parent::setup_canonical_stack();
 
 		$item_component = bp_current_component();
+		$bp             = buddypress();
 
 		if ( bp_displayed_user_id() && $item_component ) {
-			buddypress()->canonical_stack['component'] = bp_rewrites_get_slug( 'members', 'bp_member_' . $item_component, $item_component );
+			$bp->canonical_stack['component'] = bp_rewrites_get_slug( 'members', 'bp_member_' . $item_component, $item_component );
+
+			if ( isset( $bp->default_component ) && bp_is_current_component( $bp->default_component ) && ! bp_current_action() ) {
+				unset( $bp->canonical_stack['component'] );
+			}
 		}
 	}
 
@@ -180,7 +185,7 @@ class Members_Component extends \BP_Members_Component {
 			),
 			'single-item-action-variables' => array(
 				'id'    => '%' . $this->rewrite_ids['single_item_action_variables'] . '%',
-				'regex' => '(.*?)',
+				'regex' => '(.+?)',
 			),
 		);
 
@@ -224,7 +229,7 @@ class Members_Component extends \BP_Members_Component {
 				'query' => 'index.php?' . $this->rewrite_ids['directory'] . '=1&paged=$matches[1]',
 			),
 			'single-item-action-variables' => array(
-				'regex' => $this->root_slug . '/([^/]+)/([^/]+)/([^/]+)/(.*?)/?$',
+				'regex' => $this->root_slug . '/([^/]+)/([^/]+)/([^/]+)/(.+?)/?$',
 				'query' => 'index.php?' . $this->rewrite_ids['directory'] . '=1&' . $this->rewrite_ids['single_item'] . '=$matches[1]&' . $this->rewrite_ids['single_item_component'] . '=$matches[2]&' . $this->rewrite_ids['single_item_action'] . '=$matches[3]&' . $this->rewrite_ids['single_item_action_variables'] . '=$matches[4]',
 			),
 			'single-item-action'           => array(

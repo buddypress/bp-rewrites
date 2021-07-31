@@ -164,7 +164,7 @@ class Blogs_Component extends \BP_Blogs_Component {
 			),
 			'single-item-action-variables' => array(
 				'id'    => '%' . $this->rewrite_ids['single_item_action_variables'] . '%',
-				'regex' => '(.*?)',
+				'regex' => '(.+?)',
 			),
 		);
 
@@ -192,7 +192,7 @@ class Blogs_Component extends \BP_Blogs_Component {
 				'query' => 'index.php?' . $this->rewrite_ids['directory'] . '=1&paged=$matches[1]',
 			),
 			'single-item-action-variables' => array(
-				'regex' => $this->root_slug . '/([^/]+)/(.*?)/?$',
+				'regex' => $this->root_slug . '/([^/]+)/(.+?)/?$',
 				'query' => 'index.php?' . $this->rewrite_ids['directory'] . '=1&' . $this->rewrite_ids['single_item_action'] . '=$matches[1]&' . $this->rewrite_ids['single_item_action_variables'] . '=$matches[2]',
 			),
 			'single-item-action'           => array(

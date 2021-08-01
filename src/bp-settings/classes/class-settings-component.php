@@ -56,10 +56,16 @@ class Settings_Component extends \BP_Settings_Component {
 		$slug     = $main_nav['slug'];
 
 		// Set the main nav`rewrite_id` property.
-		$main_nav['rewrite_id'] = sprintf( 'bp_member_%s', bp_get_settings_slug() );
+		$rewrite_id             = sprintf( 'bp_member_%s', bp_get_settings_slug() );
+		$main_nav['rewrite_id'] = $rewrite_id;
 
 		// Reset the link using BP Rewrites.
-		$main_nav['link'] = bp_members_rewrites_get_nav_url( $main_nav );
+		$main_nav['link'] = bp_members_rewrites_get_nav_url(
+			array(
+				'rewrite_id'     => $rewrite_id,
+				'item_component' => $slug,
+			)
+		);
 
 		// Update the primary nav item.
 		buddypress()->members->nav->edit_nav( $main_nav, $slug );
@@ -69,7 +75,13 @@ class Settings_Component extends \BP_Settings_Component {
 
 		// Loop inside it to reset the link using BP Rewrites before updating it.
 		foreach ( $sub_nav_items as $sub_nav_item ) {
-			$sub_nav_item['link'] = bp_members_rewrites_get_nav_url( $sub_nav_item );
+			$sub_nav_item['link'] = bp_members_rewrites_get_nav_url(
+				array(
+					'rewrite_id'     => $rewrite_id,
+					'item_component' => $slug,
+					'item_action'    => $sub_nav_item['slug'],
+				)
+			);
 
 			// Update the secondary nav item.
 			buddypress()->members->nav->edit_nav( $sub_nav_item, $sub_nav_item['slug'], $slug );
@@ -105,12 +117,35 @@ class Settings_Component extends \BP_Settings_Component {
 	public function reset_admin_nav( $wp_admin_nav = array() ) {
 		remove_filter( 'bp_' . $this->id . '_admin_nav', array( $this, 'reset_admin_nav' ), 10, 1 );
 
-		// Set the rewrite_id.
-		$rewrite_id = sprintf( 'bp_member_%s', bp_get_settings_slug() );
+		if ( $wp_admin_nav ) {
+			$parent_slug     = bp_get_settings_slug();
+			$rewrite_id      = sprintf( 'bp_member_%s', $parent_slug );
+			$root_nav_parent = buddypress()->my_account_menu_id;
+			$user_id         = bp_loggedin_user_id();
 
-		foreach ( $wp_admin_nav as $key_item_nav => $item_nav ) {
-			$item_nav['rewrite_id']                = $rewrite_id;
-			$wp_admin_nav[ $key_item_nav ]['href'] = bp_members_rewrites_get_admin_nav_url( $item_nav );
+			// NB: these slugs should probably be customizable.
+			$viewes_slugs = array(
+				'my-account-' . $this->id . '-general' => 'general',
+				'my-account-' . $this->id . '-notifications' => 'notifications',
+				'my-account-' . $this->id . '-data'    => 'data',
+				'my-account-' . $this->id . '-delete-account' => 'delete-account',
+				'my-account-' . $this->id . '-invites' => 'invites',
+			);
+
+			foreach ( $wp_admin_nav as $key_item_nav => $item_nav ) {
+				$item_nav_id = $item_nav['id'];
+				$url_params  = array(
+					'user_id'        => $user_id,
+					'rewrite_id'     => $rewrite_id,
+					'item_component' => $parent_slug,
+				);
+
+				if ( $root_nav_parent !== $item_nav['parent'] && isset( $viewes_slugs[ $item_nav_id ] ) ) {
+					$url_params['item_action'] = $viewes_slugs[ $item_nav_id ];
+				}
+
+				$wp_admin_nav[ $key_item_nav ]['href'] = bp_members_rewrites_get_nav_url( $url_params );
+			}
 		}
 
 		return $wp_admin_nav;

@@ -1,21 +1,21 @@
 <?php
 /**
- * BP Rewrites Settings Component.
+ * BP Rewrites xProfile Component.
  *
- * @package bp-rewrites\src\bp-settings\classes
+ * @package bp-rewrites\src\bp-xprofile\classes
  * @since 1.0.0
  */
 
 namespace BP\Rewrites;
 
 /**
- * Main Settings Class.
+ * Main xProfile Class.
  *
  * @since 1.0.0
  */
-class Settings_Component extends \BP_Settings_Component {
+class XProfile_Component extends \BP_XProfile_Component {
 	/**
-	 * Start the settings component setup process.
+	 * Start the xProfile component setup process.
 	 *
 	 * @since 1.0.0
 	 */
@@ -49,14 +49,14 @@ class Settings_Component extends \BP_Settings_Component {
 		remove_action( 'bp_' . $this->id . '_setup_nav', array( $this, 'reset_nav' ), 20 );
 
 		// Get the main nav.
-		$main_nav = buddypress()->members->nav->get_primary( array( 'component_id' => $this->id ), false );
+		$main_nav = buddypress()->members->nav->get_primary( array( 'slug' => bp_get_profile_slug() ), false );
 
 		// Set the main nav slug.
 		$main_nav = reset( $main_nav );
 		$slug     = $main_nav['slug'];
 
 		// Set the main nav`rewrite_id` property.
-		$rewrite_id             = sprintf( 'bp_member_%s', bp_get_settings_slug() );
+		$rewrite_id             = sprintf( 'bp_member_%s', bp_get_profile_slug() );
 		$main_nav['rewrite_id'] = $rewrite_id;
 
 		// Reset the link using BP Rewrites.
@@ -89,7 +89,7 @@ class Settings_Component extends \BP_Settings_Component {
 	}
 
 	/**
-	 * Set up bp-settings integration with the WordPress admin bar.
+	 * Set up bp-xprofile integration with the WordPress admin bar.
 	 *
 	 * @since 1.5.0
 	 *
@@ -107,7 +107,7 @@ class Settings_Component extends \BP_Settings_Component {
 	/**
 	 * Reset WordPress admin bar nav items for the component.
 	 *
-	 * This should be done inside `BP_Settings_Component::setup_admin_bar()`.
+	 * This should be done inside `BP_XProfile_Component::setup_admin_bar()`.
 	 *
 	 * @since 1.0.0
 	 *
@@ -118,19 +118,17 @@ class Settings_Component extends \BP_Settings_Component {
 		remove_filter( 'bp_' . $this->id . '_admin_nav', array( $this, 'reset_admin_nav' ), 10, 1 );
 
 		if ( $wp_admin_nav ) {
-			$parent_slug     = bp_get_settings_slug();
+			$parent_slug     = bp_get_profile_slug();
 			$rewrite_id      = sprintf( 'bp_member_%s', $parent_slug );
 			$root_nav_parent = buddypress()->my_account_menu_id;
 			$user_id         = bp_loggedin_user_id();
 
 			// NB: these slugs should probably be customizable.
 			$viewes_slugs = array(
-				'my-account-' . $this->id . '-general' => 'general',
-				'my-account-' . $this->id . '-notifications' => 'notifications',
-				'my-account-' . $this->id . '-data'    => 'data',
-				'my-account-' . $this->id . '-delete-account' => 'delete-account',
-				'my-account-' . $this->id . '-invites' => 'invites',
-				'my-account-' . $this->id . '-profile' => 'profile',
+				'my-account-' . $this->id . '-public' => 'public',
+				'my-account-' . $this->id . '-edit'   => 'edit',
+				'my-account-' . $this->id . '-change-avatar' => 'change-avatar',
+				'my-account-' . $this->id . '-change-cover-image' => 'change-cover-image',
 			);
 
 			foreach ( $wp_admin_nav as $key_item_nav => $item_nav ) {

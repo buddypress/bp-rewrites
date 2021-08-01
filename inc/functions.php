@@ -102,6 +102,17 @@ function bp_setup_settings() {
 }
 
 /**
+ * Setup the Settings Component.
+ *
+ * @since 1.0.0
+ */
+function bp_setup_xprofile() {
+	require_once bp_rewrites()->dir . 'src/bp-xprofile/classes/class-xprofile-component.php';
+
+	buddypress()->profile = new XProfile_Component();
+}
+
+/**
  * Disable BuddyPress Components.
  *
  * @since 1.0.0
@@ -140,6 +151,10 @@ function disable_bp_components() {
 		'settings'      => array(
 			'callback' => 'bp_setup_settings',
 			'priority' => 6,
+		),
+		'xprofile'      => array(
+			'callback' => 'bp_setup_xprofile',
+			'priority' => 2,
 		),
 	);
 

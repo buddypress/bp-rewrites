@@ -79,7 +79,7 @@ class Activity_Component extends \BP_Activity_Component {
 		$main_nav = reset( $main_nav );
 		$slug     = $main_nav['slug'];
 
-		// Set the main nav`rewrite_id` property.
+		// Set the main nav `rewrite_id` property.
 		$rewrite_id             = sprintf( 'bp_member_%s', bp_get_activity_slug() );
 		$main_nav['rewrite_id'] = $rewrite_id;
 
@@ -155,11 +155,11 @@ class Activity_Component extends \BP_Activity_Component {
 			);
 
 			if ( bp_is_active( 'friends' ) ) {
-				$viewes_slugs['my-account-' . $this->id . '-friends'] = bp_get_friends_slug();
+				$viewes_slugs[ 'my-account-' . $this->id . '-friends' ] = bp_get_friends_slug();
 			}
 
 			if ( bp_is_active( 'groups' ) ) {
-				$viewes_slugs['my-account-' . $this->id . '-groups'] = bp_get_groups_slug();
+				$viewes_slugs[ 'my-account-' . $this->id . '-groups' ] = bp_get_groups_slug();
 			}
 
 			foreach ( $wp_admin_nav as $key_item_nav => $item_nav ) {

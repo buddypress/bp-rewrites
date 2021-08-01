@@ -80,10 +80,16 @@ class Activity_Component extends \BP_Activity_Component {
 		$slug     = $main_nav['slug'];
 
 		// Set the main nav`rewrite_id` property.
-		$main_nav['rewrite_id'] = sprintf( 'bp_member_%s', bp_get_activity_slug() );
+		$rewrite_id             = sprintf( 'bp_member_%s', bp_get_activity_slug() );
+		$main_nav['rewrite_id'] = $rewrite_id;
 
 		// Reset the link using BP Rewrites.
-		$main_nav['link'] = bp_members_rewrites_get_nav_url( $main_nav );
+		$main_nav['link'] = bp_members_rewrites_get_nav_url(
+			array(
+				'rewrite_id'     => $rewrite_id,
+				'item_component' => $slug,
+			)
+		);
 
 		// Update the primary nav item.
 		buddypress()->members->nav->edit_nav( $main_nav, $slug );
@@ -93,7 +99,13 @@ class Activity_Component extends \BP_Activity_Component {
 
 		// Loop inside it to reset the link using BP Rewrites before updating it.
 		foreach ( $sub_nav_items as $sub_nav_item ) {
-			$sub_nav_item['link'] = bp_members_rewrites_get_nav_url( $sub_nav_item );
+			$sub_nav_item['link'] = bp_members_rewrites_get_nav_url(
+				array(
+					'rewrite_id'     => $rewrite_id,
+					'item_component' => $slug,
+					'item_action'    => $sub_nav_item['slug'],
+				)
+			);
 
 			// Update the secondary nav item.
 			buddypress()->members->nav->edit_nav( $sub_nav_item, $sub_nav_item['slug'], $slug );

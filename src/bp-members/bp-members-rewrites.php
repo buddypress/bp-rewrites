@@ -20,22 +20,37 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @param array $args {
  *    An array of arguments.
- *    @see `bp_core_create_nav_link()` for the full list of arguments.
+ *
+ *    @type int    $user_id        The user ID.
+ *    @type string $rewrite_id     The nav item rewrite ID.
+ *    @type string $item_component The main nav item slug.
+ *    @type string $item_action    The sub nav item slug.
  * }
  * @return string The nav item URL.
  */
 function bp_members_rewrites_get_nav_url( $args = array() ) {
-	// Set default URL.
-	$url = '';
+	$params = bp_parse_args(
+		$args,
+		array(
+			'user_id'        => bp_displayed_user_id(),
+			'rewrite_id'     => '',
+			'item_component' => '',
+			'item_action'    => '',
+		)
+	);
 
-	$user_id = bp_displayed_user_id();
+	$user_id = $params['user_id'];
 	if ( ! $user_id ) {
 		$user_id = bp_loggedin_user_id();
 	}
 
+	if ( ! $user_id ) {
+		return '';
+	}
+
 	$username = bp_rewrites_get_member_slug( $user_id );
 	if ( ! $username ) {
-		return $url;
+		return '';
 	}
 
 	$url_params = array(
@@ -43,28 +58,12 @@ function bp_members_rewrites_get_nav_url( $args = array() ) {
 		'single_item'  => $username,
 	);
 
-	// This is a secondary nav.
-	if ( isset( $args['parent_slug'], $args['slug'] ) && $args['parent_slug'] && $args['slug'] ) {
-		$parent_nav = buddypress()->members->nav->get_primary( array( 'slug' => $args['parent_slug'] ), false );
-		if ( ! $parent_nav ) {
-			return $url;
+	if ( $params['rewrite_id'] && $params['item_component'] ) {
+		$url_params['single_item_component'] = bp_rewrites_get_slug( 'members', $params['rewrite_id'], $params['item_component'] );
+
+		if ( $params['item_action'] ) {
+			$url_params['single_item_action'] = $params['item_action'];
 		}
-
-		$parent_nav = reset( $parent_nav );
-		if ( ! isset( $parent_nav->rewrite_id ) ) {
-			return $url;
-		}
-
-		$url_params['single_item_component'] = bp_rewrites_get_slug( 'members', $parent_nav->rewrite_id, $args['parent_slug'] );
-		$url_params['single_item_action']    = $args['slug'];
-
-		// This is a primary nav.
-	} elseif ( isset( $args['rewrite_id'], $args['slug'] ) && $args['rewrite_id'] && $args['slug'] ) {
-		$url_params['single_item_component'] = bp_rewrites_get_slug( 'members', $args['rewrite_id'], $args['slug'] );
-
-		// This is not a BP Nav.
-	} else {
-		return $url;
 	}
 
 	return bp_rewrites_get_url( $url_params );

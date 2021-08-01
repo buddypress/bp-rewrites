@@ -169,7 +169,6 @@ function bp_group_rewrites_get_action_url( $url = '', $action = '', $query_args 
  * @param string          $url   The URL built for the BP Legacy URL parser. Never used.
  *                               But may be passed when this function is used as a filter.
  * @param BP_Groups_Group $group The Group object.
- * @param string          $page  The Group Admin page to reach.
  * @return string                The URL built for the BP Rewrites URL parser.
  */
 function bp_group_admin_rewrites_get_url( $url = '', $group = null ) {

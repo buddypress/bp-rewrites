@@ -115,7 +115,7 @@ function bp_group_rewrites_get_subnav_url( $args = array() ) {
 }
 
 /**
- * Return a URL for a group component action.
+ * Returns an URL for a group component action.
  *
  * @since ?.0.0
  *
@@ -126,7 +126,7 @@ function bp_group_rewrites_get_subnav_url( $args = array() ) {
  * @param bool   $nonce      The nonce to append to the URL.
  * @return string            The URL built for the BP Rewrites URL parser.
  */
-function bp_group_admin_rewrites_get_url( $url = '', $action = '', $query_args = array(), $nonce = false ) {
+function bp_group_rewrites_get_action_url( $url = '', $action = '', $query_args = array(), $nonce = false ) {
 	if ( ! $action ) {
 		return $url;
 	}
@@ -159,6 +159,31 @@ function bp_group_admin_rewrites_get_url( $url = '', $action = '', $query_args =
 	}
 
 	return $url;
+}
+
+/**
+ * Return the Group's Admin URL.
+ *
+ * @since ?.0.0
+ *
+ * @param string          $url   The URL built for the BP Legacy URL parser. Never used.
+ *                               But may be passed when this function is used as a filter.
+ * @param BP_Groups_Group $group The Group object.
+ * @param string          $page  The Group Admin page to reach.
+ * @return string                The URL built for the BP Rewrites URL parser.
+ */
+function bp_group_admin_rewrites_get_url( $url = '', $group = null ) {
+	if ( ! isset( $group->slug ) ) {
+		return $url;
+	}
+
+	return bp_rewrites_get_url(
+		array(
+			'component_id'       => 'groups',
+			'single_item'        => $group->slug,
+			'single_item_action' => 'admin',
+		)
+	);
 }
 
 /**

@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since ?.0.0
  */
 function groups_screen_group_admin_manage_members() {
-	bp_core_redirect( bp_get_group_admin_form_action( 'manage-members', groups_get_current_group() ) );
+	bp_core_redirect( bp_group_admin_rewrites_get_form_url( '', groups_get_current_group(), 'manage-members' ) );
 }
 add_action( 'groups_removed_member', __NAMESPACE__ . '\groups_screen_group_admin_manage_members', 1 );
 add_action( 'groups_unbanned_member', __NAMESPACE__ . '\groups_screen_group_admin_manage_members', 1 );

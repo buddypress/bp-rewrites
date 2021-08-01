@@ -141,12 +141,41 @@ class Activity_Component extends \BP_Activity_Component {
 	public function reset_admin_nav( $wp_admin_nav = array() ) {
 		remove_filter( 'bp_' . $this->id . '_admin_nav', array( $this, 'reset_admin_nav' ), 10, 1 );
 
-		// Set the rewrite_id.
-		$rewrite_id = sprintf( 'bp_member_%s', bp_get_activity_slug() );
+		if ( $wp_admin_nav ) {
+			$parent_slug     = bp_get_activity_slug();
+			$rewrite_id      = sprintf( 'bp_member_%s', $parent_slug );
+			$root_nav_parent = buddypress()->my_account_menu_id;
+			$user_id         = bp_loggedin_user_id();
 
-		foreach ( $wp_admin_nav as $key_item_nav => $item_nav ) {
-			$item_nav['rewrite_id']                = $rewrite_id;
-			$wp_admin_nav[ $key_item_nav ]['href'] = bp_members_rewrites_get_admin_nav_url( $item_nav );
+			// NB: these slugs should probably be customizable.
+			$viewes_slugs = array(
+				'my-account-' . $this->id . '-personal'  => 'just-me',
+				'my-account-' . $this->id . '-mentions'  => 'mentions',
+				'my-account-' . $this->id . '-favorites' => 'favorites',
+			);
+
+			if ( bp_is_active( 'friends' ) ) {
+				$viewes_slugs['my-account-' . $this->id . '-friends'] = bp_get_friends_slug();
+			}
+
+			if ( bp_is_active( 'groups' ) ) {
+				$viewes_slugs['my-account-' . $this->id . '-groups'] = bp_get_groups_slug();
+			}
+
+			foreach ( $wp_admin_nav as $key_item_nav => $item_nav ) {
+				$item_nav_id = $item_nav['id'];
+				$url_params  = array(
+					'user_id'        => $user_id,
+					'rewrite_id'     => $rewrite_id,
+					'item_component' => $parent_slug,
+				);
+
+				if ( $root_nav_parent !== $item_nav['parent'] && isset( $viewes_slugs[ $item_nav_id ] ) ) {
+					$url_params['item_action'] = $viewes_slugs[ $item_nav_id ];
+				}
+
+				$wp_admin_nav[ $key_item_nav ]['href'] = bp_members_rewrites_get_nav_url( $url_params );
+			}
 		}
 
 		return $wp_admin_nav;

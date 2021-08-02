@@ -34,6 +34,7 @@ function includes( $plugin_dir = '' ) {
 
 	if ( bp_is_active( 'blogs' ) ) {
 		require $path . 'src/bp-blogs/bp-blogs-template.php';
+		require $path . 'src/bp-blogs/bp-blogs-rewrites.php';
 	}
 
 	if ( bp_is_active( 'groups' ) ) {

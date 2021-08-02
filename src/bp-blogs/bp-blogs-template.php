@@ -25,20 +25,24 @@ function bp_blog_create_link() {
 /**
  * Return the create blog link.
  *
+ * NB : This function should be used instead of:
+ * `trailingslashit( bp_get_blogs_directory_permalink() . 'create' )`
+ *
  * @since ?.0.0
  *
  * @return string The URL of the create blog link.
  */
 function bp_get_blog_create_link() {
+	$link = bp_blog_create_rewrites_get_url();
 
 	/**
-	 * Filters the blog create blog link.
+	 * Filters the create blog link.
 	 *
 	 * @since ?.0.0
 	 *
 	 * @param string $value Permalink URL for the create blog link.
 	 */
-	return apply_filters( 'bp_get_blog_create_link', trailingslashit( bp_get_root_domain() . '/' . bp_get_blogs_root_slug() ) . 'create/' );
+	return apply_filters( 'bp_get_blog_create_link', $link );
 }
 
 /**

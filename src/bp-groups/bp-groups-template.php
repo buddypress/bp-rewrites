@@ -27,17 +27,16 @@ function bp_group_create_link( $step = '' ) {
 /**
  * Return the group's step creation link.
  *
+ * NB: this function should be used instead of:
+ * `trailingslashit( bp_get_groups_directory_permalink() . 'create' )`
+ *
  * @since ?.0.0
  *
  * @param string $step The group creation step name.
  * @return string The URL of the group's step creation link.
  */
 function bp_get_group_create_link( $step = '' ) {
-	$link = trailingslashit( bp_get_groups_directory_permalink() . 'create' );
-
-	if ( $step ) {
-		$link = trailingslashit( $link . 'step/' . $step );
-	}
+	$link = bp_group_create_rewrites_get_url( '', $step );
 
 	/**
 	 * Filters the group's step creation link.

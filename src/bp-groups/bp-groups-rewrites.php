@@ -77,44 +77,6 @@ function bp_group_type_rewrites_get_url( $url = '', $type = null ) {
 }
 
 /**
- * Return the link parameter of the Group's secondary nav item link.
- *
- * @see bp_core_create_subnav_link() for description of parameters.
- *
- * @since ?.0.0
- *
- * @param  array $args The arguments used to create the secondary nav item.
- * @return array       The arguments used to create the secondary nav item.
- */
-function bp_group_rewrites_get_subnav_url( $args = array() ) {
-	if ( ! isset( $args['parent_slug'] ) || ! isset( $args['slug'] ) ) {
-		return $args;
-	}
-
-	$single_item        = $args['parent_slug'];
-	$single_item_action = $args['slug'];
-
-	if ( false !== strpos( $single_item, '_manage' ) ) {
-		$single_item_action = 'admin';
-		$single_item        = str_replace( '_manage', '', $single_item );
-	}
-
-	$url_params = array(
-		'component_id'       => 'groups',
-		'single_item'        => $single_item,
-		'single_item_action' => $single_item_action,
-	);
-
-	if ( 'admin' === $single_item_action && 'admin' !== $args['slug'] ) {
-		$url_params['single_item_action_variables'] = explode( '/', $args['slug'] );
-	}
-
-	$args['link'] = bp_rewrites_get_url( $url_params );
-
-	return $args;
-}
-
-/**
  * Returns an URL for a group component action.
  *
  * @since ?.0.0

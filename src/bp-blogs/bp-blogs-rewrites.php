@@ -43,7 +43,7 @@ function bp_blog_create_rewrites_get_url( $url = '' ) {
 	return bp_rewrites_get_url(
 		array(
 			'component_id'       => 'blogs',
-			'single_item_action' => 'create'
+			'single_item_action' => 'create',
 		)
 	);
 }

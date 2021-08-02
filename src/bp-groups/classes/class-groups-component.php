@@ -31,11 +31,19 @@ class Groups_Component extends \BP_Groups_Component {
 	 * @since 3.0.0
 	 */
 	public function late_includes() {
+		// Let's override completely this function.
+		remove_action( 'bp_actions', 'groups_action_create_group' );
+
 		parent::late_includes();
 
-		if ( bp_is_group() && bp_is_item_admin() && is_user_logged_in() ) {
-			$inc_dir = trailingslashit( bp_rewrites()->dir ) . 'src/bp-groups/';
+		// Set includes directory.
+		$inc_dir = trailingslashit( bp_rewrites()->dir ) . 'src/bp-groups/';
 
+		if ( bp_is_groups_component() && is_user_logged_in() && 'create' === bp_current_action() ) {
+			require $inc_dir . 'actions/create.php';
+		}
+
+		if ( bp_is_group() && bp_is_item_admin() && is_user_logged_in() ) {
 			require $inc_dir . 'screens/single/admin.php';
 
 			if ( in_array( bp_get_group_current_admin_tab(), array( 'edit-details', 'group-settings', 'manage-members', 'membership-requests' ), true ) ) {

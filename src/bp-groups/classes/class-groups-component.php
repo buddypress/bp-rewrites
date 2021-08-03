@@ -26,9 +26,7 @@ class Groups_Component extends \BP_Groups_Component {
 	/**
 	 * Late includes method.
 	 *
-	 * Only load up certain code when on specific pages.
-	 *
-	 * @since 3.0.0
+	 * @since 1.0.0
 	 */
 	public function late_includes() {
 		// Let's override completely this function.

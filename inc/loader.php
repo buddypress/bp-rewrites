@@ -44,6 +44,10 @@ function includes( $plugin_dir = '' ) {
 		require $path . 'src/bp-groups/bp-groups-rewrites.php';
 	}
 
+	if ( bp_is_active( 'xprofile' ) ) {
+		require $path . 'src/bp-xprofile/bp-xprofile-rewrites.php';
+	}
+
 	if ( is_admin() ) {
 		require $path . 'src/bp-core/admin/bp-core-admin-functions.php';
 		require $path . 'src/bp-core/admin/bp-core-admin-rewrites.php';

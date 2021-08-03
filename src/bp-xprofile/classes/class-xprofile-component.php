@@ -24,6 +24,29 @@ class XProfile_Component extends \BP_XProfile_Component {
 	}
 
 	/**
+	 * Late includes method.
+	 *
+	 * @since 1.0.0
+	 */
+	public function late_includes() {
+		parent::late_includes();
+
+		// Make sure we're on a user page.
+		if ( bp_is_user() && is_user_logged_in() ) {
+			// Set includes directory.
+			$inc_dir = trailingslashit( bp_rewrites()->dir ) . 'src/bp-xprofile/';
+
+			if ( bp_is_profile_component() && 'edit' === bp_current_action() ) {
+				require $inc_dir . 'screens/edit.php';
+			}
+
+			if ( bp_is_user_settings_profile() ) {
+				require $inc_dir . 'screens/settings-profile.php';
+			}
+		}
+	}
+
+	/**
 	 * Set up component navigation.
 	 *
 	 * @since 1.0.0
@@ -71,10 +94,15 @@ class XProfile_Component extends \BP_XProfile_Component {
 		buddypress()->members->nav->edit_nav( $main_nav, $slug );
 
 		// Get the sub nav items for this main nav.
-		$sub_nav_items = buddypress()->members->nav->get_secondary( array( 'parent_slug' => $slug ), false );
+		$sub_nav_items    = buddypress()->members->nav->get_secondary( array( 'parent_slug' => $slug ), false );
+		$edit_subnav_args = array();
 
 		// Loop inside it to reset the link using BP Rewrites before updating it.
 		foreach ( $sub_nav_items as $sub_nav_item ) {
+			if ( 'edit' === $sub_nav_item['slug'] ) {
+				$edit_subnav_args = $sub_nav_item;
+			}
+
 			$sub_nav_item['link'] = bp_members_rewrites_get_nav_url(
 				array(
 					'rewrite_id'     => $rewrite_id,
@@ -86,6 +114,30 @@ class XProfile_Component extends \BP_XProfile_Component {
 			// Update the secondary nav item.
 			buddypress()->members->nav->edit_nav( $sub_nav_item, $sub_nav_item['slug'], $slug );
 		}
+
+		/*
+		 * We also need to reset the `xprofile_screen_edit_profile` screen function
+		 * For the Edit subnav.
+		 */
+
+		// Remove the nav.
+		bp_core_remove_subnav_item( $slug, $edit_subnav_args['slug'] );
+
+		// Restore the nav with a new screen function.
+		bp_core_new_subnav_item(
+			array(
+				'name'            => $edit_subnav_args['name'],
+				'slug'            => $edit_subnav_args['slug'],
+				'parent_url'      => $main_nav['link'],
+				'parent_slug'     => $slug,
+				'screen_function' => __NAMESPACE__ . '\xprofile_screen_edit_profile',
+				'position'        => $edit_subnav_args['position'],
+				'user_has_access' => $edit_subnav_args['user_has_access'],
+				'item_css_id'     => $edit_subnav_args['css_id'],
+				'no_access_url'   => $edit_subnav_args['no_access_url'],
+				'link'            => $edit_subnav_args['link'],
+			)
+		);
 	}
 
 	/**

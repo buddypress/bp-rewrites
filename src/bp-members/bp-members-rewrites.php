@@ -90,7 +90,7 @@ function bp_member_rewrites_get_url( $url = '', $user_id = 0, $username = '' ) {
 		$username = bp_rewrites_get_member_slug( $user_id );
 	}
 
-	return bp_rewrites_get_link(
+	return bp_rewrites_get_url(
 		array(
 			'component_id' => 'members',
 			'single_item'  => $username,
@@ -108,7 +108,7 @@ function bp_member_rewrites_get_url( $url = '', $user_id = 0, $username = '' ) {
  * @return string     The URL built for the BP Rewrites URL parser.
  */
 function bp_members_rewrites_get_url( $url = '' ) {
-	return bp_rewrites_get_link(
+	return bp_rewrites_get_url(
 		array(
 			'component_id' => 'members',
 		)
@@ -130,7 +130,7 @@ function bp_member_type_rewrites_get_url( $url = '', $type = null ) {
 		return $url;
 	}
 
-	return bp_rewrites_get_link(
+	return bp_rewrites_get_url(
 		array(
 			'component_id'   => 'members',
 			'directory_type' => $type->directory_slug,

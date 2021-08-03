@@ -31,6 +31,8 @@ function includes( $plugin_dir = '' ) {
 
 	// The Members component is always active.
 	require $path . 'src/bp-members/bp-members-rewrites.php';
+	require $path . 'src/bp-members/bp-members-adminbar.php';
+	require $path . 'src/bp-members/bp-members-invitations.php';
 
 	if ( bp_is_active( 'blogs' ) ) {
 		require $path . 'src/bp-blogs/bp-blogs-template.php';

@@ -408,6 +408,14 @@ function disable_buddypress_legacy_url_parser() {
 		remove_action( 'bp_init', 'bp_setup_nav', 6 );
 		add_action( 'bp_parse_query', 'bp_setup_nav', 12 );
 	}
+
+	/*
+	 * Remove the Members invitations WP Admin Bar menu items to override it later
+	 * so that links are built using BP Rewrites.
+	 *
+	 * @see `BP\Rewrites\bp_members_admin_bar_add_invitations_menu()`
+	 */
+	remove_action( 'bp_setup_admin_bar', 'bp_members_admin_bar_add_invitations_menu', 90 );
 }
 add_action( 'bp_init', __NAMESPACE__ . '\disable_buddypress_legacy_url_parser', 1 );
 

@@ -2,9 +2,9 @@
 /**
  * XProfile: User's "Profile > Edit" screen handler
  *
- * @package BuddyPress
- * @subpackage XProfileScreens
- * @since 3.0.0
+ * @package buddypress\bp-xprofile\screens
+ *
+ * @since ?.0.0
  */
 
 namespace BP\Rewrites;

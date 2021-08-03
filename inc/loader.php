@@ -46,6 +46,7 @@ function includes( $plugin_dir = '' ) {
 
 	if ( bp_is_active( 'xprofile' ) ) {
 		require $path . 'src/bp-xprofile/bp-xprofile-rewrites.php';
+		require $path . 'src/bp-xprofile/bp-xprofile-template.php';
 	}
 
 	if ( is_admin() ) {

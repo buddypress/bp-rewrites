@@ -12,7 +12,7 @@ namespace BP\Rewrites;
 /**
  * This code should be in `\bp_xprofile_action_settings()`.
  *
- * @since 1.9.0
+ * @since ?.0.0
  */
 function bp_xprofile_action_settings() {
 	$bp = buddypress();

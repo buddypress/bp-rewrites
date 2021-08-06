@@ -141,3 +141,21 @@ function bp_group_form_action( $url = '', $group = null ) {
 	return bp_group_rewrites_get_action_url( $url, $action, $group );
 }
 add_filter( 'bp_group_form_action', __NAMESPACE__ . '\bp_group_form_action', 1, 2 );
+
+/**
+ * `\bp_get_groups_action_link()` needs to be edited to use BP Rewrites.
+ *
+ * NB: This function seems to be only used by the single Group Admin Bar menu.
+ *
+ * @since ?.0.0
+ *
+ * @param string $url        URL for a group component action built for the BP Legacy URL parser.
+ * @param string $action     Action being taken for the group.
+ * @param string $query_args Query arguments being passed.
+ * @param bool   $nonce      Whether or not to add a nonce.
+ * @return string            URL for a group component action built for the BP Rewrites URL parser.
+ */
+function bp_get_groups_action_link( $url, $action, $query_args, $nonce ) {
+	return bp_group_rewrites_get_action_url( $url, $action, null, $query_args, $nonce );
+}
+add_filter( 'bp_get_groups_action_link', __NAMESPACE__ . '\bp_get_groups_action_link', 1, 4 );

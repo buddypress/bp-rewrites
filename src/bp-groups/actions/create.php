@@ -379,6 +379,6 @@ function groups_action_create_group() {
 	 *
 	 * @param string $value Path to the group creation template to load.
 	 */
-	bp_core_load_template( apply_filters( 'groups_template_create_group', 'groups/create' ) );
+	\bp_core_load_template( apply_filters( 'groups_template_create_group', 'groups/create' ) );
 }
 add_action( 'bp_actions', __NAMESPACE__ . '\groups_action_create_group' );

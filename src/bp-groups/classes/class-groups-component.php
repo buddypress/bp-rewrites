@@ -29,10 +29,10 @@ class Groups_Component extends \BP_Groups_Component {
 	 * @since 1.0.0
 	 */
 	public function late_includes() {
+		parent::late_includes();
+
 		// Let's override completely this function.
 		remove_action( 'bp_actions', 'groups_action_create_group' );
-
-		parent::late_includes();
 
 		// Set includes directory.
 		$inc_dir = trailingslashit( bp_rewrites()->dir ) . 'src/bp-groups/';
@@ -363,8 +363,11 @@ class Groups_Component extends \BP_Groups_Component {
 	public function reset_nav() {
 		remove_action( 'bp_' . $this->id . '_setup_nav', array( $this, 'reset_nav' ), 20 );
 
+		// Get the BuddyPress Main instance.
+		$bp = buddypress();
+
 		// Get the main nav.
-		$main_nav = buddypress()->members->nav->get_primary( array( 'component_id' => $this->id ), false );
+		$main_nav = $bp->members->nav->get_primary( array( 'component_id' => $this->id ), false );
 
 		// Set the main nav slug.
 		$main_nav = reset( $main_nav );
@@ -383,10 +386,10 @@ class Groups_Component extends \BP_Groups_Component {
 		);
 
 		// Update the primary nav item.
-		buddypress()->members->nav->edit_nav( $main_nav, $slug );
+		$bp->members->nav->edit_nav( $main_nav, $slug );
 
 		// Get the sub nav items for this main nav.
-		$sub_nav_items = buddypress()->members->nav->get_secondary( array( 'parent_slug' => $slug ), false );
+		$sub_nav_items = $bp->members->nav->get_secondary( array( 'parent_slug' => $slug ), false );
 
 		// Loop inside it to reset the link using BP Rewrites before updating it.
 		foreach ( $sub_nav_items as $sub_nav_item ) {
@@ -399,12 +402,14 @@ class Groups_Component extends \BP_Groups_Component {
 			);
 
 			// Update the secondary nav item.
-			buddypress()->members->nav->edit_nav( $sub_nav_item, $sub_nav_item['slug'], $slug );
+			$bp->members->nav->edit_nav( $sub_nav_item, $sub_nav_item['slug'], $slug );
 		}
 	}
 
 	/**
 	 * Overrides the screen function of Group Admin nav items.
+	 *
+	 * @todo The Group Sub Nav should have customizable slugs.
 	 *
 	 * @since 1.0.0
 	 *
@@ -413,70 +418,97 @@ class Groups_Component extends \BP_Groups_Component {
 	public function group_nav_overrides( $has_access = false ) {
 		remove_action( 'groups_setup_nav', array( $this, 'group_nav_overrides' ) );
 
-		// If the user is a group admin, then show the group admin nav item.
-		if ( $has_access && isset( $this->current_group->id ) && $this->current_group->id ) {
+		if ( isset( $this->current_group->id ) && $this->current_group->id ) {
 			$bp         = buddypress();
 			$group_id   = $this->current_group->id;
 			$group_link = bp_group_rewrites_get_url( '', $this->current_group );
-			$admin_link = bp_group_admin_rewrites_get_url( '', $this->current_group );
-			$admin_nav  = $bp->groups->nav->get_secondary(
-				array(
-					'parent_slug' => $this->current_group->slug,
-					'slug'        => 'admin',
-				),
-				false
-			);
+			$group_slug = $this->current_group->slug;
 
-			// Remove the nav.
-			bp_core_remove_subnav_item( $this->current_group->slug, 'admin', 'groups' );
+			// Get the Group Main Nav.
+			$group_main_nav = $bp->groups->nav->get_primary( array( 'slug' => $group_slug ) );
+			$group_main_nav = reset( $group_main_nav );
 
-			// Restore the nav with a new screen function.
-			$admin_nav = (array) reset( $admin_nav );
-			bp_core_new_subnav_item(
-				array(
-					'name'            => $admin_nav['name'],
-					'slug'            => $admin_nav['slug'],
-					'parent_url'      => $group_link,
-					'parent_slug'     => $this->current_group->slug,
-					'screen_function' => __NAMESPACE__ . '\groups_screen_group_admin',
-					'position'        => $admin_nav['position'],
-					'user_has_access' => $admin_nav['user_has_access'],
-					'item_css_id'     => $admin_nav['css_id'],
-					'no_access_url'   => $admin_nav['no_access_url'],
-					'link'            => $admin_link,
-				),
-				'groups'
-			);
+			// Reset the Main Group Nav link.
+			$group_main_nav['link'] = $group_link;
+			$bp->groups->nav->edit_nav( $group_main_nav, $group_slug );
 
-			// Get all Management items.
-			$admin_subnav_items = buddypress()->groups->nav->get_secondary(
-				array(
-					'parent_slug' => $this->current_group->slug . '_manage',
-				),
-				false
-			);
+			// Get the Group Sub Nav.
+			$group_sub_nav_items = $bp->groups->nav->get_secondary( array( 'parent_slug' => $group_slug ) );
 
-			// Replace all screen functions.
-			foreach ( $admin_subnav_items as $admin_subnav_item ) {
-				if ( 'groups_screen_group_admin' !== $admin_subnav_item['screen_function'] ) {
-					continue;
+			// Loop inside it to reset the link using BP Rewrites before updating it.
+			foreach ( $group_sub_nav_items as $group_sub_nav_item ) {
+				if ( 'home' === $group_sub_nav_item['slug'] ) {
+					$group_sub_nav_item['link'] = $group_link;
+				} else {
+					$group_sub_nav_item['link'] = bp_group_nav_rewrites_get_url( $this->current_group, $group_sub_nav_item['slug'] );
 				}
 
-				bp_core_remove_subnav_item( $this->current_group->slug . '_manage', $admin_subnav_item['slug'], 'groups' );
+				// Update the secondary nav item.
+				$bp->groups->nav->edit_nav( $group_sub_nav_item, $group_sub_nav_item['slug'], $group_slug );
+			}
+
+			// If the user is a group admin, then show the group admin nav item.
+			if ( bp_is_item_admin() ) {
+				$admin_link = bp_group_admin_rewrites_get_url( '', $this->current_group );
+				$admin_nav  = $bp->groups->nav->get_secondary(
+					array(
+						'parent_slug' => $this->current_group->slug,
+						'slug'        => 'admin',
+					),
+					false
+				);
+
+				// Remove the nav.
+				bp_core_remove_subnav_item( $this->current_group->slug, 'admin', 'groups' );
+
+				// Restore the nav with a new screen function.
+				$admin_nav = (array) reset( $admin_nav );
 				bp_core_new_subnav_item(
 					array(
-						'name'              => $admin_subnav_item['name'],
-						'slug'              => $admin_subnav_item['slug'],
-						'position'          => $admin_subnav_item['position'],
-						'parent_url'        => $admin_link,
-						'parent_slug'       => $this->current_group->slug . '_manage',
-						'screen_function'   => __NAMESPACE__ . '\groups_screen_group_admin',
-						'user_has_access'   => $admin_subnav_item['user_has_access'],
-						'show_in_admin_bar' => $admin_subnav_item['show_in_admin_bar'],
-						'link'              => bp_group_admin_rewrites_get_form_url( '', $this->current_group, $admin_subnav_item['slug'] ),
+						'name'            => $admin_nav['name'],
+						'slug'            => $admin_nav['slug'],
+						'parent_url'      => $group_link,
+						'parent_slug'     => $this->current_group->slug,
+						'screen_function' => __NAMESPACE__ . '\groups_screen_group_admin',
+						'position'        => $admin_nav['position'],
+						'user_has_access' => $admin_nav['user_has_access'],
+						'item_css_id'     => $admin_nav['css_id'],
+						'no_access_url'   => $admin_nav['no_access_url'],
+						'link'            => $admin_link,
 					),
 					'groups'
 				);
+
+				// Get all Management items.
+				$admin_subnav_items = buddypress()->groups->nav->get_secondary(
+					array(
+						'parent_slug' => $this->current_group->slug . '_manage',
+					),
+					false
+				);
+
+				// Replace all screen functions.
+				foreach ( $admin_subnav_items as $admin_subnav_item ) {
+					if ( 'groups_screen_group_admin' !== $admin_subnav_item['screen_function'] ) {
+						continue;
+					}
+
+					bp_core_remove_subnav_item( $this->current_group->slug . '_manage', $admin_subnav_item['slug'], 'groups' );
+					bp_core_new_subnav_item(
+						array(
+							'name'              => $admin_subnav_item['name'],
+							'slug'              => $admin_subnav_item['slug'],
+							'position'          => $admin_subnav_item['position'],
+							'parent_url'        => $admin_link,
+							'parent_slug'       => $this->current_group->slug . '_manage',
+							'screen_function'   => __NAMESPACE__ . '\groups_screen_group_admin',
+							'user_has_access'   => $admin_subnav_item['user_has_access'],
+							'show_in_admin_bar' => $admin_subnav_item['show_in_admin_bar'],
+							'link'              => bp_group_admin_rewrites_get_form_url( '', $this->current_group, $admin_subnav_item['slug'] ),
+						),
+						'groups'
+					);
+				}
 			}
 		}
 	}

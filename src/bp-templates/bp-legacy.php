@@ -33,25 +33,25 @@ function bp_legacy_displayed_user_nav() {
 add_action( 'bp_setup_nav', __NAMESPACE__ . '\bp_legacy_displayed_user_nav', 1000 );
 
 /**
- * The `buddypress/members/index.php` needs to use BP Rewrites to build the Members Directory Friends nav.
+ * The `buddypress/members/index.php` needs to use BP Rewrites to build the Members Directory My Friends nav.
  *
  * From this plugin, we need to disable it first to reset it a bit later.
  *
- * @see `bp_legacy_reset_members_directory_friends_nav()`
+ * @see `bp_legacy_reset_members_directory_my_friends_nav()`
  *
  * @since ?.0.0
  */
-function bp_legacy_disable_members_directory_friends_nav() {
+function bp_legacy_disable_members_directory_my_friends_nav() {
 	add_filter( 'bp_get_total_friend_count', '__return_zero' );
 }
-add_action( 'bp_before_directory_members_tabs', __NAMESPACE__ . '\bp_legacy_disable_members_directory_friends_nav', 1 );
+add_action( 'bp_before_directory_members_tabs', __NAMESPACE__ . '\bp_legacy_disable_members_directory_my_friends_nav', 1 );
 
 /**
- * Resets the the Members Directory Friends nav using BP Rewrites to build the nav link.
+ * Resets the the Members Directory My Friends nav using BP Rewrites to build the nav link.
  *
  * @since ?.0.0
  */
-function bp_legacy_reset_members_directory_friends_nav() {
+function bp_legacy_reset_members_directory_my_friends_nav() {
 	remove_filter( 'bp_get_total_friend_count', '__return_zero' );
 
 	if ( ! is_user_logged_in() || ! bp_is_active( 'friends' ) ) {
@@ -87,4 +87,61 @@ function bp_legacy_reset_members_directory_friends_nav() {
 		);
 	}
 }
-add_action( 'bp_members_directory_member_types', __NAMESPACE__ . '\bp_legacy_reset_members_directory_friends_nav', 1 );
+add_action( 'bp_members_directory_member_types', __NAMESPACE__ . '\bp_legacy_reset_members_directory_my_friends_nav', 1 );
+
+/**
+ * The `buddypress/groups/index.php` needs to use BP Rewrites to build the Members Directory My Groups nav.
+ *
+ * From this plugin, we need to disable it first to reset it a bit later.
+ *
+ * @see `bp_legacy_reset_groups_directory_my_groups_nav()`
+ *
+ * @since ?.0.0
+ */
+function bp_legacy_disable_groups_directory_my_groups_nav() {
+	add_filter( 'bp_get_total_group_count_for_user', '__return_zero' );
+}
+add_action( 'bp_before_directory_groups_content', __NAMESPACE__ . '\bp_legacy_disable_groups_directory_my_groups_nav', 1 );
+
+/**
+ * Resets the the Groups Directory My Groups nav using BP Rewrites to build the nav link.
+ *
+ * @since ?.0.0
+ */
+function bp_legacy_reset_groups_directory_my_groups_nav() {
+	remove_filter( 'bp_get_total_group_count_for_user', '__return_zero' );
+
+	if ( ! is_user_logged_in() ) {
+		return;
+	}
+
+	$user_id = bp_loggedin_user_id();
+	$count   = bp_get_total_group_count_for_user( $user_id );
+
+	if ( $count ) {
+		$parent_slug   = bp_get_groups_slug();
+		$rewrite_id    = sprintf( 'bp_member_%s', $parent_slug );
+		$slug          = 'my-groups'; // This shouldn't be hardcoded.
+		$my_groups_url = bp_members_rewrites_get_nav_url(
+			array(
+				'user_id'        => $user_id,
+				'rewrite_id'     => $rewrite_id,
+				'item_component' => $parent_slug,
+				'item_action'    => $slug,
+			)
+		);
+
+		printf(
+			'<li id="groups-personal">
+				<a href="%1$s">%2$s</a>
+			</li>',
+			esc_url( $my_groups_url ),
+			sprintf(
+				/* translators: %s: current user groups count. */
+				esc_html__( 'My Groups %s', 'buddypress' ),
+				'<span>' . $count . '</span>' // phpcs:ignore
+			)
+		);
+	}
+}
+add_action( 'bp_groups_directory_group_filter', __NAMESPACE__ . '\bp_legacy_reset_groups_directory_my_groups_nav', 1 );

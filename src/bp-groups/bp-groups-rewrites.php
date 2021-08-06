@@ -81,19 +81,23 @@ function bp_group_type_rewrites_get_url( $url = '', $type = null ) {
  *
  * @since ?.0.0
  *
- * @param string $url        The URL built for the BP Legacy URL parser. Never used.
- *                           But may be passed when this function is used as a filter.
- * @param string $action     The component action.
- * @param string $query_args The query arguments to add to the URL.
- * @param bool   $nonce      The nonce to append to the URL.
- * @return string            The URL built for the BP Rewrites URL parser.
+ * @param string          $url        The URL built for the BP Legacy URL parser. Never used.
+ *                                    But may be passed when this function is used as a filter.
+ * @param string          $action     The component action.
+ * @param BP_Groups_Group $group      The Group object.
+ * @param string          $query_args The query arguments to add to the URL.
+ * @param bool            $nonce      The nonce to append to the URL.
+ * @return string                     The URL built for the BP Rewrites URL parser.
  */
-function bp_group_rewrites_get_action_url( $url = '', $action = '', $query_args = array(), $nonce = false ) {
+function bp_group_rewrites_get_action_url( $url = '', $action = '', $group = null, $query_args = array(), $nonce = false ) {
 	if ( ! $action ) {
 		return $url;
 	}
 
-	$group = groups_get_current_group();
+	if ( ! $group ) {
+		$group = groups_get_current_group();
+	}
+
 	if ( ! isset( $group->slug ) ) {
 		return $url;
 	}
@@ -124,6 +128,29 @@ function bp_group_rewrites_get_action_url( $url = '', $action = '', $query_args 
 }
 
 /**
+ * Return the Group's Nav Item URL.
+ *
+ * @since ?.0.0
+ *
+ * @param BP_Groups_Group $group The Group object.
+ * @param string          $slug  Group Nav Item slug.
+ * @return string                The URL built for the BP Rewrites URL parser.
+ */
+function bp_group_nav_rewrites_get_url( $group = null, $slug = '' ) {
+	if ( ! isset( $group->slug ) || ! $slug ) {
+		return '';
+	}
+
+	return bp_rewrites_get_url(
+		array(
+			'component_id'       => 'groups',
+			'single_item'        => $group->slug,
+			'single_item_action' => $slug,
+		)
+	);
+}
+
+/**
  * Return the Group's Admin URL.
  *
  * @since ?.0.0
@@ -134,17 +161,7 @@ function bp_group_rewrites_get_action_url( $url = '', $action = '', $query_args 
  * @return string                The URL built for the BP Rewrites URL parser.
  */
 function bp_group_admin_rewrites_get_url( $url = '', $group = null ) {
-	if ( ! isset( $group->slug ) ) {
-		return $url;
-	}
-
-	return bp_rewrites_get_url(
-		array(
-			'component_id'       => 'groups',
-			'single_item'        => $group->slug,
-			'single_item_action' => 'admin',
-		)
-	);
+	return bp_group_nav_rewrites_get_url( $group, 'admin' );
 }
 
 /**

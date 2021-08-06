@@ -31,3 +31,60 @@ function bp_legacy_displayed_user_nav() {
 	}
 }
 add_action( 'bp_setup_nav', __NAMESPACE__ . '\bp_legacy_displayed_user_nav', 1000 );
+
+/**
+ * The `buddypress/members/index.php` needs to use BP Rewrites to build the Members Directory Friends nav.
+ *
+ * From this plugin, we need to disable it first to reset it a bit later.
+ *
+ * @see `bp_legacy_reset_members_directory_friends_nav()`
+ *
+ * @since ?.0.0
+ */
+function bp_legacy_disable_members_directory_friends_nav() {
+	add_filter( 'bp_get_total_friend_count', '__return_zero' );
+}
+add_action( 'bp_before_directory_members_tabs', __NAMESPACE__ . '\bp_legacy_disable_members_directory_friends_nav', 1 );
+
+/**
+ * Resets the the Members Directory Friends nav using BP Rewrites to build the nav link.
+ *
+ * @since ?.0.0
+ */
+function bp_legacy_reset_members_directory_friends_nav() {
+	remove_filter( 'bp_get_total_friend_count', '__return_zero' );
+
+	if ( ! is_user_logged_in() || ! bp_is_active( 'friends' ) ) {
+		return;
+	}
+
+	$user_id = bp_loggedin_user_id();
+	$count   = bp_get_total_friend_count( $user_id );
+
+	if ( $count ) {
+		$parent_slug    = bp_get_friends_slug();
+		$rewrite_id     = sprintf( 'bp_member_%s', $parent_slug );
+		$slug           = 'my-friends'; // This shouldn't be hardcoded.
+		$my_friends_url = bp_members_rewrites_get_nav_url(
+			array(
+				'user_id'        => $user_id,
+				'rewrite_id'     => $rewrite_id,
+				'item_component' => $parent_slug,
+				'item_action'    => $slug,
+			)
+		);
+
+		printf(
+			'<li id="members-personal">
+				<a href="%1$s">%2$s</a>
+			</li>',
+			esc_url( $my_friends_url ),
+			sprintf(
+				/* translators: %s is the amount of friends for the current user. */
+				esc_html__( 'My Friends %s', 'buddypress' ),
+				'<span>' . $count . '</span>' // phpcs:ignore
+			)
+		);
+	}
+}
+add_action( 'bp_members_directory_member_types', __NAMESPACE__ . '\bp_legacy_reset_members_directory_friends_nav', 1 );

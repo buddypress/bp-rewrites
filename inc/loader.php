@@ -31,6 +31,7 @@ function includes( $plugin_dir = '' ) {
 
 	// The Members component is always active.
 	require $path . 'src/bp-members/bp-members-rewrites.php';
+	require $path . 'src/bp-members/bp-members-functions.php';
 	require $path . 'src/bp-members/bp-members-adminbar.php';
 	require $path . 'src/bp-members/bp-members-invitations.php';
 	require $path . 'src/bp-members/bp-members-template.php';

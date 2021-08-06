@@ -169,7 +169,7 @@ function bp_rewrites_get_url( $args = array() ) {
 
 	$are_urls_pretty = bp_has_pretty_urls();
 
-	if ( ! isset( $bp->{$r['component_id']} ) ) {
+	if ( ! isset( $bp->{$r['component_id']}->rewrite_ids ) ) {
 		return $link;
 	}
 

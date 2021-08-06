@@ -14,6 +14,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * `\bp_get_members_directory_permalink()` needs to be edited to use BP Rewrites.
+ *
+ * @since ?.0.0
+ *
+ * @param string $url The Members directory permalink built for the BP Legacy URL parser.
+ * @return string     The Members directory permalink built for the BP Rewrites URL parser.
+ */
+function bp_get_members_directory_permalink( $url = '' ) {
+	return bp_members_rewrites_get_url( $url );
+}
+add_filter( 'bp_get_members_directory_permalink', __NAMESPACE__ . '\bp_get_members_directory_permalink', 1, 1 );
+
+/**
  * `\bp_get_displayed_user_nav()` needs to be edited to stop modifying the nav item links.
  *
  * @since ?.0.0

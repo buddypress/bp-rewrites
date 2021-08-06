@@ -145,3 +145,189 @@ function bp_legacy_reset_groups_directory_my_groups_nav() {
 	}
 }
 add_action( 'bp_groups_directory_group_filter', __NAMESPACE__ . '\bp_legacy_reset_groups_directory_my_groups_nav', 1 );
+
+/**
+ * Resets the the Activity Directory My Friends nav using BP Rewrites to build the nav link.
+ *
+ * @since ?.0.0
+ */
+function bp_legacy_reset_activity_directory_my_friends_nav() {
+	if ( ! is_user_logged_in() || ! bp_is_active( 'friends' ) ) {
+		return;
+	}
+
+	$user_id = bp_loggedin_user_id();
+	$count   = bp_get_total_friend_count( $user_id );
+
+	if ( $count ) {
+		$parent_slug  = bp_get_activity_slug();
+		$rewrite_id   = sprintf( 'bp_member_%s', $parent_slug );
+		$slug         = bp_get_friends_slug();
+		$activity_url = bp_members_rewrites_get_nav_url(
+			array(
+				'user_id'        => $user_id,
+				'rewrite_id'     => $rewrite_id,
+				'item_component' => $parent_slug,
+				'item_action'    => $slug,
+			)
+		);
+
+		printf(
+			'<li id="activity-friends">
+				<a href="%1$s">%2$s</a>
+			</li>',
+			esc_url( $activity_url ),
+			sprintf(
+				/* translators: %s: current user groups count. */
+				esc_html__( 'My Friends %s', 'buddypress' ),
+				'<span>' . $count . '</span>' // phpcs:ignore
+			)
+		);
+	}
+
+	// Disable My Friends nav item.
+	add_filter( 'bp_get_total_friend_count', '__return_zero' );
+}
+add_action( 'bp_before_activity_type_tab_friends', __NAMESPACE__ . '\bp_legacy_reset_activity_directory_my_friends_nav', 1 );
+
+/**
+ * Resets the the Activity Directory My Groups nav using BP Rewrites to build the nav link.
+ *
+ * @since ?.0.0
+ */
+function bp_legacy_reset_activity_directory_my_groups_nav() {
+	if ( ! is_user_logged_in() || ! bp_is_active( 'groups' ) ) {
+		return;
+	}
+
+	$user_id = bp_loggedin_user_id();
+	$count   = bp_get_total_group_count_for_user( $user_id );
+
+	if ( $count ) {
+		$parent_slug  = bp_get_activity_slug();
+		$rewrite_id   = sprintf( 'bp_member_%s', $parent_slug );
+		$slug         = bp_get_groups_slug();
+		$activity_url = bp_members_rewrites_get_nav_url(
+			array(
+				'user_id'        => $user_id,
+				'rewrite_id'     => $rewrite_id,
+				'item_component' => $parent_slug,
+				'item_action'    => $slug,
+			)
+		);
+
+		printf(
+			'<li id="activity-groups">
+				<a href="%1$s">%2$s</a>
+			</li>',
+			esc_url( $activity_url ),
+			sprintf(
+				/* translators: %s: current user groups count. */
+				esc_html__( 'My Groups %s', 'buddypress' ),
+				'<span>' . $count . '</span>' // phpcs:ignore
+			)
+		);
+	}
+
+	// Disable My Groups nav item.
+	add_filter( 'bp_get_total_group_count_for_user', '__return_zero' );
+}
+add_action( 'bp_before_activity_type_tab_groups', __NAMESPACE__ . '\bp_legacy_reset_activity_directory_my_groups_nav', 1 );
+
+/**
+ * Resets the the Activity Directory My Favorites/Mentions nav using BP Rewrites to build the nav link.
+ *
+ * @since ?.0.0
+ */
+function bp_legacy_reset_activity_directory_favorites_mentions_nav() {
+	if ( ! is_user_logged_in() || ! bp_is_active( 'groups' ) ) {
+		return;
+	}
+
+	$user_id     = bp_loggedin_user_id();
+	$parent_slug = bp_get_activity_slug();
+	$rewrite_id  = sprintf( 'bp_member_%s', $parent_slug );
+	$count       = bp_get_total_favorite_count_for_user( $user_id );
+
+	if ( $count ) {
+		$slug         = 'favorites'; // This shouldn't be hardcoded.
+		$activity_url = bp_members_rewrites_get_nav_url(
+			array(
+				'user_id'        => $user_id,
+				'rewrite_id'     => $rewrite_id,
+				'item_component' => $parent_slug,
+				'item_action'    => $slug,
+			)
+		);
+
+		printf(
+			'<li id="activity-favorites">
+				<a href="%1$s">%2$s</a>
+			</li>',
+			esc_url( $activity_url ),
+			sprintf(
+				/* translators: %s: current user groups count. */
+				esc_html__( 'My Favorites %s', 'buddypress' ),
+				'<span>' . $count . '</span>' // phpcs:ignore
+			)
+		);
+	}
+
+	if ( bp_activity_do_mentions() ) {
+		$slug         = 'mentions'; // This shouldn't be hardcoded.
+		$activity_url = bp_members_rewrites_get_nav_url(
+			array(
+				'user_id'        => $user_id,
+				'rewrite_id'     => $rewrite_id,
+				'item_component' => $parent_slug,
+				'item_action'    => $slug,
+			)
+		);
+
+		$mentions_count        = bp_get_total_mention_count_for_user( $user_id );
+		$mentions_count_output = '';
+
+		if ( $mentions_count ) {
+			$mentions_count_output = sprintf(
+				'&nbsp;<strong>
+					<span>%s</span>
+				</strong>',
+				sprintf(
+					/* translators: %s: new mentions count */
+					_nx( '%s new', '%s new', $mentions_count, 'Number of new activity mentions', 'buddypress' ),
+					$mentions_count
+				)
+			);
+		}
+
+		printf(
+			'<li id="activity-mentions">
+				<a href="%1$s">%2$s</a>
+			</li>',
+			esc_url( $activity_url ),
+			sprintf(
+				'%1$s%2$s',
+				esc_html__( 'Mentions', 'buddypress' ),
+				$mentions_count_output // phpcs:ignore
+			)
+		);
+	}
+
+	// Disable Favorites/Mentions nav items.
+	add_filter( 'bp_get_total_favorite_count_for_user', '__return_false' );
+	add_filter( 'bp_activity_do_mentions', '__return_false' );
+}
+add_action( 'bp_before_activity_type_tab_favorites', __NAMESPACE__ . '\bp_legacy_reset_activity_directory_favorites_mentions_nav', 1 );
+
+/**
+ * Restore Activity Directory Nav Item counts/features.
+ *
+ * @since ?.0.0
+ */
+function bp_legacy_reset_activity_directory_nav_counts() {
+	remove_filter( 'bp_get_total_friend_count', '__return_zero' );
+	remove_filter( 'bp_get_total_group_count_for_user', '__return_zero' );
+	remove_filter( 'bp_get_total_favorite_count_for_user', '__return_false' );
+	remove_filter( 'bp_activity_do_mentions', '__return_false' );
+}
+add_action( 'bp_activity_type_tabs', __NAMESPACE__ . '\bp_legacy_reset_activity_directory_nav_counts', 1 );

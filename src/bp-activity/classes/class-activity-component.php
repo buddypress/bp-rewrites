@@ -24,6 +24,25 @@ class Activity_Component extends \BP_Activity_Component {
 	}
 
 	/**
+	 * Late includes method.
+	 *
+	 * @since 1.0.0
+	 */
+	public function late_includes() {
+		parent::late_includes();
+
+		if ( bp_is_current_component( 'activity' ) ) {
+			// Set includes directory.
+			$inc_dir = trailingslashit( bp_rewrites()->dir ) . 'src/bp-activity/';
+
+			// Screens - Single permalink.
+			if ( bp_is_current_action( 'p' ) || is_numeric( bp_current_action() ) ) {
+				require $inc_dir . 'screens/permalink.php';
+			}
+		}
+	}
+
+	/**
 	 * Set up component global variables.
 	 *
 	 * @since 1.0.0

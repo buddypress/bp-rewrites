@@ -36,6 +36,12 @@ function includes( $plugin_dir = '' ) {
 	require $path . 'src/bp-members/bp-members-invitations.php';
 	require $path . 'src/bp-members/bp-members-template.php';
 
+	if ( bp_is_active( 'activity' ) ) {
+		require $path . 'src/bp-activity/bp-activity-template.php';
+		require $path . 'src/bp-activity/bp-activity-rewrites.php';
+		require $path . 'src/bp-activity/bp-activity-functions.php';
+	}
+
 	if ( bp_is_active( 'blogs' ) ) {
 		require $path . 'src/bp-blogs/bp-blogs-template.php';
 		require $path . 'src/bp-blogs/bp-blogs-rewrites.php';

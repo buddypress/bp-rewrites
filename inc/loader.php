@@ -33,6 +33,7 @@ function includes( $plugin_dir = '' ) {
 	require $path . 'src/bp-members/bp-members-rewrites.php';
 	require $path . 'src/bp-members/bp-members-adminbar.php';
 	require $path . 'src/bp-members/bp-members-invitations.php';
+	require $path . 'src/bp-members/bp-members-template.php';
 
 	if ( bp_is_active( 'blogs' ) ) {
 		require $path . 'src/bp-blogs/bp-blogs-template.php';
@@ -47,6 +48,11 @@ function includes( $plugin_dir = '' ) {
 	if ( bp_is_active( 'xprofile' ) ) {
 		require $path . 'src/bp-xprofile/bp-xprofile-rewrites.php';
 		require $path . 'src/bp-xprofile/bp-xprofile-template.php';
+	}
+
+	$template_pack_dir = sprintf( $path . 'src/bp-templates/bp-%s.php', bp_get_theme_package_id() );
+	if ( file_exists( $template_pack_dir ) ) {
+		require $template_pack_dir;
 	}
 
 	if ( is_admin() ) {

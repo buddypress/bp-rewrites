@@ -62,3 +62,16 @@ function bp_get_blog_create_button( $button_args = array() ) {
 	return $button_args;
 }
 add_filter( 'bp_get_blog_create_button', __NAMESPACE__ . '\bp_get_blog_create_button', 1, 1 );
+
+/**
+ * `bp_get_blogs_directory_permalink()` needs to use BP Rewrites.
+ *
+ * @since ?.0.0
+ *
+ * @param string $url The URL built for the BP Legacy URL parser.
+ * @return string     The URL built for the BP Rewrites URL parser.
+ */
+function bp_get_blogs_directory_permalink( $url = '' ) {
+	return bp_blogs_rewrites_get_url();
+}
+add_action( 'bp_get_blogs_directory_permalink', __NAMESPACE__ . '\bp_get_blogs_directory_permalink', 1, 1 );

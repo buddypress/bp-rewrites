@@ -331,3 +331,60 @@ function bp_legacy_reset_activity_directory_nav_counts() {
 	remove_filter( 'bp_activity_do_mentions', '__return_false' );
 }
 add_action( 'bp_activity_type_tabs', __NAMESPACE__ . '\bp_legacy_reset_activity_directory_nav_counts', 1 );
+
+/**
+ * The `buddypress/blogs/index.php` needs to use BP Rewrites to build the Blogs Directory My Sites nav.
+ *
+ * From this plugin, we need to disable it first to reset it a bit later.
+ *
+ * @see `bp_legacy_reset_blogs_directory_my_blogs_nav()`
+ *
+ * @since ?.0.0
+ */
+function bp_legacy_disable_blogs_directory_my_blogs_nav() {
+	add_filter( 'bp_get_total_blog_count_for_user', '__return_zero' );
+}
+add_action( 'bp_before_directory_blogs_tabs', __NAMESPACE__ . '\bp_legacy_disable_blogs_directory_my_blogs_nav', 1 );
+
+/**
+ * Resets the the Blogss Directory My Sites nav using BP Rewrites to build the nav link.
+ *
+ * @since ?.0.0
+ */
+function bp_legacy_reset_blogs_directory_my_blogs_nav() {
+	remove_filter( 'bp_get_total_blog_count_for_user', '__return_zero' );
+
+	if ( ! is_user_logged_in() || ! bp_is_active( 'blogs' ) ) {
+		return;
+	}
+
+	$user_id     = bp_loggedin_user_id();
+	$count       = bp_get_total_blog_count_for_user( $user_id );
+
+	if ( $count ) {
+		$parent_slug  = bp_get_blogs_slug();
+		$rewrite_id   = sprintf( 'bp_member_%s', $parent_slug );
+		$slug         = 'my-sites'; // This shouldn't be hardcoded.
+		$my_blogs_url = bp_members_rewrites_get_nav_url(
+			array(
+				'user_id'        => $user_id,
+				'rewrite_id'     => $rewrite_id,
+				'item_component' => $parent_slug,
+				'item_action'    => $slug,
+			)
+		);
+
+		printf(
+			'<li id="blogs-personal">
+				<a href="%1$s">%2$s</a>
+			</li>',
+			esc_url( $my_blogs_url ),
+			sprintf(
+				/* translators: %s: current user blogs count */
+				esc_html__( 'My Sites %s', 'buddypress' ),
+				'<span>' . $count . '</span>' // phpcs:ignore
+			)
+		);
+	}
+}
+add_action( 'bp_blogs_directory_blog_types', __NAMESPACE__ . '\bp_legacy_reset_blogs_directory_my_blogs_nav', 1 );

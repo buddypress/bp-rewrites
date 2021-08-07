@@ -18,11 +18,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since ?.0.0
  *
- * @param string $url The URL built for the BP Legacy URL parser. Never used.
- *                    But may be passed when this function is used as a filter.
- * @return string     The URL built for the BP Rewrites URL parser.
+ * @return string The URL built for the BP Rewrites URL parser.
  */
-function bp_blogs_rewrites_get_url( $url = '' ) {
+function bp_blogs_rewrites_get_url() {
 	return bp_rewrites_get_url(
 		array(
 			'component_id' => 'blogs',
@@ -35,11 +33,9 @@ function bp_blogs_rewrites_get_url( $url = '' ) {
  *
  * @since ?.0.0
  *
- * @param string $url  The URL built for the BP Legacy URL parser. Never used.
- *                     But may be passed when this function is used as a filter.
- * @return string      The URL built for the BP Rewrites URL parser.
+ * @return string The URL built for the BP Rewrites URL parser.
  */
-function bp_blog_create_rewrites_get_url( $url = '' ) {
+function bp_blog_create_rewrites_get_url() {
 	return bp_rewrites_get_url(
 		array(
 			'component_id'       => 'blogs',

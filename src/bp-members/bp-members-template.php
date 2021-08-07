@@ -42,3 +42,37 @@ function bp_get_displayed_user_nav( $output = '', $nav_item_object = null ) {
 
 	return $output;
 }
+
+/**
+ * `\bp_get_signup_page()` needs to be edited to use BP Rewrites.
+ *
+ * @since ?.0.0
+ *
+ * @param string $url The Signup URL built for the BP Legacy URL parser.
+ * @return string     The Signup URL built for the BP Rewrites URL parser.
+ */
+function bp_get_signup_page( $url = '' ) {
+	if ( ! bp_has_custom_signup_page() ) {
+		return $url;
+	}
+
+	return bp_signup_rewrites_get_url();
+}
+add_filter( 'bp_get_signup_page', __NAMESPACE__ . '\bp_get_signup_page', 1, 1 );
+
+/**
+ * `\bp_get_activation_page()` needs to be edited to use BP Rewrites.
+ *
+ * @since ?.0.0
+ *
+ * @param string $url The Activation URL built for the BP Legacy URL parser.
+ * @return string     The Activation URL built for the BP Rewrites URL parser.
+ */
+function bp_get_activation_page( $url = '' ) {
+	if ( ! bp_has_custom_activation_page() ) {
+		return $url;
+	}
+
+	return bp_activation_rewrites_get_url();
+}
+add_filter( 'bp_get_activation_page', __NAMESPACE__ . '\bp_get_activation_page', 1, 1 );

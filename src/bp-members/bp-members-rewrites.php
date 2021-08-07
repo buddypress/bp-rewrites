@@ -137,3 +137,40 @@ function bp_member_type_rewrites_get_url( $url = '', $type = null ) {
 		)
 	);
 }
+
+/**
+ * Return the Signup URL.
+ *
+ * @since ?.0.0
+ *
+ * @return string The Signup URL built for the BP Rewrites URL parser.
+ */
+function bp_signup_rewrites_get_url() {
+	return bp_rewrites_get_url(
+		array(
+			'component_id'    => 'members',
+			'member_register' => 1,
+		)
+	);
+}
+
+/**
+ * Return the Activation URL.
+ *
+ * @since ?.0.0
+ *
+ * @param string $key The Activation Key. Optional.
+ * @return string     The Activation URL built for the BP Rewrites URL parser.
+ */
+function bp_activation_rewrites_get_url( $key = '' ) {
+	$url_params = array(
+		'component_id'    => 'members',
+		'member_activate' => 1,
+	);
+
+	if ( $key ) {
+		$url_params['member_activate_key'] = $key;
+	}
+
+	return bp_rewrites_get_url( $url_params );
+}

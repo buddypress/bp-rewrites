@@ -358,8 +358,8 @@ function bp_legacy_reset_blogs_directory_my_blogs_nav() {
 		return;
 	}
 
-	$user_id     = bp_loggedin_user_id();
-	$count       = bp_get_total_blog_count_for_user( $user_id );
+	$user_id = bp_loggedin_user_id();
+	$count   = bp_get_total_blog_count_for_user( $user_id );
 
 	if ( $count ) {
 		$parent_slug  = bp_get_blogs_slug();

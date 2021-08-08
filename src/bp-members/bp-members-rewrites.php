@@ -74,15 +74,20 @@ function bp_members_rewrites_get_nav_url( $args = array() ) {
  *
  * @since ?.0.0
  *
- * @param string $url      The URL built for the BP Legacy URL parser. Never used.
- *                         But may be passed when this function is used as a filter.
  * @param int    $user_id  The user ID.
  * @param string $username The user user_nicename.
+ * @param array  $action {
+ *     An array of arguments. Optional.
+ *
+ *     @type string $single_item_component        The component slug the action is relative to.
+ *     @type string $single_item_action           The slug of the action to perform.
+ *     @type array  $single_item_action_variables An array of additional informations about the action to perform.
+ * }
  * @return string          The URL built for the BP Rewrites URL parser.
  */
-function bp_member_rewrites_get_url( $url = '', $user_id = 0, $username = '' ) {
+function bp_member_rewrites_get_url( $user_id = 0, $username = '', $action = array() ) {
 	if ( ! $user_id ) {
-		return $url;
+		return '';
 	}
 
 	$bp = buddypress();
@@ -90,12 +95,16 @@ function bp_member_rewrites_get_url( $url = '', $user_id = 0, $username = '' ) {
 		$username = bp_rewrites_get_member_slug( $user_id );
 	}
 
-	return bp_rewrites_get_url(
-		array(
-			'component_id' => 'members',
-			'single_item'  => $username,
-		)
+	$url_params = array(
+		'component_id' => 'members',
+		'single_item'  => $username,
 	);
+
+	if ( $action ) {
+		$url_params = array_merge( $url_params, $action );
+	}
+
+	return bp_rewrites_get_url( $url_params );
 }
 
 /**

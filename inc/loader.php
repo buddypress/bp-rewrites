@@ -47,6 +47,11 @@ function includes( $plugin_dir = '' ) {
 		require $path . 'src/bp-blogs/bp-blogs-rewrites.php';
 	}
 
+	if ( bp_is_active( 'friends' ) ) {
+		require $path . 'src/bp-friends/bp-friends-template.php';
+		require $path . 'src/bp-friends/bp-friends-rewrites.php';
+	}
+
 	if ( bp_is_active( 'groups' ) ) {
 		require $path . 'src/bp-groups/bp-groups-template.php';
 		require $path . 'src/bp-groups/bp-groups-rewrites.php';

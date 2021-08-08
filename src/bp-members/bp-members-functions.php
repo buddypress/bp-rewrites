@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return string               User Domain built for the BP Rewrites URL parser.
  */
 function bp_core_get_user_domain( $domain = '', $user_id = 0, $user_nicename = '' ) {
-	return bp_member_rewrites_get_url( $domain, $user_id, $user_nicename );
+	return bp_member_rewrites_get_url( $user_id, $user_nicename );
 }
 add_filter( 'bp_core_get_user_domain', __NAMESPACE__ . '\bp_core_get_user_domain', 1, 3 );
 

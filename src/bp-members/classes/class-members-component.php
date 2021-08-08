@@ -68,7 +68,7 @@ class Members_Component extends \BP_Members_Component {
 		$bp = buddypress();
 
 		if ( bp_displayed_user_id() ) {
-			$bp->canonical_stack['base_url'] = bp_member_rewrites_get_url( '', bp_displayed_user_id() );
+			$bp->canonical_stack['base_url'] = bp_member_rewrites_get_url( bp_displayed_user_id() );
 			$item_component                  = bp_current_component();
 
 			if ( $item_component ) {

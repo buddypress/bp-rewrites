@@ -226,3 +226,53 @@ function bp_get_group_join_button( $args = array(), $group = null ) {
 	return $args;
 }
 add_filter( 'bp_get_group_join_button', __NAMESPACE__ . '\bp_get_group_join_button', 1, 2 );
+
+/**
+ * `\bp_get_group_request_accept_link()` needs to be edited to use BP Rewrites.
+ *
+ * @since ?.0.0
+ *
+ * @param string $url The URL used by the step's creation form.
+ * @return string     The URL used by the step's creation form.
+ */
+function bp_get_group_request_accept_link( $url = '' ) {
+	if ( ! isset( $GLOBALS['requests_template']->request->user_id ) ) {
+		return $url;
+	}
+
+	return bp_group_rewrites_get_action_url(
+		'admin/membership-requests', // Should it be hardcoded?
+		groups_get_current_group(),
+		array(
+			'user_id' => $GLOBALS['requests_template']->request->user_id,
+			'action'  => 'accept',
+		),
+		'groups_accept_membership_request'
+	);
+}
+add_filter( 'bp_get_group_request_accept_link', __NAMESPACE__ . '\bp_get_group_request_accept_link', 1, 1 );
+
+/**
+ * `\bp_get_group_request_reject_link()` needs to be edited to use BP Rewrites.
+ *
+ * @since ?.0.0
+ *
+ * @param string $url The URL used by the step's creation form.
+ * @return string     The URL used by the step's creation form.
+ */
+function bp_get_group_request_reject_link( $url = '' ) {
+	if ( ! isset( $GLOBALS['requests_template']->request->user_id ) ) {
+		return $url;
+	}
+
+	return bp_group_rewrites_get_action_url(
+		'admin/membership-requests', // Should it be hardcoded?
+		groups_get_current_group(),
+		array(
+			'user_id' => $GLOBALS['requests_template']->request->user_id,
+			'action'  => 'reject',
+		),
+		'groups_reject_membership_request'
+	);
+}
+add_filter( 'bp_get_group_request_reject_link', __NAMESPACE__ . '\bp_get_group_request_reject_link', 1, 1 );

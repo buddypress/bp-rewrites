@@ -421,7 +421,7 @@ class Groups_Component extends \BP_Groups_Component {
 		if ( isset( $this->current_group->id ) && $this->current_group->id ) {
 			$bp         = buddypress();
 			$group_id   = $this->current_group->id;
-			$group_link = bp_group_rewrites_get_url( '', $this->current_group );
+			$group_link = bp_group_rewrites_get_url( $this->current_group );
 			$group_slug = $this->current_group->slug;
 
 			// Get the Group Main Nav.
@@ -449,7 +449,7 @@ class Groups_Component extends \BP_Groups_Component {
 
 			// If the user is a group admin, then show the group admin nav item.
 			if ( bp_is_item_admin() ) {
-				$admin_link = bp_group_admin_rewrites_get_url( '', $this->current_group );
+				$admin_link = bp_group_admin_rewrites_get_url( $this->current_group );
 				$admin_nav  = $bp->groups->nav->get_secondary(
 					array(
 						'parent_slug' => $this->current_group->slug,
@@ -504,7 +504,7 @@ class Groups_Component extends \BP_Groups_Component {
 							'screen_function'   => __NAMESPACE__ . '\groups_screen_group_admin',
 							'user_has_access'   => $admin_subnav_item['user_has_access'],
 							'show_in_admin_bar' => $admin_subnav_item['show_in_admin_bar'],
-							'link'              => bp_group_admin_rewrites_get_form_url( '', $this->current_group, $admin_subnav_item['slug'] ),
+							'link'              => bp_group_admin_rewrites_get_form_url( $this->current_group, $admin_subnav_item['slug'] ),
 						),
 						'groups'
 					);

@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return string     The Groups Directory permalink built using BP Rewrites.
  */
 function bp_get_groups_directory_permalink( $url = '' ) {
-	return bp_groups_rewrites_get_url( $url );
+	return bp_groups_rewrites_get_url();
 }
 add_filter( 'bp_get_groups_directory_permalink', __NAMESPACE__ . '\bp_get_groups_directory_permalink', 1, 1 );
 
@@ -36,7 +36,7 @@ add_filter( 'bp_get_groups_directory_permalink', __NAMESPACE__ . '\bp_get_groups
  * @return string                The Group permalink built using BP Rewrites.
  */
 function bp_get_group_permalink( $url = '', $group = null ) {
-	return bp_group_rewrites_get_url( $url, $group );
+	return bp_group_rewrites_get_url( $group );
 }
 add_filter( 'bp_get_group_permalink', __NAMESPACE__ . '\bp_get_group_permalink', 1, 2 );
 
@@ -63,7 +63,7 @@ function bp_group_create_link( $step = '' ) {
  * @return string The URL of the group's step creation link.
  */
 function bp_get_group_create_link( $step = '' ) {
-	$link = bp_group_create_rewrites_get_url( '', $step );
+	$link = bp_group_create_rewrites_get_url( $step );
 
 	/**
 	 * Filters the group's step creation link.
@@ -118,7 +118,7 @@ add_filter( 'bp_get_group_creation_form_action', __NAMESPACE__ . '\bp_get_group_
  * @return string                The Group admin form action URL built for the BP Rewrites URL parser.
  */
 function bp_group_admin_form_action( $url = '', $group = null ) {
-	return bp_group_admin_rewrites_get_form_url( $url, $group );
+	return bp_group_admin_rewrites_get_form_url( $group );
 }
 add_filter( 'bp_group_admin_form_action', __NAMESPACE__ . '\bp_group_admin_form_action', 1, 2 );
 
@@ -138,7 +138,7 @@ function bp_group_form_action( $url = '', $group = null ) {
 		return $url;
 	}
 
-	return bp_group_rewrites_get_action_url( $url, $action, $group );
+	return bp_group_rewrites_get_action_url( $action, $group );
 }
 add_filter( 'bp_group_form_action', __NAMESPACE__ . '\bp_group_form_action', 1, 2 );
 
@@ -156,6 +156,73 @@ add_filter( 'bp_group_form_action', __NAMESPACE__ . '\bp_group_form_action', 1, 
  * @return string            URL for a group component action built for the BP Rewrites URL parser.
  */
 function bp_get_groups_action_link( $url, $action, $query_args, $nonce ) {
-	return bp_group_rewrites_get_action_url( $url, $action, null, $query_args, $nonce );
+	return bp_group_rewrites_get_action_url( $action, null, $query_args, $nonce );
 }
 add_filter( 'bp_get_groups_action_link', __NAMESPACE__ . '\bp_get_groups_action_link', 1, 4 );
+
+/**
+ * `\bp_get_group_accept_invite_link()` needs to be edited to use BP Rewrites.
+ *
+ * @since ?.0.0
+ *
+ * @param string          $url   The Group action URL built for the BP Legacy URL parser.
+ * @param BP_Groups_Group $group The Group object.
+ * @return string                The Group action URL built for the BP Rewrites URL parser.
+ */
+function bp_get_group_accept_invite_link( $url = '', $group = null ) {
+	return wp_nonce_url(
+		bp_groups_rewrites_get_member_action_url(
+			bp_loggedin_user_id(),
+			'invites', // Should it be hardcoded?
+			array( 'accept', $group->id ) // Should "accept" be hardcoded?
+		),
+		'groups_accept_invite'
+	);
+}
+add_filter( 'bp_get_group_accept_invite_link', __NAMESPACE__ . '\bp_get_group_accept_invite_link', 1, 2 );
+
+/**
+ * `\bp_get_group_accept_invite_link()` needs to be edited to use BP Rewrites.
+ *
+ * @since ?.0.0
+ *
+ * @param array           $args {
+ *    An array of arguments.
+ *    @see `BP_Button` for the full arguments description.
+ * }
+ * @param BP_Groups_Group $group The Group object.
+ * @return string                The `BP_Button` arguments for the Group button to output.
+ */
+function bp_get_group_join_button( $args = array(), $group = null ) {
+	if ( ! is_array( $args ) || ! isset( $group->status ) ) {
+		return $args;
+	}
+
+	if ( ! $group->is_member ) {
+		if ( 'public' === $group->status ) {
+			$args['link_href'] = bp_group_rewrites_get_action_url(
+				'join', // Should it be hardcoded?
+				$group,
+				array(),
+				'groups_join_group'
+			);
+		} elseif ( ! $group->is_invited && ! $group->is_pending ) {
+			$args['link_href'] = bp_group_rewrites_get_action_url(
+				'request-membership', // Should it be hardcoded?
+				$group,
+				array(),
+				'groups_request_membership'
+			);
+		}
+	} else {
+		$args['link_href'] = bp_group_rewrites_get_action_url(
+			'leave-group', // Should it be hardcoded?
+			$group,
+			array(),
+			'groups_leave_group'
+		);
+	}
+
+	return $args;
+}
+add_filter( 'bp_get_group_join_button', __NAMESPACE__ . '\bp_get_group_join_button', 1, 2 );

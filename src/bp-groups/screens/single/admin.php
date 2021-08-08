@@ -27,5 +27,5 @@ function groups_screen_group_admin() {
 		return false;
 	}
 
-	bp_core_redirect( bp_group_admin_rewrites_get_form_url( '', groups_get_current_group(), 'edit-details' ) );
+	bp_core_redirect( bp_group_admin_rewrites_get_form_url( groups_get_current_group(), 'edit-details' ) );
 }

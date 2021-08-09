@@ -35,6 +35,7 @@ function includes( $plugin_dir = '' ) {
 	require $path . 'src/bp-members/bp-members-adminbar.php';
 	require $path . 'src/bp-members/bp-members-invitations.php';
 	require $path . 'src/bp-members/bp-members-template.php';
+	require $path . 'src/bp-members/bp-members-filters.php';
 
 	if ( bp_is_active( 'activity' ) ) {
 		require $path . 'src/bp-activity/bp-activity-template.php';

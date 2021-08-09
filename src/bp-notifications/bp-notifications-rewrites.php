@@ -1,8 +1,8 @@
 <?php
 /**
- * BuddyPress Friends Rewrites.
+ * BuddyPress Notifications Rewrites.
  *
- * @package buddypress\bp-friends
+ * @package buddypress\bp-notifications
  * @since ?.0.0
  */
 
@@ -14,26 +14,26 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Returns a Friends member action URL using the BP Rewrites URL parser.
+ * Returns a Notificatons member action URL using the BP Rewrites URL parser.
  *
  * @since ?.0.0
  *
  * @param int    $user_id          The user ID of concerned by the member action.
  * @param string $action           The slug of the member action.
  * @param array  $action_variables Additional information about the member action.
- * @return string                  The Friends member action URL built for the BP Rewrites URL parser.
+ * @return string                  The Notificatons member action URL built for the BP Rewrites URL parser.
  */
-function bp_friends_rewrites_get_member_action_url( $user_id = 0, $action = '', $action_variables = array() ) {
-	$slug       = bp_get_friends_slug();
+function bp_notifications_rewrites_get_member_action_url( $user_id = 0, $action = '', $action_variables = array() ) {
+	$slug       = bp_get_notifications_slug();
 	$rewrite_id = sprintf( 'bp_member_%s', $slug );
 
-	// The Friends page of the User single item.
+	// The Notificatons page of the User single item.
 	$params = array(
 		'single_item_component' => bp_rewrites_get_slug( 'members', $rewrite_id, $slug ),
 	);
 
 	if ( $action ) {
-		// The action of the User single item's Friends page to perform.
+		// The action of the User single item's Notificatons page to perform.
 		$params['single_item_action'] = $action;
 
 		if ( $action_variables ) {

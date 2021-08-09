@@ -203,3 +203,14 @@ function bp_nouveau_get_blogs_directory_nav_items( $nav_items = array() ) {
 	return $nav_items;
 }
 add_action( 'bp_nouveau_get_blogs_directory_nav_items', __NAMESPACE__ . '\bp_nouveau_get_blogs_directory_nav_items', 1, 1 );
+
+/**
+ * At the `bp_init` time, the BuddyPress Component global variables are not fully set.
+ *
+ * @since ?.0.0
+ */
+function bp_nouveau_reset_notifications_init_filters() {
+	remove_action( 'bp_init', 'bp_nouveau_notifications_init_filters', 20 );
+	add_action( 'bp_parse_query', 'bp_nouveau_notifications_init_filters', 20 );
+}
+add_action( 'bp_init', __NAMESPACE__ . '\bp_nouveau_reset_notifications_init_filters', 1 );

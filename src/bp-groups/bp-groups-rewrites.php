@@ -234,3 +234,45 @@ function bp_groups_rewrites_get_member_action_url( $user_id = 0, $action = '', $
 
 	return bp_member_rewrites_get_url( $user_id, '', $params );
 }
+
+/**
+ * As `\groups_format_notifications()` is simply concatenating URL parts, we need to
+ * rebuild the notification URL using BP Rewrites.
+ *
+ * @since ?.0.0
+ *
+ * @param string $group_url        The Group permalink.
+ * @param string $notification_url The Group notification URL.
+ * @return string                  The Group notification URL built for the BP Rewrites URL parser.
+ */
+function bp_groups_rewrites_get_notification_action_url( $group_url = '', $notification_url = '' ) {
+	if ( ! $group_url || ! $notification_url ) {
+		return '';
+	}
+
+	if ( bp_has_pretty_urls() ) {
+		$group_slug = trim( str_replace( bp_get_groups_root_slug(), '', trim( wp_parse_url( $group_url, PHP_URL_PATH ), '/' ) ), '/' );
+	} else {
+		$url_vars = array();
+		wp_parse_str( htmlspecialchars_decode( wp_parse_url( $group_url, PHP_URL_QUERY ) ), $url_vars );
+		if ( isset( $url_vars['bp_group'] ) ) {
+			$group_slug = $url_vars['bp_group'];
+		}
+	}
+
+	if ( ! $group_slug ) {
+		return '';
+	}
+
+	$single_item_action_variables = array_filter( explode( '/', str_replace( $group_url, '', rtrim( $notification_url, '?n=1' ) ) ) );
+	$single_item_action           = array_shift( $single_item_action_variables );
+
+	return bp_rewrites_get_url(
+		array(
+			'component_id'                 => 'groups',
+			'single_item'                  => $group_slug,
+			'single_item_action'           => $single_item_action,
+			'single_item_action_variables' => $single_item_action_variables,
+		)
+	);
+}

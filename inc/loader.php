@@ -55,6 +55,12 @@ function includes( $plugin_dir = '' ) {
 	if ( bp_is_active( 'groups' ) ) {
 		require $path . 'src/bp-groups/bp-groups-template.php';
 		require $path . 'src/bp-groups/bp-groups-rewrites.php';
+		require $path . 'src/bp-groups/bp-groups-notifications.php';
+	}
+
+	if ( bp_is_active( 'notifications' ) ) {
+		require $path . 'src/bp-notifications/bp-notifications-template.php';
+		require $path . 'src/bp-notifications/bp-notifications-rewrites.php';
 	}
 
 	if ( bp_is_active( 'xprofile' ) ) {

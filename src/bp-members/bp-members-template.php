@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return string     The Members directory permalink built for the BP Rewrites URL parser.
  */
 function bp_get_members_directory_permalink( $url = '' ) {
-	return bp_members_rewrites_get_url( $url );
+	return bp_members_rewrites_get_url();
 }
 add_filter( 'bp_get_members_directory_permalink', __NAMESPACE__ . '\bp_get_members_directory_permalink', 1, 1 );
 
@@ -76,3 +76,17 @@ function bp_get_activation_page( $url = '' ) {
 	return bp_activation_rewrites_get_url();
 }
 add_filter( 'bp_get_activation_page', __NAMESPACE__ . '\bp_get_activation_page', 1, 1 );
+
+/**
+ * `\bp_get_member_type_directory_permalink()` should use BP Rewrites.
+ *
+ * @since ?.0.0
+ *
+ * @param string $url  The URL built for the BP Legacy URL parser.
+ * @param object $type The Member type object.
+ * @return string      The URL built for the BP Rewrites URL parser.
+ */
+function bp_get_member_type_directory_permalink( $url = '', $type = null ) {
+	return bp_member_type_rewrites_get_url( $type );
+}
+add_filter( 'bp_get_member_type_directory_permalink', __NAMESPACE__ . '\bp_get_member_type_directory_permalink', 1, 2 );

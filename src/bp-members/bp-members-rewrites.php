@@ -112,11 +112,9 @@ function bp_member_rewrites_get_url( $user_id = 0, $username = '', $action = arr
  *
  * @since ?.0.0
  *
- * @param string $url The URL built for the BP Legacy URL parser. Never used.
- *                    But may be passed when this function is used as a filter.
- * @return string     The URL built for the BP Rewrites URL parser.
+ * @return string The URL built for the BP Rewrites URL parser.
  */
-function bp_members_rewrites_get_url( $url = '' ) {
+function bp_members_rewrites_get_url() {
 	return bp_rewrites_get_url(
 		array(
 			'component_id' => 'members',
@@ -129,14 +127,12 @@ function bp_members_rewrites_get_url( $url = '' ) {
  *
  * @since ?.0.0
  *
- * @param string $url  The URL built for the BP Legacy URL parser. Never used.
- *                     But may be passed when this function is used as a filter.
  * @param object $type The Member type object.
  * @return string      The URL built for the BP Rewrites URL parser.
  */
-function bp_member_type_rewrites_get_url( $url = '', $type = null ) {
+function bp_member_type_rewrites_get_url( $type = null ) {
 	if ( ! isset( $type->directory_slug ) ) {
-		return $url;
+		return '';
 	}
 
 	return bp_rewrites_get_url(

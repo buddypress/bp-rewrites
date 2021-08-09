@@ -437,3 +437,36 @@ function get_components_custom_slugs( $pages = null ) {
 	return $pages;
 }
 add_filter( 'bp_core_get_directory_pages', __NAMESPACE__ . '\get_components_custom_slugs', 1 );
+
+/**
+ * Simple utilily to empty a form action.
+ *
+ * @since 1.0.0
+ *
+ * @param string $form_id The Form ID attribute.
+ */
+function empty_form_action( $form_id = '' ) {
+	if ( ! $form_id ) {
+		return;
+	} else {
+		$form_id = sanitize_text_field( $form_id );
+	}
+
+	printf(
+		"<script type=\"text/javascript\">\n%s\n</script>\n",
+		sprintf(
+			'( function() {
+				var bpRewritesReplaceFormAction = function() {
+					document.querySelector( \'#%s\' ).setAttribute( \'action\', \'\' );
+				};
+
+				if ( \'loading\' === document.readyState ) {
+					document.addEventListener( \'DOMContentLoaded\', bpRewritesReplaceFormAction() );
+				} else {
+					bpRewritesReplaceFormAction();
+				}
+			} )();',
+			$form_id //phpcs:ignore
+		)
+	);
+}

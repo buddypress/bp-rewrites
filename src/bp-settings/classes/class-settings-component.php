@@ -24,6 +24,33 @@ class Settings_Component extends \BP_Settings_Component {
 	}
 
 	/**
+	 * Late includes method.
+	 *
+	 * @since 1.0.0
+	 */
+	public function late_includes() {
+		parent::late_includes();
+
+		// Make sure we're displaying a Settings component page.
+		if ( bp_is_settings_component() ) {
+			// Set includes directory.
+			$inc_dir = trailingslashit( bp_rewrites()->dir ) . 'src/bp-settings/';
+			$actions = array( 'notifications', 'capabilities' );
+
+			// Authenticated actions.
+			if ( is_user_logged_in() ) {
+				if ( ! bp_current_action() || bp_is_current_action( 'general' ) ) {
+					require $inc_dir . 'actions/general.php';
+
+					// Specific to post requests.
+				} elseif ( in_array( bp_current_action(), $actions, true ) ) {
+					require $inc_dir . 'actions/' . bp_current_action() . '.php';
+				}
+			}
+		}
+	}
+
+	/**
 	 * Set up component navigation.
 	 *
 	 * @since 1.0.0

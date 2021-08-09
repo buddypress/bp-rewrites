@@ -276,3 +276,17 @@ function bp_get_group_request_reject_link( $url = '' ) {
 	);
 }
 add_filter( 'bp_get_group_request_reject_link', __NAMESPACE__ . '\bp_get_group_request_reject_link', 1, 1 );
+
+/**
+ * `\bp_get_group_type_directory_permalink()` should use BP Rewrites.
+ *
+ * @since ?.0.0
+ *
+ * @param string $url  The URL built for the BP Legacy URL parser.
+ * @param object $type The Group type object.
+ * @return string      The URL built for the BP Rewrites URL parser.
+ */
+function bp_get_group_type_directory_permalink( $url = '', $type = null ) {
+	return bp_group_type_rewrites_get_url( $type );
+}
+add_filter( 'bp_get_group_type_directory_permalink', __NAMESPACE__ . '\bp_get_group_type_directory_permalink', 1, 2 );

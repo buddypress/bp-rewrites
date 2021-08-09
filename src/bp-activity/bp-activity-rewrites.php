@@ -93,6 +93,40 @@ function bp_activity_rewrites_get_comment_form_action() {
 }
 
 /**
+ * Returns the Activity Comment URL.
+ *
+ * @since ?.0.0
+ *
+ * @param array  $query_vars  Additional query vars to add to the Activity comment URL.
+ * @param string $anchor      Anchor to add to the Activity comment URL.
+ * @return string             The Activity Comment URL built for the BP Rewrites URL parser.
+ */
+function bp_activity_rewrites_get_comment_url( $query_vars = array(), $anchor = '' ) {
+	if ( bp_is_activity_directory() ) {
+		$url = bp_activities_rewrites_get_url();
+
+	} elseif ( isset( $GLOBALS['activities_template']->activity->id ) ) {
+		$url = bp_rewrites_get_url(
+			array(
+				'component_id'                 => 'activity',
+				'single_item_action'           => 'p',
+				'single_item_action_variables' => array( $GLOBALS['activities_template']->activity->id ),
+			)
+		);
+	}
+
+	if ( $query_vars ) {
+		$url = add_query_arg( $query_vars, $url );
+	}
+
+	if ( $anchor ) {
+		$url .= '#' . $anchor;
+	}
+
+	return $url;
+}
+
+/**
  * Returns the Activity Favorite Action URL.
  *
  * @since ?.0.0

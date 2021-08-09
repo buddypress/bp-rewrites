@@ -214,3 +214,16 @@ function bp_nouveau_reset_notifications_init_filters() {
 	add_action( 'bp_parse_query', 'bp_nouveau_notifications_init_filters', 20 );
 }
 add_action( 'bp_init', __NAMESPACE__ . '\bp_nouveau_reset_notifications_init_filters', 1 );
+
+/**
+ * `\bp_nouveau_activity_get_rss_link()` needs to be edited to use BP Rewrites.
+ *
+ * @since ?.0.0
+ *
+ * @param string $url The URL built for the BP Legacy URL parser.
+ * @return string     The URL built for the BP Rewrites URL parser.
+ */
+function bp_nouveau_activity_get_rss_link( $url = '' ) {
+	return bp_activity_rewrites_get_member_rss_url();
+}
+add_filter( 'bp_nouveau_activity_get_rss_link', __NAMESPACE__ . '\bp_nouveau_activity_get_rss_link', 1, 1 );

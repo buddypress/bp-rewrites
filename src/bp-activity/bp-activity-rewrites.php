@@ -232,10 +232,13 @@ function bp_activity_rewrites_get_member_rss_url( $user_id = 0 ) {
 		$user_id = bp_displayed_user_id();
 	}
 
+	$slug       = bp_get_activity_slug();
+	$rewrite_id = sprintf( 'bp_member_%', $slug );
+
 	$url_params = array(
 		'component_id'          => 'members',
 		'single_item'           => bp_rewrites_get_member_slug( $user_id ),
-		'single_item_component' => bp_rewrites_get_slug( 'members', 'bp_member_activity', bp_get_activity_slug() ),
+		'single_item_component' => bp_rewrites_get_slug( 'members', $rewrite_id, $slug ),
 	);
 
 	if ( bp_is_user_activity() ) {
@@ -255,6 +258,7 @@ function bp_activity_rewrites_get_member_rss_url( $user_id = 0 ) {
 
 		} else {
 			$url_params['single_item_action'] = 'feed';
+			unset( $url_params['single_item_action_variables'] );
 		}
 	}
 

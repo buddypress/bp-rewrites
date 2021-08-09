@@ -33,7 +33,25 @@ class Members_Component extends \BP_Members_Component {
 	 * @param array $args See BP_Component::setup_globals() for a description.
 	 */
 	public function setup_globals( $args = array() ) {
+		/*
+		 * As the `\BP_Members_Component` is calling `parent::setup_globals()` before setting some
+		 * additional globals, let's make sure the `rewrite_ids` property is available for these.
+		 */
+		add_action( 'bp_' . $this->id . '_setup_globals', array( $this, 'setup_additional_globals' ), 1 );
 		parent::setup_globals( $args );
+
+		/*
+		 * NB: Setting the displayed user at this stage in `parent::setup_globals()` is too early.
+		 * The displayed user has to be reset in `Members_Component::parse_query()`.
+		 */
+	}
+
+	/**
+	 * Set up the additional rewrite globals before `\BP_Members_Component` sets the
+	 * Logged in user.
+	 */
+	public function setup_additional_globals() {
+		remove_action( 'bp_' . $this->id . '_setup_globals', array( $this, 'setup_additional_globals' ), 1 );
 
 		bp_component_setup_globals(
 			array(
@@ -472,7 +490,7 @@ class Members_Component extends \BP_Members_Component {
 
 				// The domain for the user currently being displayed.
 				if ( ! isset( $bp->displayed_user->domain ) || ! $bp->displayed_user->domain ) {
-					$bp->displayed_user->domain = bp_core_get_user_domain( bp_displayed_user_id() );
+					$bp->displayed_user->domain = bp_member_rewrites_get_url( bp_displayed_user_id() );
 				}
 
 				// If A user is displayed, check if there is a front template.

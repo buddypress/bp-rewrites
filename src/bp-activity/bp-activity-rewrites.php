@@ -233,7 +233,7 @@ function bp_activity_rewrites_get_member_rss_url( $user_id = 0 ) {
 	}
 
 	$slug       = bp_get_activity_slug();
-	$rewrite_id = sprintf( 'bp_member_%', $slug );
+	$rewrite_id = sprintf( 'bp_member_%s', $slug );
 
 	$url_params = array(
 		'component_id'          => 'members',

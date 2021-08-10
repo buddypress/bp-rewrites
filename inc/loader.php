@@ -41,6 +41,10 @@ function includes( $plugin_dir = '' ) {
 		require $path . 'src/bp-activity/bp-activity-template.php';
 		require $path . 'src/bp-activity/bp-activity-rewrites.php';
 		require $path . 'src/bp-activity/bp-activity-functions.php';
+
+		if ( bp_is_active( 'notifications' ) ) {
+			require $path . 'src/bp-activity/bp-activity-notifications.php';
+		}
 	}
 
 	if ( bp_is_active( 'blogs' ) ) {
@@ -51,12 +55,19 @@ function includes( $plugin_dir = '' ) {
 	if ( bp_is_active( 'friends' ) ) {
 		require $path . 'src/bp-friends/bp-friends-template.php';
 		require $path . 'src/bp-friends/bp-friends-rewrites.php';
+
+		if ( bp_is_active( 'notifications' ) ) {
+			require $path . 'src/bp-friends/bp-friends-notifications.php';
+		}
 	}
 
 	if ( bp_is_active( 'groups' ) ) {
 		require $path . 'src/bp-groups/bp-groups-template.php';
 		require $path . 'src/bp-groups/bp-groups-rewrites.php';
-		require $path . 'src/bp-groups/bp-groups-notifications.php';
+
+		if ( bp_is_active( 'notifications' ) ) {
+			require $path . 'src/bp-groups/bp-groups-notifications.php';
+		}
 	}
 
 	if ( bp_is_active( 'notifications' ) ) {

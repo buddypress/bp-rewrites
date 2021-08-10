@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @param int    $user_id      ID of the user.
  * @return string              The BuddyPress Edit Profile URL built with BP Rewrites.
  */
-function bp_members_edit_profile_url( $profile_link = '', $url = '', $user_id ) {
+function bp_members_edit_profile_url( $profile_link = '', $url = '', $user_id = 0 ) {
 	if ( is_admin() || ! bp_is_active( 'xprofile' ) ) {
 		return $profile_link;
 	}

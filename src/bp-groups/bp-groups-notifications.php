@@ -161,3 +161,26 @@ function groups_format_notifications() {
 	}
 }
 add_action( 'bp_init', __NAMESPACE__ . '\groups_format_notifications', 50 );
+
+/**
+ * `groups_notification_new_membership_request()` need to use BP Rewrites
+ * to build the `activate.url` Email tokens argument.
+ *
+ * @since ?.0.0
+ *
+ * @param array $args Email tokens.
+ * @return array      Email tokens.
+ */
+function groups_notification_new_membership_request( $args = array() ) {
+	if ( isset( $args['tokens']['group-requests.url'], $args['tokens']['group'] ) && $args['tokens']['group-requests.url'] && $args['tokens']['group'] ) {
+		$args['tokens']['group-requests.url'] = esc_url_raw(
+			bp_group_rewrites_get_action_url(
+				'admin/membership-requests', // Should it be hardcoded?
+				$args['tokens']['group']
+			)
+		);
+	}
+
+	return $args;
+}
+add_filter( 'bp_before_send_email_parse_args', __NAMESPACE__ . '\groups_notification_new_membership_request', 10, 1 );

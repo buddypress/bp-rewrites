@@ -33,7 +33,7 @@ function bp_messages_format_multiple_message_notification( $content = '', $total
 	// The Activity page of the User single item.
 	$url_params = array(
 		'single_item_component' => bp_rewrites_get_slug( 'members', $rewrite_id, $slug ),
-		'single_item_action'    => 'inbox', // It should'nt be hardcoded.
+		'single_item_action'    => 'inbox', // It shouldn't be hardcoded.
 	);
 
 	$link = bp_member_rewrites_get_url( bp_loggedin_user_id(), '', $url_params );

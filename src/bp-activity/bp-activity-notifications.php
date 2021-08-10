@@ -32,7 +32,7 @@ function bp_activity_format_at_mentions_notification( $content = '', $url = '', 
 	// The Activity page of the User single item.
 	$url_params = array(
 		'single_item_component' => bp_rewrites_get_slug( 'members', $rewrite_id, $slug ),
-		'single_item_action'    => 'mentions', // It should'nt be hardcoded.
+		'single_item_action'    => 'mentions', // It shouldn't be hardcoded.
 	);
 
 	$link = bp_member_rewrites_get_url( bp_loggedin_user_id(), '', $url_params );

@@ -31,7 +31,7 @@ function bp_friends_format_friendship_accepted_notification( $content = '', $tot
 	// The Activity page of the User single item.
 	$url_params = array(
 		'single_item_component' => bp_rewrites_get_slug( 'members', $rewrite_id, $slug ),
-		'single_item_action'    => 'my-friends', // It should'nt be hardcoded.
+		'single_item_action'    => 'my-friends', // It shouldn't be hardcoded.
 	);
 
 	$link = bp_member_rewrites_get_url( bp_loggedin_user_id(), '', $url_params );
@@ -63,7 +63,7 @@ function bp_friends_format_friendship_request_notification( $content = '', $tota
 	// The Activity page of the User single item.
 	$url_params = array(
 		'single_item_component' => bp_rewrites_get_slug( 'members', $rewrite_id, $slug ),
-		'single_item_action'    => 'requests', // It should'nt be hardcoded.
+		'single_item_action'    => 'requests', // It shouldn't be hardcoded.
 	);
 
 	$link = add_query_arg( 'new', 1, bp_member_rewrites_get_url( bp_loggedin_user_id(), '', $url_params ) );

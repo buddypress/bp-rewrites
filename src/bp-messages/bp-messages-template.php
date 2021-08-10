@@ -32,7 +32,7 @@ function bp_get_message_thread_view_link( $url = '', $thread_id = 0, $user_id = 
 		'',
 		array(
 			'single_item_component'        => bp_rewrites_get_slug( 'members', $rewrite_id, $slug ),
-			'single_item_action'           => 'view', // It should'nt be hardcoded.
+			'single_item_action'           => 'view', // It shouldn't be hardcoded.
 			'single_item_action_variables' => $thread_id,
 		)
 	);

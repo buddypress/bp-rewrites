@@ -2,7 +2,7 @@
 /**
  * BP Rewrites Admin Funcions.
  *
- * @package bp-rewrites\inc\admin
+ * @package bp-rewrites\inc
  * @since 1.0.0
  */
 

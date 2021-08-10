@@ -2,7 +2,7 @@
 /**
  * BP Rewrites Loader.
  *
- * @package bp-rewrites\inc\loader
+ * @package bp-rewrites\inc
  * @since 1.0.0
  */
 
@@ -28,6 +28,7 @@ function includes( $plugin_dir = '' ) {
 	require $path . 'src/bp-core/bp-core-rewrites.php';
 	require $path . 'src/bp-core/bp-core-catchuri.php';
 	require $path . 'src/bp-core/bp-core-functions.php';
+	require $path . 'src/bp-core/bp-core-filters.php';
 
 	// The Members component is always active.
 	require $path . 'src/bp-members/bp-members-rewrites.php';
@@ -55,6 +56,7 @@ function includes( $plugin_dir = '' ) {
 	if ( bp_is_active( 'friends' ) ) {
 		require $path . 'src/bp-friends/bp-friends-template.php';
 		require $path . 'src/bp-friends/bp-friends-rewrites.php';
+		require $path . 'src/bp-friends/bp-friends-functions.php';
 
 		if ( bp_is_active( 'notifications' ) ) {
 			require $path . 'src/bp-friends/bp-friends-notifications.php';
@@ -72,6 +74,7 @@ function includes( $plugin_dir = '' ) {
 
 	if ( bp_is_active( 'messages' ) ) {
 		require $path . 'src/bp-messages/bp-messages-template.php';
+		require $path . 'src/bp-messages/bp-messages-functions.php';
 
 		if ( bp_is_active( 'notifications' ) ) {
 			require $path . 'src/bp-messages/bp-messages-notifications.php';
@@ -81,6 +84,10 @@ function includes( $plugin_dir = '' ) {
 	if ( bp_is_active( 'notifications' ) ) {
 		require $path . 'src/bp-notifications/bp-notifications-template.php';
 		require $path . 'src/bp-notifications/bp-notifications-rewrites.php';
+	}
+
+	if ( bp_is_active( 'settings' ) ) {
+		require $path . 'src/bp-settings/bp-settings-templates.php';
 	}
 
 	if ( bp_is_active( 'xprofile' ) ) {

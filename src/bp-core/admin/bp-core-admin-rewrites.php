@@ -77,6 +77,20 @@ function bp_core_admin_rewrites_settings() {
 					</table>
 				<?php endif; ?>
 
+				<?php if ( 'groups' === $component_id ) : ?>
+					<h4><?php esc_html_e( 'Single Group navigation slugs', 'buddypress' ); ?></h4>
+					<table class="form-table" role="presentation">
+						<tr>
+							<th scope="row">
+								<label style="margin-left: 2em; display: inline-block; vertical-align: middle" for="<?php echo esc_attr( sprintf( '%s-slug', sanitize_key( $primary_nav_item['rewrite_id'] ) ) ); ?>">
+									@todo!
+								</label>
+							</th>
+							<td></td>
+						</tr>
+					</table>
+				<?php endif; ?>
+
 			<?php endforeach; ?>
 
 			<p class="submit clear">

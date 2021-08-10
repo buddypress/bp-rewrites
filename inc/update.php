@@ -2,7 +2,7 @@
 /**
  * BP Rewrites Updater.
  *
- * @package bp-rewrites\inc\loader
+ * @package bp-rewrites\inc
  * @since 1.0.0
  */
 

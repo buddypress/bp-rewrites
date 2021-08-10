@@ -2,7 +2,7 @@
 /**
  * BP Rewrites Globals.
  *
- * @package bp-rewrites\inc\globals
+ * @package bp-rewrites\inc
  * @since 1.0.0
  */
 

@@ -70,6 +70,14 @@ function includes( $plugin_dir = '' ) {
 		}
 	}
 
+	if ( bp_is_active( 'messages' ) ) {
+		require $path . 'src/bp-messages/bp-messages-template.php';
+
+		if ( bp_is_active( 'notifications' ) ) {
+			require $path . 'src/bp-messages/bp-messages-notifications.php';
+		}
+	}
+
 	if ( bp_is_active( 'notifications' ) ) {
 		require $path . 'src/bp-notifications/bp-notifications-template.php';
 		require $path . 'src/bp-notifications/bp-notifications-rewrites.php';

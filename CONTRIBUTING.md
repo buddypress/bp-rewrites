@@ -81,7 +81,9 @@ Then move inside the `buddypress` directory to add the following content into a 
 
 Ensure [Docker](https://www.docker.com/products/docker-desktop) is running before using these commands.
 
-#### To start the development environment for the first time
+#### To start the BuddyPress development environment for the first time
+
+_Make sure to move inside the `buddypress` directory first._
 
 ```
 npm install
@@ -90,7 +92,9 @@ npm run wp-env start
 
 Your WordPress community site will be accessible at http://localhost:8888.
 
-#### To stop the development environment
+#### To stop the BuddyPress development environment
+
+_Make sure to move inside the `buddypress` directory first._
 
 You can stop the environment when you're not using it to preserve your computer's power and resources:
 
@@ -99,6 +103,8 @@ npm run wp-env stop
 ```
 
 #### To start the development environment again
+
+_Make sure to move inside the `buddypress` directory first._
 
 Starting the environment again is a single command:
 
@@ -133,4 +139,4 @@ composer phpcompat
 composer do:wpcs
 ```
 
-You may need to edit your code after the second commands so that it follows the [WordPress PHP Coding standards](https://developer.wordpress.org/coding-standards/wordpress-coding-standards/php/).
+You may need to edit your code after the second command so that it follows the [WordPress PHP Coding standards](https://developer.wordpress.org/coding-standards/wordpress-coding-standards/php/).

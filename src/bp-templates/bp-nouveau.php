@@ -210,10 +210,12 @@ add_action( 'bp_nouveau_get_blogs_directory_nav_items', __NAMESPACE__ . '\bp_nou
  * @since ?.0.0
  */
 function bp_nouveau_reset_notifications_init_filters() {
-	remove_action( 'bp_init', 'bp_nouveau_notifications_init_filters', 20 );
-	add_action( 'bp_parse_query', 'bp_nouveau_notifications_init_filters', 20 );
-	remove_action( 'bp_init', 'bp_nouveau_push_sitewide_notices', 99 );
-	add_action( 'bp_parse_query', 'bp_nouveau_push_sitewide_notices', 99 );
+	if ( bp_is_active( 'messages' ) ) {
+		remove_action( 'bp_init', 'bp_nouveau_notifications_init_filters', 20 );
+		add_action( 'bp_parse_query', 'bp_nouveau_notifications_init_filters', 20 );
+		remove_action( 'bp_init', 'bp_nouveau_push_sitewide_notices', 99 );
+		add_action( 'bp_parse_query', 'bp_nouveau_push_sitewide_notices', 99 );
+	}
 }
 add_action( 'bp_init', __NAMESPACE__ . '\bp_nouveau_reset_notifications_init_filters', 1 );
 

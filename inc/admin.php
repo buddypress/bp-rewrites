@@ -75,3 +75,31 @@ function bp_admin_admin_head() {
 	remove_submenu_page( get_settings_page(), 'bp-rewrites-settings' );
 }
 add_action( 'bp_admin_head', __NAMESPACE__ . '\bp_admin_admin_head', 999 );
+
+/**
+ * BuddyPress doesn't need pretty permalinks anymore thanks to BP Rewrites.
+ *
+ * This function removes the corresponding BuddyPress Admin notice.
+ *
+ * @since 1.0.0
+ */
+function remove_pretty_permalink_admin_notice() {
+	$bp                  = buddypress();
+	$bp_notices          = array();
+	$bp_rewrites_notices = array();
+
+	if ( isset( $bp->admin->notices ) && $bp->admin->notices ) {
+		$bp_notices = (array) $bp->admin->notices;
+
+		foreach ( $bp_notices as $notice ) {
+			if ( isset( $notice['type'], $notice['message'] ) && 'error' === $notice['type'] && preg_match( '/' . addcslashes( admin_url( 'options-permalink.php' ), '/' ) . '/', $notice['message'] ) ) {
+				continue;
+			}
+
+			$bp_rewrites_notices[] = $notice;
+		}
+
+		$bp->admin->notices = $bp_rewrites_notices;
+	}
+}
+add_action( 'admin_notices', __NAMESPACE__ . '\remove_pretty_permalink_admin_notice', 1 );

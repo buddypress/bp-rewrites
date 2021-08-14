@@ -66,6 +66,7 @@ function includes( $plugin_dir = '' ) {
 	if ( bp_is_active( 'groups' ) ) {
 		require $path . 'src/bp-groups/bp-groups-template.php';
 		require $path . 'src/bp-groups/bp-groups-rewrites.php';
+		require $path . 'src/bp-groups/bp-groups-functions.php';
 
 		if ( bp_is_active( 'notifications' ) ) {
 			require $path . 'src/bp-groups/bp-groups-notifications.php';

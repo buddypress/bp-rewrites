@@ -259,7 +259,7 @@ class Blogs_Component extends \BP_Blogs_Component {
 	 */
 	public function add_permastructs( $permastructs = array() ) {
 		if ( ! is_multisite() ) {
-			return parent::add_permastructs( $structs );
+			return parent::add_permastructs( $permastructs );
 		}
 
 		$permastructs = array(

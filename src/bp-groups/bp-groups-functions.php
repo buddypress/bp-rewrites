@@ -19,55 +19,63 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since ?.0.0
  *
  * @param string $context The display context. Required. Defaults to `read`.
- * @return array the list of potential Group views.
+ * @return array          The list of potential Group views.
  */
 function bp_get_group_views( $context = 'read' ) {
 	$views = array(
 		'create' => array(
 			'group-details'     => array(
 				'rewrite_id' => 'bp_group_create_group_details',
-				'name'       => _x( 'Details', 'Group create screen view', 'buddypress' ),
+				'slug'       => 'group-details',
+				'name'       => _x( 'Details', 'Group create view', 'buddypress' ),
 				'position'   => 0,
 			),
 			'group-settings'    => array(
 				'rewrite_id' => 'bp_group_create_group_settings',
-				'name'       => _x( 'Settings', 'Group create screen view', 'buddypress' ),
+				'slug'       => 'group-settings',
+				'name'       => _x( 'Settings', 'Group create view', 'buddypress' ),
 				'position'   => 10,
 			),
 			'group-avatar'      => array(
 				'rewrite_id' => 'bp_group_create_group_avatar',
-				'name'       => _x( 'Photo', 'Group create screen view', 'buddypress' ),
+				'slug'       => 'group-avatar',
+				'name'       => _x( 'Photo', 'Group create view', 'buddypress' ),
 				'position'   => 20,
 			),
 			'group-cover-image' => array(
 				'rewrite_id' => 'bp_group_create_cover_image',
-				'name'       => _x( 'Cover Image', 'Group create screen view', 'buddypress' ),
+				'slug'       => 'group-cover-image',
+				'name'       => _x( 'Cover Image', 'Group create view', 'buddypress' ),
 				'position'   => 25,
 			),
 			'group-invites'     => array(
 				'rewrite_id' => 'bp_group_create_group_invites',
-				'name'       => _x( 'Invites', 'Group create screen view', 'buddypress' ),
+				'slug'       => 'group-invites',
+				'name'       => _x( 'Invites', 'Group create view', 'buddypress' ),
 				'position'   => 30,
 			),
 		),
 		'read'   => array(
 			'home'               => array(
 				'rewrite_id'      => 'bp_group_read_home',
-				'name'            => _x( 'Home', 'Group screen view', 'buddypress' ),
+				'slug'            => 'home',
+				'name'            => _x( 'Home', 'Group read view', 'buddypress' ),
 				'screen_function' => 'groups_screen_group_home',
 				'position'        => 10,
 				'item_css_id'     => 'home',
 			),
 			'request-membership' => array(
 				'rewrite_id'      => 'bp_group_read_request_membership',
-				'name'            => _x( 'Request Membership', 'Group screen view', 'buddypress' ),
+				'slug'            => 'request-membership',
+				'name'            => _x( 'Request Membership', 'Group read view', 'buddypress' ),
 				'screen_function' => 'groups_screen_group_request_membership',
 				'position'        => 30,
 			),
 			'members'            => array(
 				'rewrite_id'      => 'bp_group_read_members',
+				'slug'            => 'members',
 				/* translators: %s: total member count */
-				'name'            => _x( 'Members %s', 'Group screen view', 'buddypress' ),
+				'name'            => _x( 'Members %s', 'Group read view', 'buddypress' ),
 				'screen_function' => 'groups_screen_group_members',
 				'position'        => 60,
 				'user_has_access' => false,
@@ -76,7 +84,8 @@ function bp_get_group_views( $context = 'read' ) {
 			),
 			'send-invites'       => array(
 				'rewrite_id'      => 'bp_group_read_send_invites',
-				'name'            => _x( 'Send Invites', 'Group screen view', 'buddypress' ),
+				'slug'            => 'send-invites',
+				'name'            => _x( 'Send Invites', 'Group read view', 'buddypress' ),
 				'screen_function' => 'groups_screen_group_invite',
 				'position'        => 70,
 				'user_has_access' => false,
@@ -85,7 +94,8 @@ function bp_get_group_views( $context = 'read' ) {
 			),
 			'admin'              => array(
 				'rewrite_id'      => 'bp_group_read_admin',
-				'name'            => _x( 'Manage', 'Group screen view', 'buddypress' ),
+				'slug'            => 'admin',
+				'name'            => _x( 'Manage', 'Group read view', 'buddypress' ),
 				'screen_function' => 'groups_screen_group_admin',
 				'position'        => 1000,
 				'user_has_access' => false,
@@ -96,7 +106,8 @@ function bp_get_group_views( $context = 'read' ) {
 		'manage' => array(
 			'edit-details'        => array(
 				'rewrite_id'        => 'bp_group_manage_edit_details',
-				'name'              => _x( 'Details', 'Group manage screen view', 'buddypress' ),
+				'slug'              => 'edit-details',
+				'name'              => _x( 'Details', 'Group manage view', 'buddypress' ),
 				'screen_function'   => 'groups_screen_group_admin',
 				'position'          => 0,
 				'user_has_access'   => false,
@@ -104,7 +115,8 @@ function bp_get_group_views( $context = 'read' ) {
 			),
 			'group-settings'      => array(
 				'rewrite_id'        => 'bp_group_manage_group_settings',
-				'name'              => _x( 'Settings', 'Group manage screen view', 'buddypress' ),
+				'slug'              => 'group-settings',
+				'name'              => _x( 'Settings', 'Group manage view', 'buddypress' ),
 				'screen_function'   => 'groups_screen_group_admin',
 				'position'          => 10,
 				'user_has_access'   => false,
@@ -112,7 +124,8 @@ function bp_get_group_views( $context = 'read' ) {
 			),
 			'group-avatar'        => array(
 				'rewrite_id'        => 'bp_group_manage_group_avatar',
-				'name'              => _x( 'Photo', 'Group manage screen view', 'buddypress' ),
+				'slug'              => 'group-avatar',
+				'name'              => _x( 'Photo', 'Group manage view', 'buddypress' ),
 				'screen_function'   => 'groups_screen_group_admin',
 				'position'          => 20,
 				'user_has_access'   => false,
@@ -120,7 +133,8 @@ function bp_get_group_views( $context = 'read' ) {
 			),
 			'group-cover-image'   => array(
 				'rewrite_id'        => 'bp_group_manage_group_cover_image',
-				'name'              => _x( 'Photo', 'Group manage screen view', 'buddypress' ),
+				'slug'              => 'group-cover-image',
+				'name'              => _x( 'Cover Image', 'Group manage view', 'buddypress' ),
 				'screen_function'   => 'groups_screen_group_admin',
 				'position'          => 25,
 				'user_has_access'   => false,
@@ -128,7 +142,8 @@ function bp_get_group_views( $context = 'read' ) {
 			),
 			'manage-members'      => array(
 				'rewrite_id'        => 'bp_group_manage_manage_members',
-				'name'              => _x( 'Members', 'Group manage screen view', 'buddypress' ),
+				'slug'              => 'manage-members',
+				'name'              => _x( 'Members', 'Group manage view', 'buddypress' ),
 				'screen_function'   => 'groups_screen_group_admin',
 				'position'          => 30,
 				'user_has_access'   => false,
@@ -136,7 +151,8 @@ function bp_get_group_views( $context = 'read' ) {
 			),
 			'membership-requests' => array(
 				'rewrite_id'        => 'bp_group_manage_membership_requests',
-				'name'              => _x( 'Members', 'Group manage screen view', 'buddypress' ),
+				'slug'              => 'membership-requests',
+				'name'              => _x( 'Members', 'Group manage view', 'buddypress' ),
 				'screen_function'   => 'groups_screen_group_admin',
 				'position'          => 40,
 				'user_has_access'   => false,
@@ -144,7 +160,8 @@ function bp_get_group_views( $context = 'read' ) {
 			),
 			'delete-group'        => array(
 				'rewrite_id'        => 'bp_group_manage_delete_group',
-				'name'              => _x( 'Delete', 'Group manage screen view', 'buddypress' ),
+				'slug'              => 'delete-group',
+				'name'              => _x( 'Delete', 'Group manage view', 'buddypress' ),
 				'screen_function'   => 'groups_screen_group_admin',
 				'position'          => 1000,
 				'user_has_access'   => false,

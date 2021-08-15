@@ -49,7 +49,7 @@ function bp_core_admin_rewrites_settings() {
 				</table>
 
 				<?php if ( 'members' === $component_id ) : ?>
-					<h4><?php esc_html_e( 'Single Member primary navigation slugs', 'buddypress' ); ?></h4>
+					<h4><?php esc_html_e( 'Single Member primary views slugs', 'buddypress' ); ?></h4>
 					<table class="form-table" role="presentation">
 						<?php
 						foreach ( $bp->members->nav->get_primary() as $primary_nav_item ) :
@@ -62,7 +62,7 @@ function bp_core_admin_rewrites_settings() {
 									<label style="margin-left: 2em; display: inline-block; vertical-align: middle" for="<?php echo esc_attr( sprintf( '%s-slug', sanitize_key( $primary_nav_item['rewrite_id'] ) ) ); ?>">
 										<?php
 										printf(
-											/* translators: %s is the primary nav item name */
+											/* translators: %s is the member primary view name */
 											esc_html__( '"%s" slug', 'buddypress' ),
 											esc_html( _bp_strip_spans_from_title( $primary_nav_item['name'] ) )
 										);
@@ -78,17 +78,45 @@ function bp_core_admin_rewrites_settings() {
 				<?php endif; ?>
 
 				<?php if ( 'groups' === $component_id ) : ?>
-					<h4><?php esc_html_e( 'Single Group navigation slugs', 'buddypress' ); ?></h4>
-					<table class="form-table" role="presentation">
-						<tr>
-							<th scope="row">
-								<label style="margin-left: 2em; display: inline-block; vertical-align: middle" for="<?php echo esc_attr( sprintf( '%s-slug', sanitize_key( $primary_nav_item['rewrite_id'] ) ) ); ?>">
-									@todo!
-								</label>
-							</th>
-							<td></td>
-						</tr>
-					</table>
+					<h4><?php esc_html_e( 'Single Group views slugs', 'buddypress' ); ?></h4>
+
+					<?php
+					foreach (
+						array(
+							'create' => __( 'Single Group Creation steps slugs', 'buddypress' ),
+							'read'   => __( 'Single Group Member views slugs', 'buddypress' ),
+							'manage' => __( 'Single Group Admin views slugs', 'buddypress' ),
+						) as $view_type => $view_type_title ) :
+						?>
+
+						<h5><?php echo esc_html( $view_type_title ); ?></h5>
+
+						<table class="form-table" role="presentation">
+						<?php
+						foreach ( bp_get_group_views( $view_type ) as $group_view ) :
+							if ( ! isset( $group_view['rewrite_id'] ) || ! $group_view['rewrite_id'] ) {
+								continue;
+							}
+							?>
+								<tr>
+									<th scope="row">
+										<label style="margin-left: 2em; display: inline-block; vertical-align: middle" for="<?php echo esc_attr( sprintf( '%s-slug', sanitize_key( $group_view['rewrite_id'] ) ) ); ?>">
+											<?php
+											printf(
+												/* translators: %s is group view name */
+												esc_html__( '"%s" slug', 'buddypress' ),
+												esc_html( _bp_strip_spans_from_title( $group_view['name'] ) )
+											);
+											?>
+										</label>
+									</th>
+									<td>
+										<input type="text" class="code" name="<?php printf( 'components[%1$d][_bp_component_slugs][%2$s]', absint( $directory_data->id ), esc_attr( $group_view['rewrite_id'] ) ); ?>" id="<?php echo esc_attr( sprintf( '%s-slug', sanitize_key( $group_view['rewrite_id'] ) ) ); ?>" value="<?php echo esc_attr( bp_rewrites_get_slug( $component_id, $group_view['rewrite_id'], $group_view['slug'] ) ); ?>">
+									</td>
+								</tr>
+							<?php endforeach; ?>
+						</table>
+					<?php endforeach; ?>
 				<?php endif; ?>
 
 			<?php endforeach; ?>

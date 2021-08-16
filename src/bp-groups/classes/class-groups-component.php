@@ -336,6 +336,28 @@ class Groups_Component extends \BP_Groups_Component {
 	}
 
 	/**
+	 * Set up canonical stack for this component.
+	 *
+	 * @since 1.0.0
+	 */
+	public function setup_canonical_stack() {
+		parent::setup_canonical_stack();
+
+		$bp = buddypress();
+
+		if ( bp_is_groups_component() && isset( $this->current_group->id ) && $this->current_group->id ) {
+			$current_action = bp_current_action();
+
+			if ( $current_action ) {
+				// The action is stored as a slug, Rewrite IDs are keys: dashes need to be replaced by underscores.
+				$rewrite_id = 'bp_group_read_' . str_replace( '-', '_', $current_action );
+
+				$bp->canonical_stack['action'] = bp_rewrites_get_slug( 'groups', $rewrite_id, $current_action );
+			}
+		}
+	}
+
+	/**
 	 * Set up component navigation.
 	 *
 	 * @since 1.0.0
@@ -435,12 +457,23 @@ class Groups_Component extends \BP_Groups_Component {
 			// Get the Group Sub Nav.
 			$group_sub_nav_items = $bp->groups->nav->get_secondary( array( 'parent_slug' => $group_slug ) );
 
+			// Get the Group views for the `read` context.
+			$group_read_views = bp_get_group_views( 'read' );
+
 			// Loop inside it to reset the link using BP Rewrites before updating it.
 			foreach ( $group_sub_nav_items as $group_sub_nav_item ) {
+				$view_slug = $group_sub_nav_item['slug'];
+
+				if ( isset( $group_read_views[ $view_slug ] ) && $group_read_views[ $view_slug ] ) {
+					$group_sub_nav_item['rewrite_id'] = $group_read_views[ $view_slug ]['rewrite_id'];
+				} else {
+					$group_sub_nav_item['rewrite_id'] = '';
+				}
+
 				if ( 'home' === $group_sub_nav_item['slug'] ) {
 					$group_sub_nav_item['link'] = $group_link;
 				} else {
-					$group_sub_nav_item['link'] = bp_group_nav_rewrites_get_url( $this->current_group, $group_sub_nav_item['slug'] );
+					$group_sub_nav_item['link'] = bp_group_nav_rewrites_get_url( $this->current_group, $group_sub_nav_item['slug'], $group_sub_nav_item['rewrite_id'] );
 				}
 
 				// Update the secondary nav item.
@@ -731,6 +764,16 @@ class Groups_Component extends \BP_Groups_Component {
 
 				$current_action = $query->get( $this->rewrite_ids['single_item_action'] );
 				if ( $current_action ) {
+					// Rewrite IDs are stored like keys, dashes need to be replaced by underscores.
+					$current_action_rewrite_id = bp_rewrites_get_custom_slug_rewrite_id( 'groups', str_replace( '-', '_', $current_action ) );
+
+					if ( $current_action_rewrite_id ) {
+						$current_action = str_replace( 'bp_group_read_', '', $current_action_rewrite_id );
+
+						// Make sure the action is stored as a slug: underscores need to be replaced by dashes.
+						$current_action = str_replace( '_', '-', $current_action );
+					}
+
 					$bp->current_action = $current_action;
 				}
 

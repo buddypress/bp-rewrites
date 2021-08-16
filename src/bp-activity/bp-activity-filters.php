@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function bp_activity_get_group_view( $views = array() ) {
 	$views['activity'] = array(
-		'rewrite_id'      => 'bp_group_readactivity',
+		'rewrite_id'      => 'bp_group_read_activity',
 		'slug'            => 'activity',
 		'name'            => _x( 'Activity', 'Group activity view', 'buddypress' ),
 		'screen_function' => 'groups_screen_group_activity',

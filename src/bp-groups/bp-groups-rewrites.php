@@ -124,13 +124,18 @@ function bp_group_rewrites_get_action_url( $action = '', $group = null, $query_a
  *
  * @since ?.0.0
  *
- * @param BP_Groups_Group $group The Group object.
- * @param string          $slug  Group Nav Item slug.
- * @return string                The URL built for the BP Rewrites URL parser.
+ * @param BP_Groups_Group $group      The Group object.
+ * @param string          $slug       Group Nav Item slug.
+ * @param string          $rewrite_id Group Nav Item rewrite ID.
+ * @return string                     The URL built for the BP Rewrites URL parser.
  */
-function bp_group_nav_rewrites_get_url( $group = null, $slug = '' ) {
+function bp_group_nav_rewrites_get_url( $group = null, $slug = '', $rewrite_id = '' ) {
 	if ( ! isset( $group->slug ) || ! $slug ) {
 		return '';
+	}
+
+	if ( $rewrite_id ) {
+		$slug = bp_rewrites_get_slug( 'groups', $rewrite_id, $slug );
 	}
 
 	return bp_rewrites_get_url(
@@ -151,7 +156,7 @@ function bp_group_nav_rewrites_get_url( $group = null, $slug = '' ) {
  * @return string                The URL built for the BP Rewrites URL parser.
  */
 function bp_group_admin_rewrites_get_url( $group = null ) {
-	return bp_group_nav_rewrites_get_url( $group, 'admin' );
+	return bp_group_nav_rewrites_get_url( $group, 'admin', 'bp_group_read_admin' );
 }
 
 /**

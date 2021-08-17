@@ -207,6 +207,10 @@ function bp_group_create_rewrites_get_url( $step = '' ) {
 	);
 
 	if ( $step ) {
+		/*
+		 * @todo `step` shouldn't be hardcoded.
+		 * We should use a function to get the step Group action variable.
+		 */
 		$url_params['create_single_item_variables'] = array( 'step', $step );
 	}
 

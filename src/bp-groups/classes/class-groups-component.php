@@ -277,42 +277,22 @@ class Groups_Component extends \BP_Groups_Component {
 		 *
 		 * @param array $value Array of preconfigured group creation steps.
 		 */
-		$this->group_creation_steps = apply_filters(
-			'groups_create_group_steps',
-			array(
-				'group-details'  => array(
-					'name'     => _x( 'Details', 'Group screen nav', 'buddypress' ),
-					'position' => 0,
-				),
-				'group-settings' => array(
-					'name'     => _x( 'Settings', 'Group screen nav', 'buddypress' ),
-					'position' => 10,
-				),
-			)
-		);
+		$this->group_creation_steps = apply_filters( 'groups_create_group_steps', bp_get_group_views( 'create' ) );
 
-		// If avatar uploads are not disabled, add avatar option.
+		// If avatar uploads are disabled, remove avatar view.
 		$disabled_avatar_uploads = (int) bp_disable_group_avatar_uploads();
-		if ( ! $disabled_avatar_uploads && $bp->avatar->show_avatars ) {
-			$this->group_creation_steps['group-avatar'] = array(
-				'name'     => _x( 'Photo', 'Group screen nav', 'buddypress' ),
-				'position' => 20,
-			);
+		if ( $disabled_avatar_uploads || ! $bp->avatar->show_avatars ) {
+			unset( $this->group_creation_steps['group-avatar'] );
 		}
 
-		if ( bp_group_use_cover_image_header() ) {
-			$this->group_creation_steps['group-cover-image'] = array(
-				'name'     => _x( 'Cover Image', 'Group screen nav', 'buddypress' ),
-				'position' => 25,
-			);
+		// If cover images are disabled, remove its view.
+		if ( ! bp_group_use_cover_image_header() ) {
+			unset( $this->group_creation_steps['group-cover-image'] );
 		}
 
-		// If friends component is active, add invitations.
-		if ( bp_is_active( 'friends' ) ) {
-			$this->group_creation_steps['group-invites'] = array(
-				'name'     => _x( 'Invites', 'Group screen nav', 'buddypress' ),
-				'position' => 30,
-			);
+		// If the friends component is not active, remove the invitations view.
+		if ( ! bp_is_active( 'friends' ) ) {
+			unset( $this->group_creation_steps['group-invites'] );
 		}
 
 		/**
@@ -695,6 +675,11 @@ class Groups_Component extends \BP_Groups_Component {
 	public function add_rewrite_rules( $rewrite_rules = array() ) {
 		$rewrite_rules = array(
 			'create-single-item-variables' => array(
+
+				/*
+				 * @todo `create` shouldn't be hardcoded.
+				 * We should use a function to get the create Group action.
+				 */
 				'regex' => $this->root_slug . '/create/(.+?)/?$',
 				'query' => 'index.php?' . $this->rewrite_ids['directory'] . '=1&' . $this->rewrite_ids['create_single_item'] . '=1&' . $this->rewrite_ids['create_single_item_variables'] . '=$matches[1]',
 			),

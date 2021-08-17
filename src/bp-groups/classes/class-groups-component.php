@@ -353,6 +353,20 @@ class Groups_Component extends \BP_Groups_Component {
 				$rewrite_id = 'bp_group_read_' . str_replace( '-', '_', $current_action );
 
 				$bp->canonical_stack['action'] = bp_rewrites_get_slug( 'groups', $rewrite_id, $current_action );
+
+				if ( isset( $bp->action_variables[0] ) ) {
+					// Copy the global to leave it unchanged.
+					$action_variables = $bp->action_variables;
+
+					// The action variable is stored as a slug, Rewrite IDs are keys: dashes need to be replaced by underscores.
+					$first_action_variable_rewrite_id = 'bp_group_manage_' . str_replace( '-', '_', $action_variables[0] );
+
+					// Reset the first action variable with the customized slug.
+					$action_variables[0] = bp_rewrites_get_slug( 'groups', $first_action_variable_rewrite_id, $action_variables[0] );
+
+					// Update the canonical stack.
+					$bp->canonical_stack['action_variables'] = $action_variables;
+				}
 			}
 		}
 	}
@@ -520,6 +534,9 @@ class Groups_Component extends \BP_Groups_Component {
 					false
 				);
 
+				// Get the Group views for the `manage` context.
+				$group_manage_views = bp_get_group_views( 'manage' );
+
 				// Replace all screen functions.
 				foreach ( $admin_subnav_items as $admin_subnav_item ) {
 					if ( 'groups_screen_group_admin' !== $admin_subnav_item['screen_function'] ) {
@@ -527,6 +544,14 @@ class Groups_Component extends \BP_Groups_Component {
 					}
 
 					bp_core_remove_subnav_item( $this->current_group->slug . '_manage', $admin_subnav_item['slug'], 'groups' );
+
+					$manage_slug = $admin_subnav_item['slug'];
+					if ( isset( $group_manage_views[ $manage_slug ] ) && $group_manage_views[ $manage_slug ] ) {
+						$admin_subnav_item['rewrite_id'] = $group_manage_views[ $manage_slug ]['rewrite_id'];
+					} else {
+						$admin_subnav_item['rewrite_id'] = '';
+					}
+
 					bp_core_new_subnav_item(
 						array(
 							'name'              => $admin_subnav_item['name'],
@@ -537,7 +562,7 @@ class Groups_Component extends \BP_Groups_Component {
 							'screen_function'   => __NAMESPACE__ . '\groups_screen_group_admin',
 							'user_has_access'   => $admin_subnav_item['user_has_access'],
 							'show_in_admin_bar' => $admin_subnav_item['show_in_admin_bar'],
-							'link'              => bp_group_admin_rewrites_get_form_url( $this->current_group, $admin_subnav_item['slug'] ),
+							'link'              => bp_group_admin_rewrites_get_form_url( $this->current_group, $admin_subnav_item['slug'], $admin_subnav_item['rewrite_id'] ),
 						),
 						'groups'
 					);
@@ -764,26 +789,45 @@ class Groups_Component extends \BP_Groups_Component {
 
 				$current_action = $query->get( $this->rewrite_ids['single_item_action'] );
 				if ( $current_action ) {
-					// Rewrite IDs are stored like keys, dashes need to be replaced by underscores.
-					$current_action_rewrite_id = bp_rewrites_get_custom_slug_rewrite_id( 'groups', str_replace( '-', '_', $current_action ) );
+					$context = 'bp_group_read_';
+
+					// Get the rewrite ID corresponfing to the custom slug.
+					$current_action_rewrite_id = bp_rewrites_get_custom_slug_rewrite_id( 'groups', $current_action, $context );
 
 					if ( $current_action_rewrite_id ) {
-						$current_action = str_replace( 'bp_group_read_', '', $current_action_rewrite_id );
+						$current_action = str_replace( $context, '', $current_action_rewrite_id );
 
 						// Make sure the action is stored as a slug: underscores need to be replaced by dashes.
 						$current_action = str_replace( '_', '-', $current_action );
 					}
 
+					// Set the BuddyPress global.
 					$bp->current_action = $current_action;
 				}
 
 				$action_variables = $query->get( $this->rewrite_ids['single_item_action_variables'] );
 				if ( $action_variables ) {
 					if ( ! is_array( $action_variables ) ) {
-						$bp->action_variables = explode( '/', ltrim( $action_variables, '/' ) );
-					} else {
-						$bp->action_variables = $action_variables;
+						$action_variables = explode( '/', ltrim( $action_variables, '/' ) );
 					}
+
+					// In the Manage context, we need to translate custom slugs to BP Expected variables.
+					if ( 'admin' === $bp->current_action ) {
+						$context = 'bp_group_manage_';
+
+						// Get the rewrite ID corresponfing to the custom slug.
+						$first_action_variable_rewrite_id = bp_rewrites_get_custom_slug_rewrite_id( 'groups', $action_variables[0], $context );
+
+						if ( $first_action_variable_rewrite_id ) {
+							$first_action_variable = str_replace( $context, '', $first_action_variable_rewrite_id );
+
+							// Make sure the action is stored as a slug: underscores need to be replaced by dashes.
+							$action_variables[0] = str_replace( '_', '-', $first_action_variable );
+						}
+					}
+
+					// Set the BuddyPress global.
+					$bp->action_variables = $action_variables;
 				}
 			} elseif ( $group_type_slug ) {
 				$group_type = bp_groups_get_group_types(

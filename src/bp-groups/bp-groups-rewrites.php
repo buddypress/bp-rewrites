@@ -125,8 +125,8 @@ function bp_group_rewrites_get_action_url( $action = '', $group = null, $query_a
  * @since ?.0.0
  *
  * @param BP_Groups_Group $group      The Group object.
- * @param string          $slug       Group Nav Item slug.
- * @param string          $rewrite_id Group Nav Item rewrite ID.
+ * @param string          $slug       The Group Nav Item slug.
+ * @param string          $rewrite_id The Group Nav Item rewrite ID.
  * @return string                     The URL built for the BP Rewrites URL parser.
  */
 function bp_group_nav_rewrites_get_url( $group = null, $slug = '', $rewrite_id = '' ) {
@@ -164,17 +164,22 @@ function bp_group_admin_rewrites_get_url( $group = null ) {
  *
  * @since ?.0.0
  *
- * @param BP_Groups_Group $group The Group object.
- * @param string          $page  The Group Admin page to reach.
- * @return string                The URL built for the BP Rewrites URL parser.
+ * @param BP_Groups_Group $group      The Group object.
+ * @param string          $page       The Group Admin page to reach.
+ * @param string          $rewrite_id The Group Nav Item rewrite ID.
+ * @return string                     The URL built for the BP Rewrites URL parser.
  */
-function bp_group_admin_rewrites_get_form_url( $group = null, $page = '' ) {
+function bp_group_admin_rewrites_get_form_url( $group = null, $page = '', $rewrite_id = '' ) {
 	if ( ! isset( $group->slug ) ) {
 		return '';
 	}
 
 	if ( ! $page ) {
 		$page = bp_action_variable( 0 );
+	}
+
+	if ( $rewrite_id ) {
+		$page = bp_rewrites_get_slug( 'groups', $rewrite_id, $page );
 	}
 
 	return bp_rewrites_get_url(

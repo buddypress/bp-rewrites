@@ -125,9 +125,11 @@ function bp_rewrites_get_slug( $component_id = '', $rewrite_id = '', $default_sl
  *
  * @param string $component_id The component ID (eg: `activity` for the BP Activity component).
  * @param string $slug         The customized slug.
- * @return string
+ * @param string $context      The context for the customized slug, useful when the same slug is used
+ *                             for more than one rewrite ID of the same component.
+ * @return string              The rewrite ID matching the customized slug.
  */
-function bp_rewrites_get_custom_slug_rewrite_id( $component_id = '', $slug = '' ) {
+function bp_rewrites_get_custom_slug_rewrite_id( $component_id = '', $slug = '', $context = '' ) {
 	$directory_pages = bp_core_get_directory_pages();
 
 	if ( ! isset( $directory_pages->{$component_id}->custom_slugs ) || ! $slug ) {
@@ -135,9 +137,20 @@ function bp_rewrites_get_custom_slug_rewrite_id( $component_id = '', $slug = '' 
 	}
 
 	$custom_slugs = (array) $directory_pages->{$component_id}->custom_slugs;
+	$rewrite_ids  = array_keys( $custom_slugs, $slug, true );
 
-	// If there's a match it's a custom slug.
-	return array_search( $slug, $custom_slugs, true );
+	if ( 1 < count( $rewrite_ids ) && isset( $context ) && $context ) {
+		foreach ( $rewrite_ids as $rewrite_id_key => $rewrite_id ) {
+			if ( false !== strpos( $rewrite_id, $context ) ) {
+				continue;
+			}
+
+			unset( $rewrite_ids[ $rewrite_id_key ] );
+		}
+	}
+
+	// Always return the first match.
+	return reset( $rewrite_ids );
 }
 
 /**

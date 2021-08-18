@@ -92,7 +92,26 @@ function bp_core_admin_rewrites_settings() {
 						<h5><?php echo esc_html( $view_type_title ); ?></h5>
 
 						<table class="form-table" role="presentation">
+
 						<?php
+						if ( 'create' === $view_type ) :
+							foreach ( bp_get_group_restricted_views() as $group_create_restricted_view ) :
+								?>
+								<tr>
+									<th scope="row">
+										<label style="margin-left: 2em; display: inline-block; vertical-align: middle" for="<?php echo esc_attr( sprintf( '%s-slug', sanitize_key( $group_create_restricted_view['rewrite_id'] ) ) ); ?>">
+											<?php echo esc_html( $group_create_restricted_view['name'] ); ?>
+										</label>
+									</th>
+									<td>
+										<input type="text" class="code" name="<?php printf( 'components[%1$d][_bp_component_slugs][%2$s]', absint( $directory_data->id ), esc_attr( $group_create_restricted_view['rewrite_id'] ) ); ?>" id="<?php echo esc_attr( sprintf( '%s-slug', sanitize_key( $group_create_restricted_view['rewrite_id'] ) ) ); ?>" value="<?php echo esc_attr( bp_rewrites_get_slug( $component_id, $group_create_restricted_view['rewrite_id'], $group_create_restricted_view['slug'] ) ); ?>">
+									</td>
+								</tr>
+								<?php
+							endforeach;
+
+						endif;
+
 						foreach ( bp_get_group_views( $view_type ) as $group_view ) :
 							if ( ! isset( $group_view['rewrite_id'] ) || ! $group_view['rewrite_id'] ) {
 								continue;
@@ -151,8 +170,9 @@ function bp_core_admin_rewrites_setup_handler() {
 		wp_safe_redirect( add_query_arg( 'error', 'true', $base_url ) );
 	}
 
-	$current_page_slugs   = wp_list_pluck( bp_core_get_directory_pages(), 'slug', 'id' );
-	$directory_slug_edits = array();
+	$directory_pages    = bp_core_get_directory_pages();
+	$current_page_slugs = wp_list_pluck( $directory_pages, 'slug', 'id' );
+	$reset_rewrites     = false;
 
 	$components = wp_unslash( $_POST['components'] ); // phpcs:ignore
 	foreach ( $components as $page_id => $slugs ) {
@@ -165,19 +185,23 @@ function bp_core_admin_rewrites_setup_handler() {
 		$postarr['ID'] = $page_id;
 
 		if ( $current_page_slugs[ $page_id ] !== $slugs['post_name'] ) {
-			$directory_slug_edits[] = $page_id;
-			$postarr['post_name']   = $slugs['post_name'];
+			$reset_rewrites       = true;
+			$postarr['post_name'] = $slugs['post_name'];
 		}
 
 		if ( isset( $slugs['_bp_component_slugs'] ) && is_array( $slugs['_bp_component_slugs'] ) ) {
 			$postarr['meta_input']['_bp_component_slugs'] = array_map( 'sanitize_title', $slugs['_bp_component_slugs'] );
 		}
 
+		if ( isset( $slugs['_bp_component_slugs']['bp_group_create'], $directory_pages->groups->custom_slugs['bp_group_create'] ) && $slugs['_bp_component_slugs']['bp_group_create'] !== $directory_pages->groups->custom_slugs['bp_group_create'] ) {
+			$reset_rewrites = true;
+		}
+
 		wp_update_post( $postarr );
 	}
 
 	// Make sure the WP rewrites will be regenarated at next page load.
-	if ( $directory_slug_edits ) {
+	if ( $reset_rewrites ) {
 		bp_delete_rewrite_rules();
 	}
 

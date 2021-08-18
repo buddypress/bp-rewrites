@@ -425,8 +425,6 @@ class Groups_Component extends \BP_Groups_Component {
 	/**
 	 * Overrides the screen function of Group Admin nav items.
 	 *
-	 * @todo The Group Sub Nav should have customizable slugs.
-	 *
 	 * @since 1.0.0
 	 *
 	 * @param bool $has_access True if user can access to the Groupe. False otherwise.
@@ -673,6 +671,8 @@ class Groups_Component extends \BP_Groups_Component {
 	 *                             description.
 	 */
 	public function add_rewrite_rules( $rewrite_rules = array() ) {
+		$create_slug = bp_rewrites_get_slug( 'groups', 'bp_group_create', 'create' );
+
 		$rewrite_rules = array(
 			'create-single-item-variables' => array(
 
@@ -680,11 +680,11 @@ class Groups_Component extends \BP_Groups_Component {
 				 * @todo `create` shouldn't be hardcoded.
 				 * We should use a function to get the create Group action.
 				 */
-				'regex' => $this->root_slug . '/create/(.+?)/?$',
+				'regex' => $this->root_slug . '/' . $create_slug . '/(.+?)/?$',
 				'query' => 'index.php?' . $this->rewrite_ids['directory'] . '=1&' . $this->rewrite_ids['create_single_item'] . '=1&' . $this->rewrite_ids['create_single_item_variables'] . '=$matches[1]',
 			),
 			'create-single-item'           => array(
-				'regex' => $this->root_slug . '/create/?$',
+				'regex' => $this->root_slug . '/' . $create_slug . '/?$',
 				'query' => 'index.php?' . $this->rewrite_ids['directory'] . '=1&' . $this->rewrite_ids['create_single_item'] . '=1',
 			),
 			'paged-directory-type'         => array(

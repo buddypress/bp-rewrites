@@ -93,14 +93,14 @@ function bp_rewrites_get_member_slug( $user_id = 0 ) {
 }
 
 /**
- * Returns the slug to use for the nav item of the requested component.
+ * Returns the slug to use for the view belonging to the requested component.
  *
  * @since ?.0.0
  *
  * @param string $component_id The BuddyPress component's ID.
- * @param string $rewrite_id   The nav item's rewrite ID.
- * @param string $default_slug The nav item's default slug.
- * @return string              The slug to use for the nav item of the requested component.
+ * @param string $rewrite_id   The view rewrite ID.
+ * @param string $default_slug The view default slug.
+ * @return string              The slug to use for the view belonging to the requested component.
  */
 function bp_rewrites_get_slug( $component_id = '', $rewrite_id = '', $default_slug = '' ) {
 	$directory_pages = bp_core_get_directory_pages();

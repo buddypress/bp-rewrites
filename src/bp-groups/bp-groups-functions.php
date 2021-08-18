@@ -14,6 +14,30 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Returns the Group restricted views.
+ *
+ * @since ?.0.0
+ *
+ * @return array The list of the Group restricted views.
+ */
+function bp_get_group_restricted_views() {
+	return array(
+		'bp_group_create'      => array(
+			'rewrite_id' => 'bp_group_create',
+			'slug'       => 'create',
+			'name'       => _x( 'Create Group root slug', 'Group create restricted rewrite id', 'buddypress' ),
+			'context'    => 'create',
+		),
+		'bp_group_create_step' => array(
+			'rewrite_id' => 'bp_group_create_step',
+			'slug'       => 'step',
+			'name'       => _x( 'Create step slug', 'Group create restricted rewrite id', 'buddypress' ),
+			'context'    => 'create',
+		),
+	);
+}
+
+/**
  * Returns all potential Group views.
  *
  * @since ?.0.0
@@ -181,6 +205,11 @@ function bp_get_group_views( $context = 'read' ) {
 		// The view key (used as default slug) and `rewrite_id` prop need to be unique.
 		$valid_custom_views   = array_diff_key( $custom_views, $views[ $context ] );
 		$existing_rewrite_ids = array_column( $views[ $context ], 'rewrite_id' );
+		$existing_rewrite_ids = array_merge(
+			$existing_rewrite_ids,
+			// BP Group Reserved rewrite IDs.
+			array_keys( bp_get_group_restricted_views() )
+		);
 
 		foreach ( $valid_custom_views as $key_view => $view ) {
 			if ( ! in_array( $view['rewrite_id'], $existing_rewrite_ids, true ) ) {

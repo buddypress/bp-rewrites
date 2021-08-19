@@ -104,9 +104,37 @@ add_filter( 'bp_get_group_create_button', __NAMESPACE__ . '\bp_get_group_create_
  * @return string     The URL used by the step's creation form.
  */
 function bp_get_group_creation_form_action( $url = '' ) {
-	return bp_get_group_create_link( bp_action_variable( 1 ) );
+	$create_step  = bp_action_variable( 1 );
+	$create_steps = buddypress()->groups->group_creation_steps;
+
+	if ( $create_step && isset( $create_steps[ $create_step ]['rewrite_id'], $create_steps[ $create_step ]['default_slug'] ) ) {
+		$create_step = bp_rewrites_get_slug( 'groups', $create_steps[ $create_step ]['rewrite_id'], $create_steps[ $create_step ]['default_slug'] );
+	}
+
+	return bp_get_group_create_link( $create_step );
 }
 add_filter( 'bp_get_group_creation_form_action', __NAMESPACE__ . '\bp_get_group_creation_form_action', 1, 1 );
+
+/**
+ * Code to move inside `bp_get_group_creation_previous_link()` to use BP Rewrites.
+ *
+ * @since ?.0.0
+ *
+ * @param string $url The URL used to go to the previous creation step.
+ * @return string     The same URL but BP Rewrites ready.
+ */
+function bp_get_group_creation_previous_link( $url = '' ) {
+	$path_parts    = explode( '/', trim( wp_parse_url( $url, PHP_URL_PATH ), '/' ) );
+	$previous_step = end( $path_parts );
+	$create_steps  = buddypress()->groups->group_creation_steps;
+
+	if ( isset( $create_steps[ $previous_step ]['rewrite_id'], $create_steps[ $previous_step ]['default_slug'] ) ) {
+		$previous_step = bp_rewrites_get_slug( 'groups', $create_steps[ $previous_step ]['rewrite_id'], $create_steps[ $previous_step ]['default_slug'] );
+	}
+
+	return bp_get_group_create_link( $previous_step );
+}
+add_filter( 'bp_get_group_creation_previous_link', __NAMESPACE__ . '\bp_get_group_creation_previous_link', 1, 1 );
 
 /**
  * `\bp_get_group_admin_form_action()` needs to be edited to use BP Rewrites.

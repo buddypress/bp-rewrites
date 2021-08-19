@@ -67,7 +67,7 @@ function bp_get_group_views( $context = 'read' ) {
 				'position'   => 20,
 			),
 			'group-cover-image' => array(
-				'rewrite_id' => 'bp_group_create_cover_image',
+				'rewrite_id' => 'bp_group_create_group_cover_image',
 				'slug'       => 'group-cover-image',
 				'name'       => _x( 'Cover Image', 'Group create view', 'buddypress' ),
 				'position'   => 25,

@@ -44,7 +44,7 @@ function groups_action_create_group() {
 	$bp = buddypress();
 
 	// Make sure creation steps are in the right order.
-	groups_action_sort_creation_steps();
+	\groups_action_sort_creation_steps();
 
 	// Use the first action variable to set the creation step.
 	$bp->groups->current_create_step = bp_action_variable( 1 );
@@ -61,8 +61,10 @@ function groups_action_create_group() {
 		setcookie( 'bp_completed_create_steps', false, time() - 1000, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
 
 		$reset_steps = true;
-		$keys        = array_keys( $bp->groups->group_creation_steps );
-		bp_core_redirect( bp_get_group_create_link( array_shift( $keys ) ) );
+		$step        = array_shift( $bp->groups->group_creation_steps );
+		$first_step  = bp_rewrites_get_slug( 'groups', $step['rewrite_id'], $step['default_slug'] );
+
+		bp_core_redirect( bp_get_group_create_link( $first_step ) );
 	}
 
 	// If this is a creation step that is not recognized, just redirect them back to the first screen.
@@ -92,6 +94,8 @@ function groups_action_create_group() {
 
 		// Get the create step.
 		$current_create_step = bp_get_groups_current_create_step();
+		$current_step_info   = $bp->groups->group_creation_steps[ $current_create_step ];
+		$current_step_slug   = bp_rewrites_get_slug( 'groups', $current_step_info['rewrite_id'], $current_step_info['default_slug'] );
 
 		// Check the nonce.
 		check_admin_referer( 'groups_create_save_' . bp_get_groups_current_create_step() );
@@ -99,7 +103,7 @@ function groups_action_create_group() {
 		if ( 'group-details' === $current_create_step ) {
 			if ( empty( $_POST['group-name'] ) || empty( $_POST['group-desc'] ) || ! strlen( trim( $_POST['group-name'] ) ) || ! strlen( trim( $_POST['group-desc'] ) ) ) { // phpcs:ignore
 				bp_core_add_message( __( 'Please fill in all of the required fields', 'buddypress' ), 'error' );
-				bp_core_redirect( bp_get_group_create_link( $current_create_step ) );
+				bp_core_redirect( bp_get_group_create_link( $current_step_slug ) );
 			}
 
 			$new_group_id = 0;
@@ -126,7 +130,7 @@ function groups_action_create_group() {
 
 			if ( ! $bp->groups->new_group_id ) {
 				bp_core_add_message( __( 'There was an error saving group details. Please try again.', 'buddypress' ), 'error' );
-				bp_core_redirect( bp_get_group_create_link( $current_create_step ) );
+				bp_core_redirect( bp_get_group_create_link( $current_step_slug ) );
 			}
 		}
 
@@ -158,7 +162,7 @@ function groups_action_create_group() {
 
 			if ( ! $bp->groups->new_group_id ) {
 				bp_core_add_message( __( 'There was an error saving group details. Please try again.', 'buddypress' ), 'error' );
-				bp_core_redirect( bp_get_group_create_link( $current_create_step ) );
+				bp_core_redirect( bp_get_group_create_link( $current_step_slug ) );
 			}
 
 			// Save group types.
@@ -295,7 +299,11 @@ function groups_action_create_group() {
 				}
 			}
 
-			bp_core_redirect( bp_get_group_create_link( $next_step ) );
+			// Set the next step slug.
+			$next_step_info = $bp->groups->group_creation_steps[ $next_step ];
+			$next_step_slug = bp_rewrites_get_slug( 'groups', $next_step_info['rewrite_id'], $next_step_info['default_slug'] );
+
+			bp_core_redirect( bp_get_group_create_link( $next_step_slug ) );
 		}
 	}
 
@@ -316,7 +324,7 @@ function groups_action_create_group() {
 		}
 
 		bp_core_add_message( $message, $error );
-		bp_core_redirect( bp_get_group_create_link( 'group-invites' ) );
+		bp_core_redirect( bp_get_group_create_link( $current_step_slug ) );
 	}
 
 	// Group avatar is handled separately.
@@ -382,3 +390,21 @@ function groups_action_create_group() {
 	\bp_core_load_template( apply_filters( 'groups_template_create_group', 'groups/create' ) );
 }
 add_action( 'bp_actions', __NAMESPACE__ . '\groups_action_create_group' );
+
+/**
+ * \groups_action_sort_creation_steps() needs to include the `rewrite_id` piece of info.
+ *
+ * @since ?.0.0
+ */
+function groups_action_sort_creation_steps() {
+	$bp    = buddypress();
+	$views = bp_get_group_views( 'create' );
+
+	foreach ( $bp->groups->group_creation_steps as $step_id => $step_info ) {
+		if ( isset( $views[ $step_id ] ) ) {
+			$bp->groups->group_creation_steps[ $step_id ]['rewrite_id']   = $views[ $step_id ]['rewrite_id'];
+			$bp->groups->group_creation_steps[ $step_id ]['default_slug'] = $views[ $step_id ]['slug'];
+		}
+	}
+}
+add_action( 'groups_action_sort_creation_steps', __NAMESPACE__ . '\groups_action_sort_creation_steps', 1 );

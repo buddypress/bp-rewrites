@@ -173,9 +173,13 @@ add_action( 'bp_init', __NAMESPACE__ . '\groups_format_notifications', 50 );
  */
 function groups_notification_new_membership_request( $args = array() ) {
 	if ( isset( $args['tokens']['group-requests.url'], $args['tokens']['group'] ) && $args['tokens']['group-requests.url'] && $args['tokens']['group'] ) {
+		// Get potential customized slugs.
+		$action  = bp_rewrites_get_slug( 'groups', 'bp_group_read_admin', 'admin' );
+		$action .= '/' . bp_rewrites_get_slug( 'groups', 'bp_group_manage_membership_requests', 'membership-requests' );
+
 		$args['tokens']['group-requests.url'] = esc_url_raw(
 			bp_group_rewrites_get_action_url(
-				'admin/membership-requests', // Should it be hardcoded?
+				$action,
 				$args['tokens']['group']
 			)
 		);

@@ -146,7 +146,18 @@ add_filter( 'bp_get_group_creation_previous_link', __NAMESPACE__ . '\bp_get_grou
  * @return string                The Group admin form action URL built for the BP Rewrites URL parser.
  */
 function bp_group_admin_form_action( $url = '', $group = null ) {
-	return bp_group_admin_rewrites_get_form_url( $group );
+	$action     = bp_action_variable( 0 );
+	$rewrite_id = '';
+
+	if ( $action ) {
+		$manage_views = bp_get_group_views( 'manage' );
+
+		if ( isset( $manage_views[ $action ]['rewrite_id'] ) ) {
+			$rewrite_id = $manage_views[ $action ]['rewrite_id'];
+		}
+	}
+
+	return bp_group_admin_rewrites_get_form_url( $group, $action, $rewrite_id );
 }
 add_filter( 'bp_group_admin_form_action', __NAMESPACE__ . '\bp_group_admin_form_action', 1, 2 );
 
@@ -166,6 +177,11 @@ function bp_group_form_action( $url = '', $group = null ) {
 		return $url;
 	}
 
+	$views = bp_get_group_views( 'read' );
+	if ( isset( $views[ $action ]['rewrite_id'] ) ) {
+		$action = bp_rewrites_get_slug( 'groups', $views[ $action ]['rewrite_id'], $action );
+	}
+
 	return bp_group_rewrites_get_action_url( $action, $group );
 }
 add_filter( 'bp_group_form_action', __NAMESPACE__ . '\bp_group_form_action', 1, 2 );
@@ -179,11 +195,31 @@ add_filter( 'bp_group_form_action', __NAMESPACE__ . '\bp_group_form_action', 1, 
  *
  * @param string $url        URL for a group component action built for the BP Legacy URL parser.
  * @param string $action     Action being taken for the group.
- * @param string $query_args Query arguments being passed.
+ * @param array  $query_args Query arguments being passed.
  * @param bool   $nonce      Whether or not to add a nonce.
  * @return string            URL for a group component action built for the BP Rewrites URL parser.
  */
-function bp_get_groups_action_link( $url, $action, $query_args, $nonce ) {
+function bp_get_groups_action_link( $url = '', $action = '', $query_args = array(), $nonce ) {
+	$action_variables = explode( '/', $action );
+	$action           = array_shift( $action_variables );
+
+	$views = bp_get_group_views( 'read' );
+	if ( isset( $views[ $action ]['rewrite_id'] ) ) {
+		$view   = $views[ $action ];
+		$action = bp_rewrites_get_slug( 'groups', $view['rewrite_id'], $action );
+
+		if ( isset( $action_variables[0] ) && 'admin' === $view['slug'] ) {
+			$first_action_variable = $action_variables[0];
+			$manage_views          = bp_get_group_views( 'manage' );
+
+			if ( isset( $manage_views[ $first_action_variable ]['rewrite_id'] ) ) {
+				$action_variables[0] = bp_rewrites_get_slug( 'groups', $manage_views[ $first_action_variable ]['rewrite_id'], $first_action_variable );
+			}
+
+			$action .= '/' . implode( '/', $action_variables );
+		}
+	}
+
 	return bp_group_rewrites_get_action_url( $action, null, $query_args, $nonce );
 }
 add_filter( 'bp_get_groups_action_link', __NAMESPACE__ . '\bp_get_groups_action_link', 1, 4 );
@@ -236,7 +272,7 @@ function bp_get_group_join_button( $args = array(), $group = null ) {
 			);
 		} elseif ( ! $group->is_invited && ! $group->is_pending ) {
 			$args['link_href'] = bp_group_rewrites_get_action_url(
-				'request-membership', // Should it be hardcoded?
+				bp_rewrites_get_slug( 'groups', 'bp_group_read_request_membership', 'request-membership' ),
 				$group,
 				array(),
 				'groups_request_membership'
@@ -268,8 +304,12 @@ function bp_get_group_request_accept_link( $url = '' ) {
 		return $url;
 	}
 
+	// Get potential customized slugs.
+	$action  = bp_rewrites_get_slug( 'groups', 'bp_group_read_admin', 'admin' );
+	$action .= '/' . bp_rewrites_get_slug( 'groups', 'bp_group_manage_membership_requests', 'membership-requests' );
+
 	return bp_group_rewrites_get_action_url(
-		'admin/membership-requests', // Should it be hardcoded?
+		$action,
 		groups_get_current_group(),
 		array(
 			'user_id' => $GLOBALS['requests_template']->request->user_id,
@@ -293,8 +333,12 @@ function bp_get_group_request_reject_link( $url = '' ) {
 		return $url;
 	}
 
+	// Get potential customized slugs.
+	$action  = bp_rewrites_get_slug( 'groups', 'bp_group_read_admin', 'admin' );
+	$action .= '/' . bp_rewrites_get_slug( 'groups', 'bp_group_manage_membership_requests', 'membership-requests' );
+
 	return bp_group_rewrites_get_action_url(
-		'admin/membership-requests', // Should it be hardcoded?
+		$action,
 		groups_get_current_group(),
 		array(
 			'user_id' => $GLOBALS['requests_template']->request->user_id,

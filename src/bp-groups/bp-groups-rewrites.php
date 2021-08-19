@@ -186,7 +186,7 @@ function bp_group_admin_rewrites_get_form_url( $group = null, $page = '', $rewri
 		array(
 			'component_id'                 => 'groups',
 			'single_item'                  => $group->slug,
-			'single_item_action'           => 'admin',
+			'single_item_action'           => bp_rewrites_get_slug( 'groups', 'bp_group_read_admin', 'admin' ),
 			'single_item_action_variables' => array( $page ),
 		)
 	);
@@ -280,6 +280,24 @@ function bp_groups_rewrites_get_notification_action_url( $group_url = '', $notif
 
 	$single_item_action_variables = array_filter( explode( '/', str_replace( $group_url, '', rtrim( $notification_url, '?n=1' ) ) ) );
 	$single_item_action           = array_shift( $single_item_action_variables );
+
+	if ( $single_item_action ) {
+		$views = bp_get_group_views( 'read' );
+
+		if ( isset( $views[ $single_item_action ]['rewrite_id'] ) ) {
+			$view               = $views[ $single_item_action ];
+			$single_item_action = bp_rewrites_get_slug( 'groups', $view['rewrite_id'], $single_item_action );
+
+			if ( isset( $single_item_action_variables[0] ) && 'admin' === $view['slug'] ) {
+				$first_action_variable = $single_item_action_variables[0];
+				$manage_views          = bp_get_group_views( 'manage' );
+
+				if ( isset( $manage_views[ $first_action_variable ]['rewrite_id'] ) ) {
+					$single_item_action_variables[0] = bp_rewrites_get_slug( 'groups', $manage_views[ $first_action_variable ]['rewrite_id'], $first_action_variable );
+				}
+			}
+		}
+	}
 
 	return bp_rewrites_get_url(
 		array(

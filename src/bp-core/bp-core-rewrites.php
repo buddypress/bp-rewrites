@@ -221,7 +221,12 @@ function bp_rewrites_get_url( $args = array() ) {
 			$link = str_replace( '%' . $component->rewrite_ids['member_activate'] . '%', '', $component->activate_permastruct );
 			unset( $r['member_activate'] );
 		} elseif ( isset( $r['create_single_item'] ) ) {
-			$link = str_replace( '%' . $component->rewrite_ids['directory'] . '%', 'create', $component->directory_permastruct );
+			$create_slug = 'create';
+			if ( 'groups' === $component->id ) {
+				$create_slug = bp_rewrites_get_slug( 'groups', 'bp_group_create', 'create' );
+			}
+
+			$link = str_replace( '%' . $component->rewrite_ids['directory'] . '%', $create_slug, $component->directory_permastruct );
 			unset( $r['create_single_item'] );
 		} else {
 			$link = str_replace( '%' . $component->rewrite_ids['directory'] . '%', $r['single_item'], $component->directory_permastruct );

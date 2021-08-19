@@ -840,11 +840,30 @@ class Groups_Component extends \BP_Groups_Component {
 
 				$create_variables = $query->get( $this->rewrite_ids['create_single_item_variables'] );
 				if ( $create_variables ) {
+					$context          = 'bp_group_create_';
+					$action_variables = array();
+
 					if ( ! is_array( $create_variables ) ) {
-						$bp->action_variables = explode( '/', ltrim( $create_variables, '/' ) );
+						$action_variables = explode( '/', ltrim( $create_variables, '/' ) );
 					} else {
-						$bp->action_variables = $create_variables;
+						$action_variables = $create_variables;
 					}
+
+					// The slug of the step is the second action variable.
+					if ( isset( $action_variables[1] ) && $action_variables[1] ) {
+						// Get the rewrite ID corresponfing to the custom slug.
+						$second_action_variable_rewrite_id = bp_rewrites_get_custom_slug_rewrite_id( 'groups', $action_variables[1], $context );
+
+						// Reset the action variable with BP Default create step slug.
+						if ( $second_action_variable_rewrite_id ) {
+							$second_action_variable = str_replace( $context, '', $second_action_variable_rewrite_id );
+
+							// Make sure the action is stored as a slug: underscores need to be replaced by dashes.
+							$action_variables[1] = str_replace( '_', '-', $second_action_variable );
+						}
+					}
+
+					$bp->action_variables = $action_variables;
 				}
 			}
 

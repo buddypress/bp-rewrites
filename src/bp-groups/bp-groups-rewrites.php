@@ -207,11 +207,11 @@ function bp_group_create_rewrites_get_url( $step = '' ) {
 	);
 
 	if ( $step ) {
-		/*
-		 * @todo `step` shouldn't be hardcoded.
-		 * We should use a function to get the step Group action variable.
-		 */
-		$url_params['create_single_item_variables'] = array( 'step', $step );
+		// Get the root slug to use for the create step.
+		$root_slug = bp_rewrites_get_slug( 'groups', 'bp_group_create_step', 'step' );
+
+		// Use it to set the creation step URL.
+		$url_params['create_single_item_variables'] = array( $root_slug, $step );
 	}
 
 	return bp_rewrites_get_url( $url_params );

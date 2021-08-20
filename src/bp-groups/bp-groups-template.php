@@ -199,7 +199,7 @@ add_filter( 'bp_group_form_action', __NAMESPACE__ . '\bp_group_form_action', 1, 
  * @param bool   $nonce      Whether or not to add a nonce.
  * @return string            URL for a group component action built for the BP Rewrites URL parser.
  */
-function bp_get_groups_action_link( $url = '', $action = '', $query_args = array(), $nonce ) {
+function bp_get_groups_action_link( $url = '', $action = '', $query_args = array(), $nonce = false ) {
 	$action_variables = explode( '/', $action );
 	$action           = array_shift( $action_variables );
 

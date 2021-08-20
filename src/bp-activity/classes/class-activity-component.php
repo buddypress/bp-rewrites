@@ -36,7 +36,7 @@ class Activity_Component extends \BP_Activity_Component {
 			$inc_dir = trailingslashit( bp_rewrites()->dir ) . 'src/bp-activity/';
 
 			// Screens - Single permalink.
-			if ( bp_is_current_action( 'p' ) || is_numeric( bp_current_action() ) ) {
+			if ( bp_is_current_action( 'p' ) || is_numeric( \bp_current_action() ) ) {
 				require $inc_dir . 'screens/permalink.php';
 			}
 		}

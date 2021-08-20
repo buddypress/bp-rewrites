@@ -13,15 +13,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-/*
- * @todo `groups_action_create_group()` should be edited so that `bp_get_groups_directory_permalink() . 'create/step/'`
- * is replaced by `bp_get_group_create_link()`.
- */
-
 /**
- * Catch and process group creation form submissions.
+ * `\groups_action_create_group()` needs to be edited to allow slug customization and use BP Rewrites.
  *
- * @since 1.2.0
+ * @since ?.0.0
  *
  * @return bool
  */

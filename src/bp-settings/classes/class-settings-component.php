@@ -39,12 +39,12 @@ class Settings_Component extends \BP_Settings_Component {
 
 			// Authenticated actions.
 			if ( is_user_logged_in() ) {
-				if ( ! bp_current_action() || bp_is_current_action( 'general' ) ) {
+				if ( ! \bp_current_action() || bp_is_current_action( 'general' ) ) {
 					require $inc_dir . 'actions/general.php';
 
 					// Specific to post requests.
-				} elseif ( in_array( bp_current_action(), $actions, true ) ) {
-					require $inc_dir . 'actions/' . bp_current_action() . '.php';
+				} elseif ( in_array( \bp_current_action(), $actions, true ) ) {
+					require $inc_dir . 'actions/' . \bp_current_action() . '.php';
 				}
 			}
 		}

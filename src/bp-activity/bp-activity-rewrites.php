@@ -250,10 +250,10 @@ function bp_activity_rewrites_get_member_rss_url( $user_id = 0 ) {
 		} elseif ( bp_is_user_groups_activity() ) {
 			$url_params['single_item_action'] = bp_get_groups_slug();
 
-		} elseif ( 'favorites' === bp_current_action() ) {
+		} elseif ( 'favorites' === \bp_current_action() ) {
 			$url_params['single_item_action'] = 'favorites';
 
-		} elseif ( 'mentions' === bp_current_action() && bp_activity_do_mentions() ) {
+		} elseif ( 'mentions' === \bp_current_action() && bp_activity_do_mentions() ) {
 			$url_params['single_item_action'] = 'mentions';
 
 		} else {

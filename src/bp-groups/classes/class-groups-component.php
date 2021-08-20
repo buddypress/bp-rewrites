@@ -37,7 +37,7 @@ class Groups_Component extends \BP_Groups_Component {
 		// Set includes directory.
 		$inc_dir = trailingslashit( bp_rewrites()->dir ) . 'src/bp-groups/';
 
-		if ( bp_is_groups_component() && is_user_logged_in() && 'create' === bp_current_action() ) {
+		if ( bp_is_groups_component() && is_user_logged_in() && 'create' === \bp_current_action() ) {
 			require $inc_dir . 'actions/create.php';
 		}
 
@@ -201,42 +201,6 @@ class Groups_Component extends \BP_Groups_Component {
 
 		/* Single Group Globals **********************************************/
 
-		$this->current_group = $this->set_current_group( bp_current_action() );
-
-		if ( $this->current_group ) {
-			/**
-			 * When in a single group, the first action is bumped down one because of the
-			 * group name, so we need to adjust this and set the group name to current_item.
-			 */
-			$bp->current_item   = bp_current_action();
-			$bp->current_action = bp_action_variable( 0 );
-			array_shift( $bp->action_variables );
-		}
-
-		// Set group type if available.
-		if ( bp_is_groups_directory() && bp_is_current_action( bp_get_groups_group_type_base() ) && bp_action_variable() ) {
-			$matched_types = bp_groups_get_group_types(
-				array(
-					'has_directory'  => true,
-					'directory_slug' => bp_action_variable(),
-				)
-			);
-
-			// Set 404 if we do not have a valid group type.
-			if ( empty( $matched_types ) ) {
-				bp_do_404();
-				return;
-			}
-
-			// Set our directory type marker.
-			$this->current_directory_type = reset( $matched_types );
-		}
-
-		// Set up variables specific to the group creation process.
-		if ( bp_is_groups_component() && bp_is_current_action( 'create' ) && bp_user_can_create_groups() && isset( $_COOKIE['bp_new_group_id'] ) ) {
-			$bp->groups->new_group_id = (int) $_COOKIE['bp_new_group_id'];
-		}
-
 		/**
 		 * Filters the list of illegal groups names/slugs.
 		 *
@@ -263,12 +227,6 @@ class Groups_Component extends \BP_Groups_Component {
 				$this->root_slug,
 			)
 		);
-
-		// If the user was attempting to access a group, but no group by that name was found, 404.
-		if ( bp_is_groups_component() && empty( $this->current_group ) && empty( $this->current_directory_type ) && bp_current_action() && ! in_array( bp_current_action(), $this->forbidden_names, true ) ) {
-			bp_do_404();
-			return;
-		}
 
 		/**
 		 * Filters the preconfigured groups creation steps.
@@ -326,7 +284,7 @@ class Groups_Component extends \BP_Groups_Component {
 		$bp = buddypress();
 
 		if ( bp_is_groups_component() && isset( $this->current_group->id ) && $this->current_group->id ) {
-			$current_action = bp_current_action();
+			$current_action = \bp_current_action();
 
 			if ( $current_action ) {
 				// The action is stored as a slug, Rewrite IDs are keys: dashes need to be replaced by underscores.
@@ -765,6 +723,7 @@ class Groups_Component extends \BP_Groups_Component {
 				$this->current_group = $this->set_current_group( $group_slug );
 
 				if ( ! $this->current_group ) {
+					$bp->current_component = false;
 					bp_do_404();
 					return;
 				}
@@ -828,6 +787,7 @@ class Groups_Component extends \BP_Groups_Component {
 					$bp->current_action           = bp_get_groups_group_type_base();
 					$bp->action_variables         = array( $group_type_slug );
 				} else {
+					$bp->current_component = false;
 					bp_do_404();
 					return;
 				}

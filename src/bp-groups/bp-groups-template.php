@@ -171,7 +171,7 @@ add_filter( 'bp_group_admin_form_action', __NAMESPACE__ . '\bp_group_admin_form_
  * @return string                The Group form action URL built for the BP Rewrites URL parser.
  */
 function bp_group_form_action( $url = '', $group = null ) {
-	$action = bp_current_action();
+	$action = \bp_current_action();
 
 	if ( ! $action ) {
 		return $url;

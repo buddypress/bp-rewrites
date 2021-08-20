@@ -36,7 +36,7 @@ class XProfile_Component extends \BP_XProfile_Component {
 			// Set includes directory.
 			$inc_dir = trailingslashit( bp_rewrites()->dir ) . 'src/bp-xprofile/';
 
-			if ( bp_is_profile_component() && 'edit' === bp_current_action() ) {
+			if ( bp_is_profile_component() && 'edit' === \bp_current_action() ) {
 				require $inc_dir . 'screens/edit.php';
 			}
 

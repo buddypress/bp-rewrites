@@ -25,6 +25,7 @@ function includes( $plugin_dir = '' ) {
 
 	// Core is always required.
 	require $path . 'src/bp-core/bp-core-template-loader.php';
+	require $path . 'src/bp-core/bp-core-template.php';
 	require $path . 'src/bp-core/bp-core-rewrites.php';
 	require $path . 'src/bp-core/bp-core-catchuri.php';
 	require $path . 'src/bp-core/bp-core-functions.php';

@@ -391,10 +391,20 @@ function disable_buddypress_legacy_url_parser() {
 	// Stop hooking `bp_init` to setup the canonical stack & BP document title.
 	remove_action( 'bp_init', 'bp_setup_canonical_stack', 5 );
 	remove_action( 'bp_init', 'bp_setup_title', 8 );
+	remove_action( 'bp_init', '_bp_maybe_remove_redirect_canonical' );
+	remove_action( 'bp_init', 'bp_remove_adjacent_posts_rel_link' );
+
+	/*
+	 * @todo raise the priority of the action hooked to `bp_parse_query` in
+	 * `\BP_Component::setup_actions()`.
+	 * Then raise the following priorities accordingly and before `10`.
+	 */
 
 	// Start hooking `bp_parse_query` to setup the canonical stack & BP document title.
 	add_action( 'bp_parse_query', 'bp_setup_canonical_stack', 11 );
 	add_action( 'bp_parse_query', 'bp_setup_title', 14 );
+	add_action( 'bp_parse_query', '_bp_maybe_remove_redirect_canonical', 20 );
+	add_action( 'bp_parse_query', 'bp_remove_adjacent_posts_rel_link', 20 );
 
 	/**
 	 * On front-end, hook to `bp_parse_query` instead of `bp_init` to set up the navigation.

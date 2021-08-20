@@ -28,8 +28,9 @@ function globals() {
 	$bpr->dir   = $plugin_dir;
 
 	// URL.
-	$plugin_url = plugins_url( dirname( __FILE__ ) );
-	$bpr->url   = $plugin_url;
+	$plugin_url      = plugins_url( dirname( __FILE__ ) );
+	$bpr->url        = $plugin_url;
+	$bpr->backcompat = new \stdClass();
 
 	/**
 	 * Private (do not use) hook used to include files early.

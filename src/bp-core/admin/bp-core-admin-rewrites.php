@@ -193,8 +193,17 @@ function bp_core_admin_rewrites_setup_handler() {
 			$postarr['meta_input']['_bp_component_slugs'] = array_map( 'sanitize_title', $slugs['_bp_component_slugs'] );
 		}
 
-		if ( isset( $slugs['_bp_component_slugs']['bp_group_create'], $directory_pages->groups->custom_slugs['bp_group_create'] ) && $slugs['_bp_component_slugs']['bp_group_create'] !== $directory_pages->groups->custom_slugs['bp_group_create'] ) {
-			$reset_rewrites = true;
+		if ( isset( $slugs['_bp_component_slugs']['bp_group_create'] ) ) {
+			$new_current_group_create_slug    = $slugs['_bp_component_slugs']['bp_group_create'];
+			$current_group_create_custom_slug = '';
+
+			if ( isset( $directory_pages->groups->custom_slugs['bp_group_create'] ) ) {
+				$current_group_create_custom_slug = $directory_pages->groups->custom_slugs['bp_group_create'];
+			}
+
+			if ( $new_current_group_create_slug !== $current_group_create_custom_slug ) {
+				$reset_rewrites = true;
+			}
 		}
 
 		wp_update_post( $postarr );

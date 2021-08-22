@@ -414,7 +414,7 @@ function disable_buddypress_legacy_url_parser() {
 	 *
 	 * @see `bp_nav_menu_get_loggedin_pages()`
 	 */
-	if ( apply_filters( 'wp_using_themes', defined( 'WP_USE_THEMES' ) && WP_USE_THEMES ) ) {
+	if ( apply_filters( 'wp_using_themes', defined( 'WP_USE_THEMES' ) && WP_USE_THEMES ) || wp_doing_ajax() ) {
 		remove_action( 'bp_init', 'bp_setup_nav', 6 );
 		add_action( 'bp_parse_query', 'bp_setup_nav', 12 );
 	}

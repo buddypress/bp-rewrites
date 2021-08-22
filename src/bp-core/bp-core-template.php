@@ -77,7 +77,7 @@ add_filter( 'bp_current_component', __NAMESPACE__ . '\bp_current_component', 1, 
  *
  * @since ?.0.0
  *
- * @param string $current_action False if the current action is not set yet. The component action name otherwise.
+ * @param string $current_action Empty string if the current action is not set yet. The component action name otherwise.
  * @return null|string           Null if the current action is not set yet. The component action name otherwise.
  */
 function bp_current_action( $current_action = '' ) {
@@ -88,3 +88,37 @@ function bp_current_action( $current_action = '' ) {
 	return $current_action;
 }
 add_filter( 'bp_current_action', __NAMESPACE__ . '\bp_current_action', 1, 1 );
+
+/**
+ * Adds backward compatibility when `bp_current_item()` is called too early.
+ *
+ * @since ?.0.0
+ *
+ * @param false|string $current_item False if the current item is not set yet. The single item slug otherwise.
+ * @return null|string               Null if the current item is not set yet. The single item slug otherwise.
+ */
+function bp_current_item( $current_item = '' ) {
+	if ( ! $current_item ) {
+		$current_item = _was_called_too_early( 'bp_current_item()', 'current_item' );
+	}
+
+	return $current_item;
+}
+add_filter( 'bp_current_item', __NAMESPACE__ . '\bp_current_item', 1, 1 );
+
+/**
+ * Adds backward compatibility when `bp_action_variables()` is called too early.
+ *
+ * @since ?.0.0
+ *
+ * @param false|array $action_variables False if the action variables are not set yet. The action variables otherwise.
+ * @return null|array                   Null if the action variables are not set yet. The action variables otherwise.
+ */
+function bp_action_variables( $action_variables = array() ) {
+	if ( ! $action_variables ) {
+		$action_variables = _was_called_too_early( 'bp_action_variables()', 'action_variables' );
+	}
+
+	return $action_variables;
+}
+add_filter( 'bp_action_variables', __NAMESPACE__ . '\bp_action_variables', 1, 1 );

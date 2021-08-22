@@ -23,7 +23,7 @@ function groups_screen_group_admin() {
 		return false;
 	}
 
-	if ( bp_action_variables() ) {
+	if ( \bp_action_variables() ) {
 		return false;
 	}
 

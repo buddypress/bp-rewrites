@@ -229,7 +229,7 @@ function bp_activity_rewrites_get_sitewide_feed_url() {
  */
 function bp_activity_rewrites_get_member_rss_url( $user_id = 0 ) {
 	if ( ! $user_id ) {
-		$user_id = bp_displayed_user_id();
+		$user_id = \bp_displayed_user_id();
 	}
 
 	$slug       = bp_get_activity_slug();

@@ -1,8 +1,8 @@
 <?php
 /**
- * BuddyPress Members Rewrites.
+ * BuddyPress xProfile Rewrites.
  *
- * @package buddypress\bp-members
+ * @package buddypress\bp-xprofile
  * @since ?.0.0
  */
 
@@ -31,7 +31,7 @@ function bp_xprofile_rewrites_get_edit_url( $url = '', $field_group_id = 0 ) {
 	return bp_rewrites_get_url(
 		array(
 			'component_id'                 => 'members',
-			'single_item'                  => bp_rewrites_get_member_slug( bp_displayed_user_id() ),
+			'single_item'                  => bp_rewrites_get_member_slug( \bp_displayed_user_id() ),
 			'single_item_component'        => bp_rewrites_get_slug( 'members', 'bp_member_profile', bp_get_profile_slug() ),
 			'single_item_action'           => 'edit',
 			'single_item_action_variables' => array( 'group', $field_group_id ),

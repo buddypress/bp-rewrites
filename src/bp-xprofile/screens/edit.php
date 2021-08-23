@@ -109,19 +109,19 @@ function xprofile_screen_edit_profile() {
 				 * whether an activity item should be posted.
 				 */
 				$old_values[ $field_id ] = array(
-					'value'      => xprofile_get_field_data( $field_id, bp_displayed_user_id() ),
-					'visibility' => xprofile_get_field_visibility_level( $field_id, bp_displayed_user_id() ),
+					'value'      => xprofile_get_field_data( $field_id, \bp_displayed_user_id() ),
+					'visibility' => xprofile_get_field_visibility_level( $field_id, \bp_displayed_user_id() ),
 				);
 
 				// Update the field data and visibility level.
-				xprofile_set_field_visibility_level( $field_id, bp_displayed_user_id(), $visibility_level );
+				xprofile_set_field_visibility_level( $field_id, \bp_displayed_user_id(), $visibility_level );
 
-				$field_updated = xprofile_set_field_data( $field_id, bp_displayed_user_id(), $value, $is_required[ $field_id ] );
-				$value         = xprofile_get_field_data( $field_id, bp_displayed_user_id() );
+				$field_updated = xprofile_set_field_data( $field_id, \bp_displayed_user_id(), $value, $is_required[ $field_id ] );
+				$value         = xprofile_get_field_data( $field_id, \bp_displayed_user_id() );
 
 				$new_values[ $field_id ] = array(
 					'value'      => $value,
-					'visibility' => xprofile_get_field_visibility_level( $field_id, bp_displayed_user_id() ),
+					'visibility' => xprofile_get_field_visibility_level( $field_id, \bp_displayed_user_id() ),
 				);
 
 				if ( ! $field_updated ) {
@@ -151,14 +151,14 @@ function xprofile_screen_edit_profile() {
 			 * @param array $old_values       Array of original values before updated.
 			 * @param array $new_values       Array of newly saved values after update.
 			 */
-			do_action( 'xprofile_updated_profile', bp_displayed_user_id(), $posted_field_ids, $errors, $old_values, $new_values );
+			do_action( 'xprofile_updated_profile', \bp_displayed_user_id(), $posted_field_ids, $errors, $old_values, $new_values );
 
 			// Some WP User keys have been updated: let's update the WP fiels all together.
 			if ( $bp_displayed_user->updated_keys ) {
 				$user_id = wp_update_user(
 					array_merge(
 						array(
-							'ID' => bp_displayed_user_id(),
+							'ID' => \bp_displayed_user_id(),
 						),
 						$bp_displayed_user->updated_keys
 					)

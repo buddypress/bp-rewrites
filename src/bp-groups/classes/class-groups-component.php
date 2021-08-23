@@ -130,58 +130,12 @@ class Groups_Component extends \BP_Groups_Component {
 	}
 
 	/**
-	 * Override the method to set up Groups component global variables.
+	 * Set up additional globals for the component.
 	 *
 	 * @since 1.0.0
-	 *
-	 * @see BP_Component::setup_globals() for a description of arguments.
-	 *
-	 * @param array $args See BP_Component::setup_globals() for a description.
 	 */
-	public function setup_globals( $args = array() ) {
+	public function setup_additional_globals() {
 		$bp = buddypress();
-
-		// Define a slug, if necessary.
-		if ( ! defined( 'BP_GROUPS_SLUG' ) ) {
-			define( 'BP_GROUPS_SLUG', $this->id );
-		}
-
-		// Global tables for groups component.
-		$global_tables = array(
-			'table_name'           => $bp->table_prefix . 'bp_groups',
-			'table_name_members'   => $bp->table_prefix . 'bp_groups_members',
-			'table_name_groupmeta' => $bp->table_prefix . 'bp_groups_groupmeta',
-		);
-
-		// Metadata tables for groups component.
-		$meta_tables = array(
-			'group' => $bp->table_prefix . 'bp_groups_groupmeta',
-		);
-
-		// Fetch the default directory title.
-		$default_directory_titles = bp_core_get_directory_page_default_titles();
-		$default_directory_title  = $default_directory_titles[ $this->id ];
-
-		// All globals for groups component.
-		// Note that global_tables is included in this array.
-		$args = array(
-			'slug'                  => BP_GROUPS_SLUG,
-			'root_slug'             => isset( $bp->pages->groups->slug ) ? $bp->pages->groups->slug : BP_GROUPS_SLUG,
-			'has_directory'         => true,
-			'directory_title'       => isset( $bp->pages->groups->title ) ? $bp->pages->groups->title : $default_directory_title,
-			'notification_callback' => 'groups_format_notifications',
-			'search_string'         => _x( 'Search Groups...', 'Component directory search', 'buddypress' ),
-			'global_tables'         => $global_tables,
-			'meta_tables'           => $meta_tables,
-			'block_globals'         => array(
-				'bp/dynamic-groups' => array(
-					'widget_classnames' => array( 'widget_bp_groups_widget', 'buddypress' ),
-				),
-			),
-		);
-
-		// Run the setup hook.
-		\BP_Component::setup_globals( $args );
 
 		// Set Rewrites globals.
 		bp_component_setup_globals(

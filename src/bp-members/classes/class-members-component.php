@@ -24,34 +24,19 @@ class Members_Component extends \BP_Members_Component {
 	}
 
 	/**
-	 * Set up component global variables.
+	 * Set up additional globals for the component.
+	 *
+	 * NB: Setting the displayed user as well as the BP Members Nav at this stage in
+	 * `parent::setup_globals()` is too early. The displayed user & the Nav has to be
+	 * set in `Members_Component::parse_query()`.
 	 *
 	 * @since 1.0.0
-	 *
-	 * @see BP_Component::setup_globals() for a description of arguments.
-	 *
-	 * @param array $args See BP_Component::setup_globals() for a description.
-	 */
-	public function setup_globals( $args = array() ) {
-		/*
-		 * As the `\BP_Members_Component` is calling `parent::setup_globals()` before setting some
-		 * additional globals, let's make sure the `rewrite_ids` property is available for these.
-		 */
-		add_action( 'bp_' . $this->id . '_setup_globals', array( $this, 'setup_additional_globals' ), 1 );
-		parent::setup_globals( $args );
-
-		/*
-		 * NB: Setting the displayed user at this stage in `parent::setup_globals()` is too early.
-		 * The displayed user has to be reset in `Members_Component::parse_query()`.
-		 */
-	}
-
-	/**
-	 * Set up the additional rewrite globals before `\BP_Members_Component` sets the
-	 * Logged in user.
 	 */
 	public function setup_additional_globals() {
-		remove_action( 'bp_' . $this->id . '_setup_globals', array( $this, 'setup_additional_globals' ), 1 );
+		$bp = buddypress();
+
+		/** Rewrites *********************************************************
+		 */
 
 		bp_component_setup_globals(
 			array(
@@ -73,6 +58,49 @@ class Members_Component extends \BP_Members_Component {
 		// Set-up Extra permastructs for the register and activate pages.
 		$this->register_permastruct = bp_get_signup_slug() . '/%' . $this->rewrite_ids['member_register'] . '%';
 		$this->activate_permastruct = bp_get_activate_slug() . '/%' . $this->rewrite_ids['member_activate'] . '%';
+
+		/** Logged in user ***************************************************
+		 */
+
+		// The core userdata of the user who is currently logged in.
+		$bp->loggedin_user->userdata = bp_core_get_core_userdata( bp_loggedin_user_id() );
+
+		// Fetch the full name for the logged in user.
+		$bp->loggedin_user->fullname = '';
+		if ( isset( $bp->loggedin_user->userdata->display_name ) ) {
+			$bp->loggedin_user->fullname = $bp->loggedin_user->userdata->display_name;
+		}
+
+		// Hits the DB on single WP installs so get this separately.
+		$bp->loggedin_user->is_super_admin = is_super_admin( bp_loggedin_user_id() );
+		$bp->loggedin_user->is_site_admin  = $bp->loggedin_user->is_super_admin;
+
+		// The domain for the user currently logged in. eg: http://example.com/members/andy.
+		$bp->loggedin_user->domain = bp_member_rewrites_get_url( bp_loggedin_user_id() );
+
+		/** Signup ***********************************************************
+		 */
+
+		$bp->signup = new \stdClass();
+
+		/** Profiles Fallback ************************************************
+		 */
+
+		if ( ! bp_is_active( 'xprofile' ) ) {
+			$bp->profile       = new \stdClass();
+			$bp->profile->slug = 'profile';
+			$bp->profile->id   = 'profile';
+		}
+
+		/** Network Invitations **************************************************
+		 */
+
+		$bp->members->invitations = new \stdClass();
+
+		// Initialize the Members Nav for WP Admin context.
+		if ( is_admin() && ! wp_doing_ajax() ) {
+			$this->nav = new \BP_Core_Nav();
+		}
 	}
 
 	/**
@@ -85,8 +113,8 @@ class Members_Component extends \BP_Members_Component {
 
 		$bp = buddypress();
 
-		if ( bp_displayed_user_id() ) {
-			$bp->canonical_stack['base_url'] = bp_member_rewrites_get_url( bp_displayed_user_id() );
+		if ( \bp_displayed_user_id() ) {
+			$bp->canonical_stack['base_url'] = bp_member_rewrites_get_url( \bp_displayed_user_id() );
 			$item_component                  = \bp_current_component();
 
 			if ( $item_component ) {
@@ -477,7 +505,7 @@ class Members_Component extends \BP_Members_Component {
 
 				// The core userdata of the user who is currently being displayed.
 				if ( ! isset( $bp->displayed_user->userdata ) || ! $bp->displayed_user->userdata ) {
-					$bp->displayed_user->userdata = bp_core_get_core_userdata( bp_displayed_user_id() );
+					$bp->displayed_user->userdata = bp_core_get_core_userdata( \bp_displayed_user_id() );
 				}
 
 				// Fetch the full name displayed user.
@@ -490,7 +518,7 @@ class Members_Component extends \BP_Members_Component {
 
 				// The domain for the user currently being displayed.
 				if ( ! isset( $bp->displayed_user->domain ) || ! $bp->displayed_user->domain ) {
-					$bp->displayed_user->domain = bp_member_rewrites_get_url( bp_displayed_user_id() );
+					$bp->displayed_user->domain = bp_member_rewrites_get_url( \bp_displayed_user_id() );
 				}
 
 				// If A user is displayed, check if there is a front template.
@@ -567,6 +595,9 @@ class Members_Component extends \BP_Members_Component {
 				$bp->current_action = $current_action;
 			}
 		}
+
+		// Initialize the nav for the members component.
+		$this->nav = new \BP_Core_Nav();
 
 		bp_component_parse_query( $query );
 

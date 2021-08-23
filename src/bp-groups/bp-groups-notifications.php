@@ -105,7 +105,7 @@ function bp_groups_format_member_promoted( $content, ...$args ) {
  * @return array|string         The content of the notification with rebuilt URL.
  */
 function bp_groups_format_group_invite( $content, ...$args ) {
-	$user_id = bp_displayed_user_id();
+	$user_id = \bp_displayed_user_id();
 
 	if ( ! $user_id ) {
 		$user_id = bp_loggedin_user_id();

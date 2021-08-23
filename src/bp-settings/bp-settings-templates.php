@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function bp_settings_get_member_url( $user_id = 0, $query_vars = array(), $nonce = false ) {
 	if ( ! $user_id ) {
-		$user_id = bp_displayed_user_id();
+		$user_id = \bp_displayed_user_id();
 	}
 
 	$slug       = bp_get_settings_slug();
@@ -58,7 +58,7 @@ function bp_settings_pending_email_notice() {
 	// Remove the BuddyPress hook to replace it by BP Rewrites one.
 	remove_action( 'bp_before_member_settings_template', 'bp_settings_pending_email_notice' );
 
-	$pending_email = bp_get_user_meta( bp_displayed_user_id(), 'pending_email_change', true );
+	$pending_email = bp_get_user_meta( \bp_displayed_user_id(), 'pending_email_change', true );
 
 	if ( empty( $pending_email['newemail'] ) ) {
 		return;

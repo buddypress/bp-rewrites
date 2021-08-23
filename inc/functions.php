@@ -381,6 +381,23 @@ function bp_core_register_post_types() {
 add_action( 'bp_core_register_post_types', __NAMESPACE__ . '\bp_core_register_post_types' );
 
 /**
+ * Checks if the displayed page is the WP Login one.
+ *
+ * @since 1.0.0
+ */
+function is_login_page() {
+	$is_login = false;
+
+	if ( isset( $GLOBALS['pagenow'] ) && ( false !== strpos( $GLOBALS['pagenow'], 'wp-login.php' ) ) ) {
+		$is_login = true;
+	} elseif ( isset( $_SERVER['SCRIPT_NAME'] ) && false !== strpos( $_SERVER['SCRIPT_NAME'], 'wp-login.php' ) ) { // phpcs:ignore
+		$is_login = true;
+	}
+
+	return $is_login;
+}
+
+/**
  * Neutralize the BuddyPress Legacy URL parser.
  *
  * @since 1.0.0
@@ -414,7 +431,7 @@ function disable_buddypress_legacy_url_parser() {
 	 *
 	 * @see `bp_nav_menu_get_loggedin_pages()`
 	 */
-	if ( apply_filters( 'wp_using_themes', defined( 'WP_USE_THEMES' ) && WP_USE_THEMES ) || wp_doing_ajax() ) {
+	if ( apply_filters( 'wp_using_themes', defined( 'WP_USE_THEMES' ) && WP_USE_THEMES ) || wp_doing_ajax() || is_login_page() ) {
 		remove_action( 'bp_init', 'bp_setup_nav', 6 );
 		add_action( 'bp_parse_query', 'bp_setup_nav', 12 );
 	}

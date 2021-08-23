@@ -32,7 +32,7 @@ function bp_members_rewrites_get_nav_url( $args = array() ) {
 	$params = bp_parse_args(
 		$args,
 		array(
-			'user_id'        => bp_displayed_user_id(),
+			'user_id'        => \bp_displayed_user_id(),
 			'rewrite_id'     => '',
 			'item_component' => '',
 			'item_action'    => '',

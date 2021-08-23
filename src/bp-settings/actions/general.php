@@ -45,7 +45,7 @@ function bp_settings_action_general_verify_email_change( $args = array() ) {
 			add_query_arg(
 				$query_vars,
 				bp_member_rewrites_get_url(
-					bp_displayed_user_id(),
+					\bp_displayed_user_id(),
 					'',
 					array(
 						'single_item_component' => bp_rewrites_get_slug( 'members', $rewrite_id, $slug ),

@@ -55,10 +55,12 @@ class Groups_Component extends \BP_Groups_Component {
 	 *
 	 * @since ?.0.0
 	 *
-	 * @param  string $group_slug The Group slug used into the URL path.
+	 * @param string $group_slug       The Group slug used into the URL path.
+	 * @param bool   $doing_backcompat True if we're running this for backward compatibility.
+	 *                                 False otherwise. Default: `false`.
 	 * @return int|\BP_Groups_Group The current group found. 0 otherwise.
 	 */
-	public function set_current_group( $group_slug = '' ) {
+	public function set_current_group( $group_slug = '', $doing_backcompat = false ) {
 		if ( ! bp_is_groups_component() || ! $group_slug ) {
 			return 0;
 		}
@@ -78,8 +80,11 @@ class Groups_Component extends \BP_Groups_Component {
 		}
 
 		// Set the single item and init the current group.
-		$bp->is_single_item = true;
-		$current_group      = 0;
+		if ( ! $doing_backcompat ) {
+			$bp->is_single_item = true;
+		}
+
+		$current_group = 0;
 
 		/**
 		 * Filters the current PHP Class being used.
@@ -107,23 +112,25 @@ class Groups_Component extends \BP_Groups_Component {
 
 		// We have a group let's add some other usefull things.
 		if ( $current_group ) {
-			// Using "item" not "group" for generic support in other components.
-			if ( bp_current_user_can( 'bp_moderate' ) ) {
-				bp_update_is_item_admin( true, 'groups' );
-			} else {
-				bp_update_is_item_admin( groups_is_user_admin( bp_loggedin_user_id(), $current_group->id ), 'groups' );
-			}
+			if ( ! $doing_backcompat ) {
+				// Using "item" not "group" for generic support in other components.
+				if ( bp_current_user_can( 'bp_moderate' ) ) {
+					bp_update_is_item_admin( true, 'groups' );
+				} else {
+					bp_update_is_item_admin( groups_is_user_admin( bp_loggedin_user_id(), $current_group->id ), 'groups' );
+				}
 
-			// If the user is not an admin, check if they are a moderator.
-			if ( ! bp_is_item_admin() ) {
-				bp_update_is_item_mod( groups_is_user_mod( bp_loggedin_user_id(), $current_group->id ), 'groups' );
+				// If the user is not an admin, check if they are a moderator.
+				if ( ! bp_is_item_admin() ) {
+					bp_update_is_item_mod( groups_is_user_mod( bp_loggedin_user_id(), $current_group->id ), 'groups' );
+				}
+
+				// Initialize the nav for the groups component.
+				$this->nav = new \BP_Core_Nav( $current_group->id );
 			}
 
 			// Check once if the current group has a custom front template.
 			$current_group->front_template = bp_groups_get_front_template( $current_group );
-
-			// Initialize the nav for the groups component.
-			$this->nav = new \BP_Core_Nav( $current_group->id );
 		}
 
 		return $current_group;

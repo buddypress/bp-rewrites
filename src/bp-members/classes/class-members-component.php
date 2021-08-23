@@ -477,6 +477,19 @@ class Members_Component extends \BP_Members_Component {
 			$member_type_slug      = $query->get( $this->rewrite_ids['directory_type'] );
 
 			if ( $member_slug ) {
+				/**
+				 * Filter the portion of the URI that is the displayed user's slug.
+				 *
+				 * Eg. example.com/ADMIN (when root profiles is enabled)
+				 *     example.com/members/ADMIN (when root profiles isn't enabled)
+				 *
+				 * ADMIN would be the displayed user's slug.
+				 *
+				 * @since 2.6.0
+				 *
+				 * @param string $member_slug
+				 */
+				$member_slug           = apply_filters( 'bp_core_set_uri_globals_member_slug', $member_slug );
 				$bp->current_component = '';
 
 				// Unless root profiles are on, the member shouldn't be set yet.

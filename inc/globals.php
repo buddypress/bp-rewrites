@@ -30,7 +30,16 @@ function globals() {
 	// URL.
 	$plugin_url      = plugins_url( dirname( __FILE__ ) );
 	$bpr->url        = $plugin_url;
-	$bpr->backcompat = new \stdClass();
+	$bpr->backcompat = array(
+		'current_component'      => null, // The BP Component, except for the Members one when a user is displayed.
+		'current_item'           => null, // Only used for the Groups single item.
+		'current_action'         => null,
+		'action_variables'       => null,
+		'displayed_user'         => null, // Only used for the Members single item.
+		'current_member_type'    => null, // Only used for the Members component.
+		'current_group'          => null, // Only used for the Groups single item.
+		'current_directory_type' => null, // Only used for the Groups component.
+	);
 
 	/**
 	 * Private (do not use) hook used to include files early.

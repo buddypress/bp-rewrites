@@ -14,6 +14,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Adds backward compatibility when `\groups_get_current_group()` is called too early.
+ *
+ * @since ?.0.0
+ *
+ * @param false|BP_Groups_Group $current_group False if the current group is not set yet. The current Group object otherwise.
+ * @return null|BP_Groups_Group                Null if the current group is not set yet. The current Group object otherwise.
+ */
+function groups_get_current_group( $current_group = false ) {
+	if ( ! isset( $current_group->id ) ) {
+		$current_group = _was_called_too_early( 'groups_get_current_group()', array( 'current_group' ) );
+	}
+
+	return $current_group;
+}
+add_filter( 'groups_get_current_group', __NAMESPACE__ . '\groups_get_current_group', 1, 1 );
+
+/**
  * Returns the Group restricted views.
  *
  * @since ?.0.0

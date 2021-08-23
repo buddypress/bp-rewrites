@@ -23,7 +23,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @param \WP_Query $posts_query WP_Query object.
  */
 function bp_parse_query( $posts_query ) {
-	$bp_is_doing_ajax = isset( buddypress()->ajax->WP );
+	$bp               = buddypress();
+	$bp_is_doing_ajax = isset( $bp->ajax->WP );
 
 	// Bail if $posts_query is not the main loop and not done in BP Ajax context.
 	if ( ! $bp_is_doing_ajax && ! $posts_query->is_main_query() ) {
@@ -39,6 +40,10 @@ function bp_parse_query( $posts_query ) {
 	if ( ! $bp_is_doing_ajax && is_admin() ) {
 		return;
 	}
+
+	// Some Legacy Parser URL globals/filters need to be set at this time.
+	$bp->unfiltered_uri        = bp_core_get_from_uri( array( 'unfiltered_uri' ) );
+	$bp->unfiltered_uri_offset = 0; // It's unclear how this is set for now. @todo review this.
 
 	/**
 	 * Fires at the end of the bp_parse_query function.

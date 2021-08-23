@@ -69,6 +69,7 @@ function includes( $plugin_dir = '' ) {
 		require $path . 'src/bp-groups/bp-groups-template.php';
 		require $path . 'src/bp-groups/bp-groups-rewrites.php';
 		require $path . 'src/bp-groups/bp-groups-functions.php';
+		require $path . 'src/bp-groups/bp-groups-filters.php';
 
 		if ( bp_is_active( 'notifications' ) ) {
 			require $path . 'src/bp-groups/bp-groups-notifications.php';

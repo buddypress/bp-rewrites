@@ -310,7 +310,7 @@ function bp_get_group_request_accept_link( $url = '' ) {
 
 	return bp_group_rewrites_get_action_url(
 		$action,
-		groups_get_current_group(),
+		\groups_get_current_group(),
 		array(
 			'user_id' => $GLOBALS['requests_template']->request->user_id,
 			'action'  => 'accept',
@@ -339,7 +339,7 @@ function bp_get_group_request_reject_link( $url = '' ) {
 
 	return bp_group_rewrites_get_action_url(
 		$action,
-		groups_get_current_group(),
+		\groups_get_current_group(),
 		array(
 			'user_id' => $GLOBALS['requests_template']->request->user_id,
 			'action'  => 'reject',

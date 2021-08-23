@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since ?.0.0
  *
  * @param string $function  The function name. Required.
- * @param array  $bp_global The BuddyPress global name. Required.
+ * @param array  $bp_global An array containing the BuddyPress global name. Required.
  * @return mixed            The BuddyPress global value set using the BP Legacy URL parser.
  */
 function _was_called_too_early( $function, $bp_global ) {
@@ -56,12 +56,8 @@ function _was_called_too_early( $function, $bp_global ) {
 		}
 	}
 
-	/*
-	 * @todo Set the requested BP Global using the BP Legacy URL parser.
-	 */
-	$retval = null;
-
-	return $retval;
+	// Get the requested BP Global using the BP Legacy URL parser.
+	return bp_core_get_from_uri( $bp_global );
 }
 
 /**
@@ -91,7 +87,7 @@ add_filter( 'bp_current_component', __NAMESPACE__ . '\bp_current_component', 1, 
  */
 function bp_current_action( $current_action = '' ) {
 	if ( ! $current_action ) {
-		$current_component = _was_called_too_early( 'bp_current_action()', array( 'current_action' ) );
+		$current_action = _was_called_too_early( 'bp_current_action()', array( 'current_action' ) );
 	}
 
 	return $current_action;

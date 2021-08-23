@@ -87,7 +87,7 @@ function bp_group_rewrites_get_action_url( $action = '', $group = null, $query_a
 	}
 
 	if ( ! $group ) {
-		$group = groups_get_current_group();
+		$group = \groups_get_current_group();
 	}
 
 	if ( ! isset( $group->slug ) ) {

@@ -31,6 +31,23 @@ function groups_get_current_group( $current_group = false ) {
 add_filter( 'groups_get_current_group', __NAMESPACE__ . '\groups_get_current_group', 1, 1 );
 
 /**
+ * Adds backward compatibility when `bp_get_current_group_directory_type()` is called too early.
+ *
+ * @since ?.0.0
+ *
+ * @param string $current_directory_type Empty string if the current group type is not set yet. The group type otherwise.
+ * @return null|string           Null if the current group type is not set yet. The group type name otherwise.
+ */
+function bp_get_current_group_directory_type( $current_directory_type = '' ) {
+	if ( ! $current_directory_type ) {
+		$current_directory_type = _was_called_too_early( 'bp_get_current_group_directory_type()', array( 'current_directory_type' ) );
+	}
+
+	return $current_directory_type;
+}
+add_filter( 'bp_get_current_group_directory_type', __NAMESPACE__ . '\bp_get_current_group_directory_type', 1, 1 );
+
+/**
  * Returns the Group restricted views.
  *
  * @since ?.0.0

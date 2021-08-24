@@ -238,7 +238,7 @@ function bp_core_get_from_uri( $bp_global = array() ) {
 							$backcompat['action_variables'] = $action_variables;
 						}
 					} elseif ( isset( $bp_uri[1] ) && bp_get_groups_group_type_base() === $backcompat['current_action'] ) {
-						$group_type_slug = array_shift( $bp_uri );
+						$group_type_slug = array_pop( $bp_uri );
 
 						$group_type = bp_groups_get_group_types(
 							array(

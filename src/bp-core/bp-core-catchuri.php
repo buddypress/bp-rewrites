@@ -289,6 +289,10 @@ function bp_core_get_from_uri( $bp_global = array() ) {
 		bp_rewrites()->backcompat = $backcompat;
 	}
 
+	if ( ! isset( $backcompat[ $main_key ] ) ) {
+		return false;
+	}
+
 	// Most of the BuddyPress globals.
 	$retval = $backcompat[ $main_key ];
 

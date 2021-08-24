@@ -29,6 +29,23 @@ function bp_core_get_user_domain( $domain = '', $user_id = 0, $user_nicename = '
 add_filter( 'bp_core_get_user_domain', __NAMESPACE__ . '\bp_core_get_user_domain', 1, 3 );
 
 /**
+ * Adds backward compatibility when `\bp_get_current_member_type()` is called too early.
+ *
+ * @since ?.0.0
+ *
+ * @param string $current_member_type The current member type being displayed into the Members directory.
+ * @return null|string                Null if the current member type is not set yet. The current member type otherwise.
+ */
+function bp_get_current_member_type( $current_member_type = '' ) {
+	if ( ! $current_member_type ) {
+		$current_member_type = _was_called_too_early( 'bp_get_current_member_type()', array( 'current_member_type' ) );
+	}
+
+	return $current_member_type;
+}
+add_filter( 'bp_get_current_member_type', __NAMESPACE__ . '\bp_get_current_member_type', 1, 1 );
+
+/**
  * `bp_core_signup_send_validation_email()` as well as `\bp_core_activation_signup_blog_notification()` need to use BP Rewrites
  * to build the `activate.url` Email tokens argument.
  *

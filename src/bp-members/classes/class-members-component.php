@@ -120,7 +120,7 @@ class Members_Component extends \BP_Members_Component {
 			if ( $item_component ) {
 				$bp->canonical_stack['component'] = bp_rewrites_get_slug( 'members', 'bp_member_' . $item_component, $item_component );
 
-				if ( isset( $bp->default_component ) && bp_is_current_component( $bp->default_component ) && ! \bp_current_action() ) {
+				if ( isset( $bp->default_component ) && \bp_is_current_component( $bp->default_component ) && ! \bp_current_action() ) {
 					unset( $bp->canonical_stack['component'] );
 				}
 			}

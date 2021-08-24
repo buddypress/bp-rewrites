@@ -188,12 +188,13 @@ function bp_core_get_from_uri( $bp_global = array() ) {
 					// Let's take care of the Groups component.
 				} elseif ( 'groups' === $component_id && bp_is_active( 'groups' ) ) {
 					// The backcompat global is not set yet. Let's make it true temporarly!
-					add_filter( 'bp_is_current_component', '__return_true' );
+					$restore_current_component = $bp->current_component;
+					$bp->current_component     = 'groups';
 
 					$current_group = $bp->groups->set_current_group( $backcompat['current_action'], true );
 
-					// Remove this temporary filter.
-					remove_filter( 'bp_is_current_component', '__return_true' );
+					// Restore the BP global.
+					$bp->current_component = $restore_current_component;
 
 					if ( isset( $current_group->id ) && $current_group->id ) {
 						$backcompat['current_item']  = $backcompat['current_action'];

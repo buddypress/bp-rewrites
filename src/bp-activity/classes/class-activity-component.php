@@ -31,7 +31,7 @@ class Activity_Component extends \BP_Activity_Component {
 	public function late_includes() {
 		parent::late_includes();
 
-		if ( bp_is_current_component( 'activity' ) ) {
+		if ( \bp_is_current_component( 'activity' ) ) {
 			// Set includes directory.
 			$inc_dir = trailingslashit( bp_rewrites()->dir ) . 'src/bp-activity/';
 

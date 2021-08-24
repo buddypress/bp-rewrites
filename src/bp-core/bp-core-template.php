@@ -78,6 +78,26 @@ function bp_current_component( $current_component = false ) {
 add_filter( 'bp_current_component', __NAMESPACE__ . '\bp_current_component', 1, 1 );
 
 /**
+ * Adds backward compatibility when `\bp_is_current_component()` is called too early.
+ *
+ * NB: this would probably be unnecessary if `\bp_is_current_component()` was using `\bp_current_component()`.
+ *
+ * @since ?.0.0
+ *
+ * @param bool   $is_current_component True if the current component is the one being checked. False otherwise.
+ * @param string $component            The component ID to check.
+ * @return bool                        True if the current component is the one being checked. False otherwise.
+ */
+function bp_is_current_component( $is_current_component = false, $component = '' ) {
+	if ( ! $is_current_component && bp_current_component() === $component ) {
+		$is_current_component = true;
+	}
+
+	return $is_current_component;
+}
+add_filter( 'bp_is_current_component', __NAMESPACE__ . '\bp_is_current_component', 1, 2 );
+
+/**
  * Adds backward compatibility when `bp_current_action()` is called too early.
  *
  * @since ?.0.0

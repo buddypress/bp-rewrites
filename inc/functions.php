@@ -407,6 +407,7 @@ function disable_buddypress_legacy_url_parser() {
 
 	// Stop hooking `bp_init` to setup the canonical stack & BP document title.
 	remove_action( 'bp_init', 'bp_setup_canonical_stack', 5 );
+	remove_action( 'bp_init', 'bp_core_action_search_site', 7 );
 	remove_action( 'bp_init', 'bp_setup_title', 8 );
 	remove_action( 'bp_init', '_bp_maybe_remove_redirect_canonical' );
 	remove_action( 'bp_init', 'bp_remove_adjacent_posts_rel_link' );
@@ -419,6 +420,7 @@ function disable_buddypress_legacy_url_parser() {
 
 	// Start hooking `bp_parse_query` to setup the canonical stack & BP document title.
 	add_action( 'bp_parse_query', 'bp_setup_canonical_stack', 11 );
+	add_action( 'bp_parse_query', 'bp_core_action_search_site', 13 );
 	add_action( 'bp_parse_query', 'bp_setup_title', 14 );
 	add_action( 'bp_parse_query', '_bp_maybe_remove_redirect_canonical', 20 );
 	add_action( 'bp_parse_query', 'bp_remove_adjacent_posts_rel_link', 20 );

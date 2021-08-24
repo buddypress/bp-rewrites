@@ -230,9 +230,12 @@ function bp_nouveau_group_invites_create_steps() {
  * @since ?.0.0
  */
 function bp_nouveau_reset_hooks() {
-	if ( bp_is_active( 'messages' ) ) {
+	if ( bp_is_active( 'notifications' ) ) {
 		remove_action( 'bp_init', 'bp_nouveau_notifications_init_filters', 20 );
 		add_action( 'bp_parse_query', 'bp_nouveau_notifications_init_filters', 20 );
+	}
+
+	if ( bp_is_active( 'messages' ) ) {
 		remove_action( 'bp_init', 'bp_nouveau_push_sitewide_notices', 99 );
 		add_action( 'bp_parse_query', 'bp_nouveau_push_sitewide_notices', 99 );
 	}

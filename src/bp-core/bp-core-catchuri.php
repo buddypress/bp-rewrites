@@ -191,6 +191,20 @@ function bp_core_get_from_uri( $bp_global = array() ) {
 					$restore_current_component = $bp->current_component;
 					$bp->current_component     = 'groups';
 
+					/*
+					 * Make sure the Groups Component globals are set.
+					 *
+					 * This is needed because we are setting **ALL** BuddyPress globals into the
+					 * backcompat one as soon as one of the globals is requested. When checking
+					 * early one of these globals, the Groups Component globals might not be set
+					 * yet. E.g. : when BP_Core is using `bp_update_is_item_admin();` it's the
+					 * case for instance as `bp_user_has_access()` is checking `bp_is_my_profile()`
+					 * which uses `bp_displayed_user_id()`.
+					 */
+					if ( ! isset( $bp->groups->table_name, $bp->groups->table_name_groupmeta ) ) {
+						$bp->groups->setup_globals();
+					}
+
 					$current_group = $bp->groups->set_current_group( $backcompat['current_action'], true );
 
 					// Restore the BP global.

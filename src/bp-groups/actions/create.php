@@ -296,7 +296,12 @@ function groups_action_create_group() {
 
 			// Set the next step slug.
 			$next_step_info = $bp->groups->group_creation_steps[ $next_step ];
-			$next_step_slug = bp_rewrites_get_slug( 'groups', $next_step_info['rewrite_id'], $next_step_info['default_slug'] );
+			$next_step_slug = $next_step;
+
+			// Use customizable slugs if available.
+			if ( isset( $next_step_info['rewrite_id'], $next_step_info['default_slug'] ) ) {
+				$next_step_slug = bp_rewrites_get_slug( 'groups', $next_step_info['rewrite_id'], $next_step_info['default_slug'] );
+			}
 
 			bp_core_redirect( bp_get_group_create_link( $next_step_slug ) );
 		}

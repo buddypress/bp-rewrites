@@ -28,7 +28,7 @@
   "scripts": {
     "lint:wpcs": "@php ./vendor/squizlabs/php_codesniffer/bin/phpcs  --standard=WordPress",
     "do:wpcs": "@php ./vendor/bin/phpcs --extensions=php --standard=WordPress inc src class-bp-rewrites.php",
-    "format": "@php ./vendor/squizlabs/php_codesniffer/bin/phpcbf",
+    "format": "@php ./vendor/squizlabs/php_codesniffer/bin/phpcbf --standard=WordPress",
     "lint:php": "@php ./vendor/bin/parallel-lint --exclude .git --exclude node_modules --exclude vendor .",
     "phpcompat": "@php ./vendor/bin/phpcs -p --standard=PHPCompatibilityWP --extensions=php --runtime-set testVersion 5.6- inc src class-bp-rewrites.php"
   }

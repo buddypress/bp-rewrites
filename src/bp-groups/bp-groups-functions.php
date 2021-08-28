@@ -72,6 +72,38 @@ function bp_get_group_restricted_views() {
 }
 
 /**
+ * Returns all registered Group Extension views.
+ *
+ * @since ?.0.0
+ *
+ * @param string $context The display context. Required. Defaults to `read`.
+ * @return array          The list of registered Group Extension views.
+ */
+function bp_get_group_extension_views( $context = 'read' ) {
+	$bp = buddypress();
+
+	$group_extension_views = array(
+		'create' => array(),
+		'manage' => array(),
+		'read'   => array(),
+	);
+
+	if ( $bp->groups->group_extensions ) {
+		foreach ( $bp->groups->group_extensions as $extension_views ) {
+			foreach ( $extension_views as $ctext => $extension_view ) {
+				$group_extension_views[ $ctext ] = array_merge( $group_extension_views[ $ctext ], $extension_view );
+			}
+		}
+	}
+
+	if ( ! array_filter( $group_extension_views ) || ! isset( $group_extension_views[ $context ] ) ) {
+		return array();
+	}
+
+	return $group_extension_views[ $context ];
+}
+
+/**
  * Returns all potential Group views.
  *
  * @since ?.0.0
@@ -232,8 +264,13 @@ function bp_get_group_views( $context = 'read' ) {
 		return array();
 	}
 
-	$context_views = array();
-	$custom_views  = apply_filters( 'bp_get_group_custom_' . $context . '_views', $context_views );
+	$context_views         = array();
+	$custom_views          = apply_filters( 'bp_get_group_custom_' . $context . '_views', $context_views );
+	$group_extension_views = bp_get_group_extension_views( $context );
+
+	if ( $group_extension_views ) {
+		$custom_views = array_merge( $custom_views, $group_extension_views );
+	}
 
 	if ( $custom_views && ! wp_is_numeric_array( $custom_views ) ) {
 		// The view key (used as default slug) and `rewrite_id` prop need to be unique.

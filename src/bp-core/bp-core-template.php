@@ -44,7 +44,7 @@ function _was_called_too_early( $function, $bp_global ) {
 		 */
 		if ( false === strpos( $debug_backtrace, 'BP_Core->setup_globals, bp_user_has_access' ) ) {
 			ob_start();
-			_doing_it_wrong( esc_html( $function ), esc_html__( 'Please wait for the `bp_parse_query` hook to be fired before using it.' ), 'TBD' );
+			_doing_it_wrong( esc_html( $function ), esc_html__( 'Please wait for the `bp_parse_query` hook to be fired before using it.' ), 'BP Rewrites' );
 			$doing_it_wrong = ob_get_clean();
 
 			printf(

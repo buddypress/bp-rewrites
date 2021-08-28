@@ -24,6 +24,23 @@ class Groups_Component extends \BP_Groups_Component {
 	}
 
 	/**
+	 * Include Groups component files.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @see BP_Component::includes() for a description of arguments.
+	 *
+	 * @param array $includes See BP_Component::includes() for a description.
+	 */
+	public function includes( $includes = array() ) {
+		// Set includes directory.
+		$inc_dir = trailingslashit( bp_rewrites()->dir ) . 'src/bp-groups/';
+		require_once $inc_dir . 'classes/class-bp-group-extension.php';
+
+		parent::includes( $includes );
+	}
+
+	/**
 	 * Late includes method.
 	 *
 	 * @since 1.0.0

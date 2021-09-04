@@ -90,6 +90,10 @@ function bp_get_group_extension_views( $context = 'read' ) {
 
 	if ( $bp->groups->group_extensions ) {
 		foreach ( $bp->groups->group_extensions as $extension_views ) {
+			if ( ! is_array( $extension_views ) ) {
+				continue;
+			}
+
 			foreach ( $extension_views as $ctext => $extension_view ) {
 				$group_extension_views[ $ctext ] = array_merge( $group_extension_views[ $ctext ], $extension_view );
 			}

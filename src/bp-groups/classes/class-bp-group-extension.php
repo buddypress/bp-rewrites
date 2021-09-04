@@ -515,6 +515,11 @@ if ( ! class_exists( 'BP_Group_Extension', false ) ) :
 				$group_id = bp_get_current_group_id();
 			} else {
 				_doing_it_wrong( __METHOD__, esc_html__( 'Please wait for the `bp_parse_query` hook to be fired before trying to get the Group ID.' ), 'BP Rewrites' );
+				$current_group = BP\Rewrites\bp_core_get_from_uri( array( 'current_group' ) );
+
+				if ( isset( $current_group->id ) && $current_group->id ) {
+					$group_id = $current_group->id;
+				}
 			}
 
 			// On the admin, get the group id out of the $_GET params.
@@ -750,6 +755,26 @@ if ( ! class_exists( 'BP_Group_Extension', false ) ) :
 		}
 
 		/**
+		 * Returns the Rewrite ID of the Group Extension Item according to the context.
+		 *
+		 * @since ?.0.0
+		 *
+		 * @param string $context One of these contexts: 'create', 'manage', 'read'.
+		 * @return string         The found Rewrite ID, an empty string otherwise.
+		 */
+		protected function get_rewrite_id_for( $context = '' ) {
+			$rewrite_id            = '';
+			$group_extensions      = buddypress()->groups->group_extensions;
+			$group_extension_class = get_class( $this );
+
+			if ( isset( $group_extensions[ $group_extension_class ][ $context ][ $this->slug ]['rewrite_id'] ) ) {
+				$rewrite_id = $group_extensions[ $group_extension_class ][ $context ][ $this->slug ]['rewrite_id'];
+			}
+
+			return $rewrite_id;
+		}
+
+		/**
 		 * Hook this extension's group tab into BuddyPress, if necessary.
 		 *
 		 * @since 1.8.0
@@ -770,7 +795,14 @@ if ( ! class_exists( 'BP_Group_Extension', false ) ) :
 			$user_can_see_nav_item = $this->user_can_see_nav_item();
 
 			if ( $user_can_see_nav_item ) {
-				$group_permalink = bp_get_group_permalink( groups_get_current_group() );
+				$current_group   = groups_get_current_group();
+				$group_permalink = bp_get_group_permalink( $current_group );
+				$rewrite_id      = $this->get_rewrite_id_for( 'read' );
+				$link            = '';
+
+				if ( $rewrite_id ) {
+					$link = BP\Rewrites\bp_group_nav_rewrites_get_url( $current_group, $this->slug, $rewrite_id );
+				}
 
 				bp_core_create_subnav_link(
 					array(
@@ -783,6 +815,7 @@ if ( ! class_exists( 'BP_Group_Extension', false ) ) :
 						'screen_function' => array( &$this, '_display_hook' ),
 						'user_has_access' => $user_can_see_nav_item,
 						'no_access_url'   => $group_permalink,
+						'link'            => $link,
 					),
 					'groups'
 				);
@@ -931,14 +964,21 @@ if ( ! class_exists( 'BP_Group_Extension', false ) ) :
 				return;
 			}
 
-			$screen = $this->screens['create'];
-
-			// Insert the group creation step for the new group extension.
-			buddypress()->groups->group_creation_steps[ $screen['slug'] ] = array(
+			$screen      = $this->screens['create'];
+			$create_data = array(
 				'name'     => $screen['name'],
 				'slug'     => $screen['slug'],
 				'position' => $screen['position'],
 			);
+
+			$rewrite_id = $this->get_rewrite_id_for( 'create' );
+			if ( $rewrite_id ) {
+				$create_data['rewrite_id']   = $rewrite_id;
+				$create_data['default_slug'] = $screen['slug'];
+			}
+
+			// Insert the group creation step for the new group extension.
+			buddypress()->groups->group_creation_steps[ $screen['slug'] ] = $create_data;
 
 			/*
 			 * The maybe_ methods check to see whether the create_*
@@ -946,9 +986,9 @@ if ( ! class_exists( 'BP_Group_Extension', false ) ) :
 			 * correct group creation step). Hooked in separate
 			 * methods because current creation step info not yet
 			 * available at this point.
-			 * add_action( 'groups_custom_create_steps', array( $this, 'maybe_create_screen' ) );
-			 * add_action( 'groups_create_group_step_save_' . $screen['slug'], array( $this, 'maybe_create_screen_save' ) );
 			 */
+			add_action( 'groups_custom_create_steps', array( $this, 'maybe_create_screen' ) );
+			add_action( 'groups_create_group_step_save_' . $screen['slug'], array( $this, 'maybe_create_screen_save' ) );
 		}
 
 		/**
@@ -1007,7 +1047,13 @@ if ( ! class_exists( 'BP_Group_Extension', false ) ) :
 			$position += 40;
 
 			$current_group = groups_get_current_group();
-			$admin_link    = trailingslashit( bp_get_group_permalink( $current_group ) . 'admin' );
+			$admin_link    = BP\Rewrites\bp_group_admin_rewrites_get_url( $current_group );
+			$rewrite_id    = $this->get_rewrite_id_for( 'manage' );
+			$link          = '';
+
+			if ( $rewrite_id ) {
+				$link = BP\Rewrites\bp_group_admin_rewrites_get_form_url( $current_group, $this->slug, $rewrite_id );
+			}
 
 			$subnav_args = array(
 				'name'            => $screen['name'],
@@ -1017,6 +1063,7 @@ if ( ! class_exists( 'BP_Group_Extension', false ) ) :
 				'user_has_access' => bp_is_item_admin(),
 				'position'        => $position,
 				'screen_function' => 'groups_screen_group_admin',
+				'link'            => $link,
 			);
 
 			// Should we add a menu to the Group's WP Admin Bar.

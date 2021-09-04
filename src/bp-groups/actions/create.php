@@ -90,7 +90,13 @@ function groups_action_create_group() {
 		// Get the create step.
 		$current_create_step = bp_get_groups_current_create_step();
 		$current_step_info   = $bp->groups->group_creation_steps[ $current_create_step ];
-		$current_step_slug   = bp_rewrites_get_slug( 'groups', $current_step_info['rewrite_id'], $current_step_info['default_slug'] );
+
+		// Use customizable slugs if available.
+		if ( isset( $current_step_info['rewrite_id'], $current_step_info['default_slug'] ) ) {
+			$current_step_slug = bp_rewrites_get_slug( 'groups', $current_step_info['rewrite_id'], $current_step_info['default_slug'] );
+		} else {
+			$current_step_slug = $current_create_step;
+		}
 
 		// Check the nonce.
 		check_admin_referer( 'groups_create_save_' . bp_get_groups_current_create_step() );
@@ -295,7 +301,11 @@ function groups_action_create_group() {
 			}
 
 			// Set the next step slug.
-			$next_step_info = $bp->groups->group_creation_steps[ $next_step ];
+			$next_step_info = array();
+			if ( isset( $bp->groups->group_creation_steps[ $next_step ] ) ) {
+				$next_step_info = $bp->groups->group_creation_steps[ $next_step ];
+			}
+
 			$next_step_slug = $next_step;
 
 			// Use customizable slugs if available.

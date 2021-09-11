@@ -22,8 +22,8 @@ function bp_core_load_template() {
 	if ( 'bp_core_pre_load_template' === current_action() || ( 'bp_setup_theme_compat' === current_action() && is_buddypress() ) ) {
 		global $wp_query;
 
-		// BuddyPress is not home!
-		$wp_query->is_home = false;
+		// Check if a BuddyPress component's direcory is set as homepage.
+		$wp_query->is_home = bp_is_directory_homepage( \bp_current_component() );
 	}
 }
 add_action( 'bp_core_pre_load_template', __NAMESPACE__ . '\bp_core_load_template' );

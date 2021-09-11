@@ -150,3 +150,25 @@ function bp_page_directory_link( $link, \WP_Post $post ) {
 	return bp_rewrites_get_url( array( 'component_id' => $component ) );
 }
 add_filter( 'post_type_link', __NAMESPACE__ . '\bp_page_directory_link', 1, 2 );
+
+/**
+ * Checks if a component's directory is set as the site's homepage.
+ *
+ * @since ?.0.0
+ *
+ * @param string $component The component ID.
+ * @return bool True if a component's directory is set as the site's homepage.
+ *              False otherwise.
+ */
+function bp_is_directory_homepage( $component = '' ) {
+	$is_directory_homepage = false;
+	$is_page_on_front      = 'page' === get_option( 'show_on_front', 'posts' );
+	$page_id_on_front      = get_option( 'page_on_front', 0 );
+	$directory_pages       = bp_core_get_directory_pages();
+
+	if ( $is_page_on_front && isset( $directory_pages->{$component} ) && (int) $page_id_on_front === (int) $directory_pages->{$component}->id ) {
+		$is_directory_homepage = true;
+	}
+
+	return $is_directory_homepage;
+}

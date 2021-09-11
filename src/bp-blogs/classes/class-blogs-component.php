@@ -291,6 +291,10 @@ class Blogs_Component extends \BP_Blogs_Component {
 		// Get the BuddyPress main instance.
 		$bp = buddypress();
 
+		if ( bp_is_directory_homepage( $this->id ) ) {
+			$query->set( $this->rewrite_ids['directory'], 1 );
+		}
+
 		if ( 1 === (int) $query->get( $this->rewrite_ids['directory'] ) ) {
 			$bp->current_component = 'blogs';
 

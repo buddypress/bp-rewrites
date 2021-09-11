@@ -293,6 +293,10 @@ class Activity_Component extends \BP_Activity_Component {
 	 *                        description.
 	 */
 	public function parse_query( $query ) {
+		if ( bp_is_directory_homepage( $this->id ) ) {
+			$query->set( $this->rewrite_ids['directory'], 1 );
+		}
+
 		if ( 1 === (int) $query->get( $this->rewrite_ids['directory'] ) ) {
 			$bp = buddypress();
 

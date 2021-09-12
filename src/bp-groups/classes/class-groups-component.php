@@ -129,6 +129,8 @@ class Groups_Component extends \BP_Groups_Component {
 
 		// We have a group let's add some other usefull things.
 		if ( $current_group ) {
+			$current_group->id = (int) $current_group->id;
+
 			if ( ! $doing_backcompat ) {
 				// Using "item" not "group" for generic support in other components.
 				if ( bp_current_user_can( 'bp_moderate' ) ) {
@@ -141,13 +143,24 @@ class Groups_Component extends \BP_Groups_Component {
 				if ( ! bp_is_item_admin() ) {
 					bp_update_is_item_mod( groups_is_user_mod( bp_loggedin_user_id(), $current_group->id ), 'groups' );
 				}
-
-				// Initialize the nav for the groups component.
-				$this->nav = new \BP_Core_Nav( $current_group->id );
 			}
 
 			// Check once if the current group has a custom front template.
 			$current_group->front_template = bp_groups_get_front_template( $current_group );
+
+			if ( ! $doing_backcompat ) {
+				// Initialize the nav for the groups component.
+				$this->nav = new \BP_Core_Nav( $current_group->id );
+
+				/**
+				 * Fires once the `current_group` global is fully set.
+				 *
+				 * @since 10.0.0
+				 *
+				 * @param BP_Groups_Group|object $current_group The current group object.
+				 */
+				do_action_ref_array( 'bp_groups_set_current_group', array( $current_group ) );
+			}
 		}
 
 		return $current_group;

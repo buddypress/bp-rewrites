@@ -33,9 +33,26 @@ function bp_core_admin_rewrites_settings() {
 		<form action="" method="post" id="bp-admin-rewrites-form">
 
 			<?php foreach ( $bp->pages as $component_id => $directory_data ) : ?>
-
-				<h3><?php echo esc_html( $directory_data->title ); ?></h3>
+				<h3>
+					<?php
+					if ( isset( $bp->{$component_id}->name ) && $bp->{$component_id}->name ) {
+						echo esc_html( $bp->{$component_id}->name );
+					} else {
+						echo esc_html( $directory_data->title );
+					}
+					?>
+				</h3>
 				<table class="form-table" role="presentation">
+					<tr>
+						<th scope="row">
+							<label for="<?php echo esc_attr( sprintf( '%s-directory-title', sanitize_key( $component_id ) ) ); ?>">
+								<?php esc_html_e( 'Directory title', 'buddypress' ); ?>
+							</label>
+						</th>
+						<td>
+							<input type="text" class="code" name="<?php printf( 'components[%d][post_title]', absint( $directory_data->id ) ); ?>" id="<?php echo esc_attr( sprintf( '%s-directory-title', sanitize_key( $component_id ) ) ); ?>" value="<?php echo esc_attr( $directory_data->title ); ?>">
+						</td>
+					</tr>
 					<tr>
 						<th scope="row">
 							<label for="<?php echo esc_attr( sprintf( '%s-directory-slug', sanitize_key( $component_id ) ) ); ?>">
@@ -170,12 +187,13 @@ function bp_core_admin_rewrites_setup_handler() {
 		wp_safe_redirect( add_query_arg( 'error', 'true', $base_url ) );
 	}
 
-	$directory_pages    = bp_core_get_directory_pages();
-	$current_page_slugs = wp_list_pluck( $directory_pages, 'slug', 'id' );
-	$reset_rewrites     = false;
+	$directory_pages     = bp_core_get_directory_pages();
+	$current_page_slugs  = wp_list_pluck( $directory_pages, 'slug', 'id' );
+	$current_page_titles = wp_list_pluck( $directory_pages, 'title', 'id' );
+	$reset_rewrites      = false;
 
 	$components = wp_unslash( $_POST['components'] ); // phpcs:ignore
-	foreach ( $components as $page_id => $slugs ) {
+	foreach ( $components as $page_id => $posted_data ) {
 		$postarr = array();
 
 		if ( ! isset( $current_page_slugs[ $page_id ] ) ) {
@@ -184,17 +202,21 @@ function bp_core_admin_rewrites_setup_handler() {
 
 		$postarr['ID'] = $page_id;
 
-		if ( $current_page_slugs[ $page_id ] !== $slugs['post_name'] ) {
+		if ( $current_page_titles[ $page_id ] !== $posted_data['post_title'] ) {
+			$postarr['post_title'] = $posted_data['post_title'];
+		}
+
+		if ( $current_page_slugs[ $page_id ] !== $posted_data['post_name'] ) {
 			$reset_rewrites       = true;
-			$postarr['post_name'] = $slugs['post_name'];
+			$postarr['post_name'] = $posted_data['post_name'];
 		}
 
-		if ( isset( $slugs['_bp_component_slugs'] ) && is_array( $slugs['_bp_component_slugs'] ) ) {
-			$postarr['meta_input']['_bp_component_slugs'] = array_map( 'sanitize_title', $slugs['_bp_component_slugs'] );
+		if ( isset( $posted_data['_bp_component_slugs'] ) && is_array( $posted_data['_bp_component_slugs'] ) ) {
+			$postarr['meta_input']['_bp_component_slugs'] = array_map( 'sanitize_title', $posted_data['_bp_component_slugs'] );
 		}
 
-		if ( isset( $slugs['_bp_component_slugs']['bp_group_create'] ) ) {
-			$new_current_group_create_slug    = $slugs['_bp_component_slugs']['bp_group_create'];
+		if ( isset( $posted_data['_bp_component_slugs']['bp_group_create'] ) ) {
+			$new_current_group_create_slug    = $posted_data['_bp_component_slugs']['bp_group_create'];
 			$current_group_create_custom_slug = '';
 
 			if ( isset( $directory_pages->groups->custom_slugs['bp_group_create'] ) ) {

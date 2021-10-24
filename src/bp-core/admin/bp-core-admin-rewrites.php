@@ -19,83 +19,123 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since ?.0.O
  */
 function bp_core_admin_rewrites_settings() {
-	$bp = buddypress();
+	$bp              = buddypress();
+	$bp_pages        = $bp->pages;
+	$reordered_pages = array();
+
+	if ( isset( $bp_pages->register ) ) {
+		$reordered_pages['register'] = $bp_pages->register;
+		unset( $bp_pages->register );
+	}
+
+	if ( isset( $bp_pages->activate ) ) {
+		$reordered_pages['activate'] = $bp_pages->activate;
+		unset( $bp_pages->activate );
+	}
+
+	if ( $reordered_pages ) {
+		foreach ( $reordered_pages as $page_key => $reordered_page ) {
+			$bp_pages->{$page_key} = $reordered_page;
+		}
+	}
 	?>
 	<div class="wrap">
 
 		<h1><?php esc_html_e( 'BuddyPress Settings', 'buddypress' ); ?></h1>
 
 		<h2 class="nav-tab-wrapper"><?php bp_core_admin_tabs( __( 'URLs', 'buddypress' ) ); ?></h2>
-		<h2><?php esc_html_e( 'BuddyPress URLs', 'buddypress' ); ?></h2>
 
-		<hr class="hr-separator">
+		<div class="health-check-body">
+			<h2><?php esc_html_e( 'BuddyPress URLs', 'buddypress' ); ?></h2>
 
-		<form action="" method="post" id="bp-admin-rewrites-form">
+			<hr class="hr-separator">
+
+			<form action="" method="post" id="bp-admin-rewrites-form">
 
 			<?php foreach ( $bp->pages as $component_id => $directory_data ) : ?>
-				<h3>
-					<?php
-					if ( isset( $bp->{$component_id}->name ) && $bp->{$component_id}->name ) {
-						echo esc_html( $bp->{$component_id}->name );
-					} else {
-						echo esc_html( $directory_data->title );
-					}
-					?>
-				</h3>
-				<table class="form-table" role="presentation">
-					<tr>
-						<th scope="row">
-							<label for="<?php echo esc_attr( sprintf( '%s-directory-title', sanitize_key( $component_id ) ) ); ?>">
-								<?php esc_html_e( 'Directory title', 'buddypress' ); ?>
-							</label>
-						</th>
-						<td>
-							<input type="text" class="code" name="<?php printf( 'components[%d][post_title]', absint( $directory_data->id ) ); ?>" id="<?php echo esc_attr( sprintf( '%s-directory-title', sanitize_key( $component_id ) ) ); ?>" value="<?php echo esc_attr( $directory_data->title ); ?>">
-						</td>
-					</tr>
-					<tr>
-						<th scope="row">
-							<label for="<?php echo esc_attr( sprintf( '%s-directory-slug', sanitize_key( $component_id ) ) ); ?>">
-								<?php esc_html_e( 'Directory slug', 'buddypress' ); ?>
-							</label>
-						</th>
-						<td>
-							<input type="text" class="code" name="<?php printf( 'components[%d][post_name]', absint( $directory_data->id ) ); ?>" id="<?php echo esc_attr( sprintf( '%s-directory-slug', sanitize_key( $component_id ) ) ); ?>" value="<?php echo esc_attr( $directory_data->slug ); ?>">
-						</td>
-					</tr>
-				</table>
+				<div class="site-health-issues-wrapper">
+					<h3>
+						<?php
+						if ( isset( $bp->{$component_id}->name ) && $bp->{$component_id}->name ) {
+							echo esc_html( $bp->{$component_id}->name );
+						} else {
+							echo esc_html( $directory_data->title );
+						}
+						?>
+					</h3>
+
+					<div class="health-check-accordion">
+						<h4 class="health-check-accordion-heading">
+							<button aria-expanded="false" class="health-check-accordion-trigger" aria-controls="health-check-accordion-block-<?php echo esc_attr( $component_id ); ?>-directory" type="button">
+								<span class="title"><?php esc_html_e( 'Directory', 'buddypress' ); ?></span>
+								<span class="icon"></span>
+							</button>
+						</h4>
+						<div id="health-check-accordion-block-<?php echo esc_attr( $component_id ); ?>-directory" class="health-check-accordion-panel" hidden="hidden">
+							<table class="form-table" role="presentation">
+								<tr>
+									<th scope="row">
+										<label for="<?php echo esc_attr( sprintf( '%s-directory-title', sanitize_key( $component_id ) ) ); ?>">
+											<?php esc_html_e( 'Directory title', 'buddypress' ); ?>
+										</label>
+									</th>
+									<td>
+										<input type="text" class="code" name="<?php printf( 'components[%d][post_title]', absint( $directory_data->id ) ); ?>" id="<?php echo esc_attr( sprintf( '%s-directory-title', sanitize_key( $component_id ) ) ); ?>" value="<?php echo esc_attr( $directory_data->title ); ?>">
+									</td>
+								</tr>
+								<tr>
+									<th scope="row">
+										<label for="<?php echo esc_attr( sprintf( '%s-directory-slug', sanitize_key( $component_id ) ) ); ?>">
+											<?php esc_html_e( 'Directory slug', 'buddypress' ); ?>
+										</label>
+									</th>
+									<td>
+										<input type="text" class="code" name="<?php printf( 'components[%d][post_name]', absint( $directory_data->id ) ); ?>" id="<?php echo esc_attr( sprintf( '%s-directory-slug', sanitize_key( $component_id ) ) ); ?>" value="<?php echo esc_attr( $directory_data->slug ); ?>">
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
 
 				<?php if ( 'members' === $component_id ) : ?>
-					<h4><?php esc_html_e( 'Single Member primary views slugs', 'buddypress' ); ?></h4>
-					<table class="form-table" role="presentation">
-						<?php
-						foreach ( $bp->members->nav->get_primary() as $primary_nav_item ) :
-							if ( ! isset( $primary_nav_item['rewrite_id'] ) || ! $primary_nav_item['rewrite_id'] ) {
-								continue;
-							}
-							?>
-							<tr>
-								<th scope="row">
-									<label style="margin-left: 2em; display: inline-block; vertical-align: middle" for="<?php echo esc_attr( sprintf( '%s-slug', sanitize_key( $primary_nav_item['rewrite_id'] ) ) ); ?>">
-										<?php
-										printf(
-											/* translators: %s is the member primary view name */
-											esc_html__( '"%s" slug', 'buddypress' ),
-											esc_html( _bp_strip_spans_from_title( $primary_nav_item['name'] ) )
-										);
-										?>
-									</label>
-								</th>
-								<td>
-									<input type="text" class="code" name="<?php printf( 'components[%1$d][_bp_component_slugs][%2$s]', absint( $directory_data->id ), esc_attr( $primary_nav_item['rewrite_id'] ) ); ?>" id="<?php echo esc_attr( sprintf( '%s-slug', sanitize_key( $primary_nav_item['rewrite_id'] ) ) ); ?>" value="<?php echo esc_attr( bp_rewrites_get_slug( $component_id, $primary_nav_item['rewrite_id'], $primary_nav_item['slug'] ) ); ?>">
-								</td>
-							</tr>
-						<?php endforeach; ?>
-					</table>
+					<div class="health-check-accordion">
+						<h4 class="health-check-accordion-heading">
+							<button aria-expanded="false" class="health-check-accordion-trigger" aria-controls="health-check-accordion-block-member-primary-nav" type="button">
+								<span class="title"><?php esc_html_e( 'Single Member primary views slugs', 'buddypress' ); ?></span>
+								<span class="icon"></span>
+							</button>
+						</h4>
+						<div id="health-check-accordion-block-member-primary-nav" class="health-check-accordion-panel" hidden="hidden">
+							<table class="form-table" role="presentation">
+								<?php
+								foreach ( $bp->members->nav->get_primary() as $primary_nav_item ) :
+									if ( ! isset( $primary_nav_item['rewrite_id'] ) || ! $primary_nav_item['rewrite_id'] ) {
+										continue;
+									}
+									?>
+									<tr>
+										<th scope="row">
+											<label class="bp-nav-slug" for="<?php echo esc_attr( sprintf( '%s-slug', sanitize_key( $primary_nav_item['rewrite_id'] ) ) ); ?>">
+												<?php
+												printf(
+													/* translators: %s is the member primary view name */
+													esc_html__( '"%s" slug', 'buddypress' ),
+													esc_html( _bp_strip_spans_from_title( $primary_nav_item['name'] ) )
+												);
+												?>
+											</label>
+										</th>
+										<td>
+											<input type="text" class="code" name="<?php printf( 'components[%1$d][_bp_component_slugs][%2$s]', absint( $directory_data->id ), esc_attr( $primary_nav_item['rewrite_id'] ) ); ?>" id="<?php echo esc_attr( sprintf( '%s-slug', sanitize_key( $primary_nav_item['rewrite_id'] ) ) ); ?>" value="<?php echo esc_attr( bp_rewrites_get_slug( $component_id, $primary_nav_item['rewrite_id'], $primary_nav_item['slug'] ) ); ?>">
+										</td>
+									</tr>
+								<?php endforeach; ?>
+							</table>
+						</div>
+					</div>
 				<?php endif; ?>
 
 				<?php if ( 'groups' === $component_id ) : ?>
-					<h4><?php esc_html_e( 'Single Group views slugs', 'buddypress' ); ?></h4>
 
 					<?php
 					foreach (
@@ -106,66 +146,75 @@ function bp_core_admin_rewrites_settings() {
 						) as $view_type => $view_type_title ) :
 						?>
 
-						<h5><?php echo esc_html( $view_type_title ); ?></h5>
+						<div class="health-check-accordion">
+							<h4 class="health-check-accordion-heading">
+								<button aria-expanded="false" class="health-check-accordion-trigger" aria-controls="health-check-accordion-block-group-<?php echo esc_attr( $view_type ); ?>" type="button">
+									<span class="title"><?php echo esc_html( $view_type_title ); ?></span>
+									<span class="icon"></span>
+								</button>
+							</h4>
+							<div id="health-check-accordion-block-group-<?php echo esc_attr( $view_type ); ?>" class="health-check-accordion-panel" hidden="hidden">
+								<table class="form-table" role="presentation">
 
-						<table class="form-table" role="presentation">
-
-						<?php
-						if ( 'create' === $view_type ) :
-							foreach ( bp_get_group_restricted_views() as $group_create_restricted_view ) :
-								?>
-								<tr>
-									<th scope="row">
-										<label style="margin-left: 2em; display: inline-block; vertical-align: middle" for="<?php echo esc_attr( sprintf( '%s-slug', sanitize_key( $group_create_restricted_view['rewrite_id'] ) ) ); ?>">
-											<?php echo esc_html( $group_create_restricted_view['name'] ); ?>
-										</label>
-									</th>
-									<td>
-										<input type="text" class="code" name="<?php printf( 'components[%1$d][_bp_component_slugs][%2$s]', absint( $directory_data->id ), esc_attr( $group_create_restricted_view['rewrite_id'] ) ); ?>" id="<?php echo esc_attr( sprintf( '%s-slug', sanitize_key( $group_create_restricted_view['rewrite_id'] ) ) ); ?>" value="<?php echo esc_attr( bp_rewrites_get_slug( $component_id, $group_create_restricted_view['rewrite_id'], $group_create_restricted_view['slug'] ) ); ?>">
-									</td>
-								</tr>
 								<?php
-							endforeach;
+								if ( 'create' === $view_type ) :
+									foreach ( bp_get_group_restricted_views() as $group_create_restricted_view ) :
+										?>
+										<tr>
+											<th scope="row">
+												<label style="margin-left: 2em; display: inline-block; vertical-align: middle" for="<?php echo esc_attr( sprintf( '%s-slug', sanitize_key( $group_create_restricted_view['rewrite_id'] ) ) ); ?>">
+													<?php echo esc_html( $group_create_restricted_view['name'] ); ?>
+												</label>
+											</th>
+											<td>
+												<input type="text" class="code" name="<?php printf( 'components[%1$d][_bp_component_slugs][%2$s]', absint( $directory_data->id ), esc_attr( $group_create_restricted_view['rewrite_id'] ) ); ?>" id="<?php echo esc_attr( sprintf( '%s-slug', sanitize_key( $group_create_restricted_view['rewrite_id'] ) ) ); ?>" value="<?php echo esc_attr( bp_rewrites_get_slug( $component_id, $group_create_restricted_view['rewrite_id'], $group_create_restricted_view['slug'] ) ); ?>">
+											</td>
+										</tr>
+										<?php
+									endforeach;
 
-						endif;
+								endif;
 
-						foreach ( bp_get_group_views( $view_type ) as $group_view ) :
-							if ( ! isset( $group_view['rewrite_id'] ) || ! $group_view['rewrite_id'] ) {
-								continue;
-							}
-							?>
-								<tr>
-									<th scope="row">
-										<label style="margin-left: 2em; display: inline-block; vertical-align: middle" for="<?php echo esc_attr( sprintf( '%s-slug', sanitize_key( $group_view['rewrite_id'] ) ) ); ?>">
-											<?php
-											printf(
-												/* translators: %s is group view name */
-												esc_html__( '"%s" slug', 'buddypress' ),
-												esc_html( _bp_strip_spans_from_title( $group_view['name'] ) )
-											);
-											?>
-										</label>
-									</th>
-									<td>
-										<input type="text" class="code" name="<?php printf( 'components[%1$d][_bp_component_slugs][%2$s]', absint( $directory_data->id ), esc_attr( $group_view['rewrite_id'] ) ); ?>" id="<?php echo esc_attr( sprintf( '%s-slug', sanitize_key( $group_view['rewrite_id'] ) ) ); ?>" value="<?php echo esc_attr( bp_rewrites_get_slug( $component_id, $group_view['rewrite_id'], $group_view['slug'] ) ); ?>">
-									</td>
-								</tr>
-							<?php endforeach; ?>
-						</table>
+								foreach ( bp_get_group_views( $view_type ) as $group_view ) :
+									if ( ! isset( $group_view['rewrite_id'] ) || ! $group_view['rewrite_id'] ) {
+										continue;
+									}
+									?>
+										<tr>
+											<th scope="row">
+												<label style="margin-left: 2em; display: inline-block; vertical-align: middle" for="<?php echo esc_attr( sprintf( '%s-slug', sanitize_key( $group_view['rewrite_id'] ) ) ); ?>">
+													<?php
+													printf(
+														/* translators: %s is group view name */
+														esc_html__( '"%s" slug', 'buddypress' ),
+														esc_html( _bp_strip_spans_from_title( $group_view['name'] ) )
+													);
+													?>
+												</label>
+											</th>
+											<td>
+												<input type="text" class="code" name="<?php printf( 'components[%1$d][_bp_component_slugs][%2$s]', absint( $directory_data->id ), esc_attr( $group_view['rewrite_id'] ) ); ?>" id="<?php echo esc_attr( sprintf( '%s-slug', sanitize_key( $group_view['rewrite_id'] ) ) ); ?>" value="<?php echo esc_attr( bp_rewrites_get_slug( $component_id, $group_view['rewrite_id'], $group_view['slug'] ) ); ?>">
+											</td>
+										</tr>
+									<?php endforeach; ?>
+								</table>
+							</div>
+						</div>
 					<?php endforeach; ?>
 				<?php endif; ?>
+				</div>
 
-			<?php endforeach; ?>
+				<?php endforeach; ?>
 
-			<p class="submit clear">
-				<input class="button-primary" type="submit" name="bp-admin-rewrites-submit" id="bp-admin-rewrites-submit" value="<?php esc_attr_e( 'Save Settings', 'buddypress' ); ?>"/>
-			</p>
+				<p class="submit clear">
+					<input class="button-primary" type="submit" name="bp-admin-rewrites-submit" id="bp-admin-rewrites-submit" value="<?php esc_attr_e( 'Save Settings', 'buddypress' ); ?>"/>
+				</p>
 
-			<?php wp_nonce_field( 'bp-admin-rewrites-setup' ); ?>
+				<?php wp_nonce_field( 'bp-admin-rewrites-setup' ); ?>
 
-		</form>
+			</form>
+		</div>
 	</div>
-
 	<?php
 }
 

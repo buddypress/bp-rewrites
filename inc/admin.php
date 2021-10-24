@@ -48,6 +48,31 @@ function get_main_capability() {
 }
 
 /**
+ * Enqueues styles and scripts for the BP URLs settings tab.
+ *
+ * @since 1.0.0
+ */
+function admin_load() {
+	$bpr = bp_rewrites();
+
+	wp_enqueue_style( 'site-health' );
+	wp_add_inline_style(
+		'site-health',
+		'#bp-admin-rewrites-form .bp-nav-slug { margin-left: 2em; display: inline-block; vertical-align: middle; }
+		.site-health-issues-wrapper .health-check-accordion { border-bottom: none; }
+		.site-health-issues-wrapper .health-check-accordion:last-of-type { border-bottom: 1px solid #c3c4c7; }'
+	);
+
+	wp_enqueue_script(
+		'bp-rewrites-ui',
+		$bpr->url . '/src/bp-core/admin/js/rewrites-ui.js',
+		array(),
+		$bpr->version,
+		true
+	);
+}
+
+/**
  * This code should be in `BP_Admin::admin_menus()`.
  *
  * @since ?.0.0
@@ -63,6 +88,7 @@ function bp_admin_admin_menus() {
 	);
 
 	add_action( "admin_head-{$admin_page}", '\bp_core_modify_admin_menu_highlight' );
+	add_action( "load-{$admin_page}", __NAMESPACE__ . '\admin_load' );
 }
 add_action( bp_core_admin_hook(), __NAMESPACE__ . '\bp_admin_admin_menus', 5 );
 

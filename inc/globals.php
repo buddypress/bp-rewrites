@@ -28,7 +28,7 @@ function globals() {
 	$bpr->dir   = $plugin_dir;
 
 	// URL.
-	$plugin_url      = plugins_url( dirname( __FILE__ ) );
+	$plugin_url      = plugins_url( '', dirname( __FILE__ ) );
 	$bpr->url        = $plugin_url;
 	$bpr->backcompat = array(
 		'current_component'      => null, // The BP Component, except for the Members one when a user is displayed.

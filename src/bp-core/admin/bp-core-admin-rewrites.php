@@ -38,18 +38,11 @@ function bp_core_admin_rewrites_settings() {
 			$bp_pages->{$page_key} = $reordered_page;
 		}
 	}
+
+	bp_core_admin_tabbed_screen_header( __( 'BuddyPress Settings', 'buddypress' ), __( 'URLs', 'buddypress' ) );
 	?>
-	<div class="wrap">
-
-		<h1><?php esc_html_e( 'BuddyPress Settings', 'buddypress' ); ?></h1>
-
-		<h2 class="nav-tab-wrapper"><?php bp_core_admin_tabs( __( 'URLs', 'buddypress' ) ); ?></h2>
-
+	<div class="buddypress-body">
 		<div class="health-check-body">
-			<h2><?php esc_html_e( 'BuddyPress URLs', 'buddypress' ); ?></h2>
-
-			<hr class="hr-separator">
-
 			<form action="" method="post" id="bp-admin-rewrites-form">
 
 			<?php foreach ( $bp->pages as $component_id => $directory_data ) : ?>

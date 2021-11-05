@@ -58,7 +58,9 @@ function admin_load() {
 	wp_enqueue_style( 'site-health' );
 	wp_add_inline_style(
 		'site-health',
-		'#bp-admin-rewrites-form .bp-nav-slug { margin-left: 2em; display: inline-block; vertical-align: middle; }
+		'#bp-admin-rewrites-form .form-table { border: none; padding: 0; }
+		#bp-admin-rewrites-form .bp-nav-slug { margin-left: 2em; display: inline-block; vertical-align: middle; }
+		.site-health-issues-wrapper:first-of-type { margin-top: 0; }
 		.site-health-issues-wrapper .health-check-accordion { border-bottom: none; }
 		.site-health-issues-wrapper .health-check-accordion:last-of-type { border-bottom: 1px solid #c3c4c7; }'
 	);

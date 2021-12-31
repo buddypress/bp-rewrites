@@ -14,6 +14,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Setup the Core component.
+ *
+ * @since 1.0.0
+ */
+function override_bp_core() {
+	require_once plugin_dir_path( dirname( __FILE__ ) ) . 'src/bp-core/classes/class-core-component.php';
+
+	buddypress()->core = new Core_Component();
+}
+remove_action( 'bp_loaded', 'bp_setup_core', 0 );
+add_action( 'bp_loaded', __NAMESPACE__ . '\override_bp_core', 0 );
+
+/**
  * Setup the Activity Component.
  *
  * @since 1.0.0
@@ -113,12 +126,12 @@ function bp_setup_xprofile() {
 }
 
 /**
- * Disable BuddyPress Components.
+ * Override BuddyPress Components.
  *
  * @since 1.0.0
  */
-function disable_bp_components() {
-	// @todo Add other BP Components.
+function override_bp_components() {
+	// Avoid BP Components initialization to directly replace them by BP Rewrites ones.
 	$bp_components = array(
 		'activity'      => array(
 			'callback' => 'bp_setup_activity',
@@ -170,7 +183,7 @@ function disable_bp_components() {
 		add_action( 'bp_setup_components', __NAMESPACE__ . '\\' . $hook['callback'], $hook['priority'], 0 );
 	}
 }
-add_action( 'bp_setup_components', __NAMESPACE__ . '\disable_bp_components', 0 );
+add_action( 'bp_setup_components', __NAMESPACE__ . '\override_bp_components', 0 );
 
 /**
  * Code to move inside BP_Component::setup_globals().
@@ -420,7 +433,7 @@ function disable_buddypress_legacy_url_parser() {
 
 	// Start hooking `bp_parse_query` to setup the canonical stack & BP document title.
 	add_action( 'bp_parse_query', 'bp_setup_canonical_stack', 11 );
-	add_action( 'bp_parse_query', 'bp_core_action_search_site', 13 );
+	add_action( 'bp_parse_query', 'bp_core_action_search_site', 13, 0 );
 	add_action( 'bp_parse_query', 'bp_setup_title', 14 );
 	add_action( 'bp_parse_query', '_bp_maybe_remove_redirect_canonical', 20 );
 	add_action( 'bp_parse_query', 'bp_remove_adjacent_posts_rel_link', 20 );

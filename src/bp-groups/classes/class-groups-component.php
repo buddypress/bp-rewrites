@@ -219,30 +219,33 @@ class Groups_Component extends \BP_Groups_Component {
 			)
 		);
 
+		// Set default Group creation steps.
+		$group_creation_steps = bp_get_group_views( 'create' );
+
+		// If avatar uploads are disabled, remove avatar view.
+		$disabled_avatar_uploads = (int) bp_disable_group_avatar_uploads();
+		if ( $disabled_avatar_uploads || ! $bp->avatar->show_avatars ) {
+			unset( $group_creation_steps['group-avatar'] );
+		}
+
+		// If cover images are disabled, remove its view.
+		if ( ! bp_group_use_cover_image_header() ) {
+			unset( $group_creation_steps['group-cover-image'] );
+		}
+
+		// If the invitations feature is not active, remove the corresponding view.
+		if ( ! bp_is_active( 'groups', 'invitations' ) ) {
+			unset( $group_creation_steps['group-invites'] );
+		}
+
 		/**
 		 * Filters the preconfigured groups creation steps.
 		 *
 		 * @since 1.1.0
 		 *
-		 * @param array $value Array of preconfigured group creation steps.
+		 * @param array $group_creation_steps Array of preconfigured group creation steps.
 		 */
-		$this->group_creation_steps = apply_filters( 'groups_create_group_steps', bp_get_group_views( 'create' ) );
-
-		// If avatar uploads are disabled, remove avatar view.
-		$disabled_avatar_uploads = (int) bp_disable_group_avatar_uploads();
-		if ( $disabled_avatar_uploads || ! $bp->avatar->show_avatars ) {
-			unset( $this->group_creation_steps['group-avatar'] );
-		}
-
-		// If cover images are disabled, remove its view.
-		if ( ! bp_group_use_cover_image_header() ) {
-			unset( $this->group_creation_steps['group-cover-image'] );
-		}
-
-		// If the friends component is not active, remove the invitations view.
-		if ( ! bp_is_active( 'friends' ) ) {
-			unset( $this->group_creation_steps['group-invites'] );
-		}
+		$this->group_creation_steps = apply_filters( 'groups_create_group_steps', $group_creation_steps );
 
 		/**
 		 * Filters the list of valid groups statuses.

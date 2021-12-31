@@ -205,26 +205,6 @@ function bp_nouveau_get_blogs_directory_nav_items( $nav_items = array() ) {
 add_action( 'bp_nouveau_get_blogs_directory_nav_items', __NAMESPACE__ . '\bp_nouveau_get_blogs_directory_nav_items', 1, 1 );
 
 /**
- * Makes sure the Group Invite creation step is used with BP Nouveau
- * even if the Friends component is not active.
- *
- * @since ?.0.0
- */
-function bp_nouveau_group_invites_create_steps() {
-	$bp            = buddypress();
-	$nouveau_steps = \bp_nouveau_group_invites_create_steps( array() );
-
-	if ( ! isset( $bp->groups->group_creation_steps['group-invites'] ) ) {
-		$views = bp_get_group_views( 'create' );
-
-		$bp->groups->group_creation_steps['group-invites'] = array_merge(
-			$views['group-invites'],
-			$nouveau_steps['group-invites']
-		);
-	}
-}
-
-/**
  * At the `bp_init` time, the BuddyPress Component global variables are not fully set.
  *
  * @since ?.0.0
@@ -238,11 +218,6 @@ function bp_nouveau_reset_hooks() {
 	if ( bp_is_active( 'messages' ) ) {
 		remove_action( 'bp_init', 'bp_nouveau_push_sitewide_notices', 99 );
 		add_action( 'bp_parse_query', 'bp_nouveau_push_sitewide_notices', 99 );
-	}
-
-	if ( bp_is_active( 'groups' ) ) {
-		remove_filter( 'groups_create_group_steps', 'bp_nouveau_group_invites_create_steps', 10, 1 );
-		add_action( 'bp_setup_globals', __NAMESPACE__ . '\bp_nouveau_group_invites_create_steps', 40 );
 	}
 }
 add_action( 'bp_init', __NAMESPACE__ . '\bp_nouveau_reset_hooks', 1 );

@@ -627,11 +627,6 @@ class Groups_Component extends \BP_Groups_Component {
 
 		$rewrite_rules = array(
 			'create-single-item-variables' => array(
-
-				/*
-				 * @todo `create` shouldn't be hardcoded.
-				 * We should use a function to get the create Group action.
-				 */
 				'regex' => $this->root_slug . '/' . $create_slug . '/(.+?)/?$',
 				'query' => 'index.php?' . $this->rewrite_ids['directory'] . '=1&' . $this->rewrite_ids['create_single_item'] . '=1&' . $this->rewrite_ids['create_single_item_variables'] . '=$matches[1]',
 			),

@@ -93,34 +93,14 @@ class XProfile_Component extends \BP_XProfile_Component {
 		// Update the primary nav item.
 		buddypress()->members->nav->edit_nav( $main_nav, $slug );
 
-		// Get the sub nav items for this main nav.
-		$sub_nav_items    = buddypress()->members->nav->get_secondary( array( 'parent_slug' => $slug ), false );
-		$edit_subnav_args = array();
-
-		// Loop inside it to reset the link using BP Rewrites before updating it.
-		foreach ( $sub_nav_items as $sub_nav_item ) {
-			if ( 'edit' === $sub_nav_item['slug'] ) {
-				$edit_subnav_args = $sub_nav_item;
-			}
-
-			$sub_nav_item['link'] = bp_members_rewrites_get_nav_url(
-				array(
-					'rewrite_id'     => $rewrite_id,
-					'item_component' => $slug,
-					'item_action'    => $sub_nav_item['slug'],
-				)
-			);
-
-			// Update the secondary nav item.
-			buddypress()->members->nav->edit_nav( $sub_nav_item, $sub_nav_item['slug'], $slug );
-		}
-
 		/*
 		 * We also need to reset the `xprofile_screen_edit_profile` screen function
 		 * For the Edit subnav.
 		 */
+		$edit_nav_key     = sprintf( '%s/edit', $slug );
+		$edit_subnav_args = (array) buddypress()->members->nav->get( $edit_nav_key );
 
-		// Remove the nav.
+		// Remove the edit nav.
 		bp_core_remove_subnav_item( $slug, $edit_subnav_args['slug'] );
 
 		// Restore the nav with a new screen function.
@@ -135,9 +115,11 @@ class XProfile_Component extends \BP_XProfile_Component {
 				'user_has_access' => $edit_subnav_args['user_has_access'],
 				'item_css_id'     => $edit_subnav_args['css_id'],
 				'no_access_url'   => $edit_subnav_args['no_access_url'],
-				'link'            => $edit_subnav_args['link'],
 			)
 		);
+
+		// Update the secondary nav items.
+		reset_secondary_nav( $slug, $rewrite_id );
 	}
 
 	/**
@@ -192,7 +174,12 @@ class XProfile_Component extends \BP_XProfile_Component {
 				);
 
 				if ( $root_nav_parent !== $item_nav['parent'] && isset( $viewes_slugs[ $item_nav_id ] ) ) {
-					$url_params['item_action'] = $viewes_slugs[ $item_nav_id ];
+					$sub_nav_rewrite_id        = sprintf(
+						'%1$s_%2$s',
+						$rewrite_id,
+						str_replace( '-', '_', $viewes_slugs[ $item_nav_id ] )
+					);
+					$url_params['item_action'] = bp_rewrites_get_slug( 'members', $sub_nav_rewrite_id, $viewes_slugs[ $item_nav_id ] );
 				}
 
 				$wp_admin_nav[ $key_item_nav ]['href'] = bp_members_rewrites_get_nav_url( $url_params );

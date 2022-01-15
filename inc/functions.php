@@ -481,6 +481,56 @@ function get_components_custom_slugs( $pages = null ) {
 add_filter( 'bp_core_get_directory_pages', __NAMESPACE__ . '\get_components_custom_slugs', 1 );
 
 /**
+ * Resets Secondary nav items for given parent slug and rewrite ID.
+ *
+ * @since 1.0.0
+ *
+ * @param string $parent_slug       The subnav parent's item slug.
+ * @param string $parent_rewrite_id The subnav parent's item rewrite ID.
+ * @param string $component_id      The component's ID (eg: members, groups).
+ */
+function reset_secondary_nav( $parent_slug = '', $parent_rewrite_id = '', $component_id = '' ) {
+	if ( ! $parent_slug || ! $parent_rewrite_id ) {
+		return;
+	}
+
+	$bp = buddypress();
+
+	if ( ! $component_id ) {
+		$component_id = $bp->members->id;
+	}
+
+	// Get the sub nav items for this main nav.
+	$sub_nav_items = $bp->{$component_id}->nav->get_secondary( array( 'parent_slug' => $parent_slug ), false );
+
+	// Loop inside it to reset the link using BP Rewrites before updating it.
+	foreach ( $sub_nav_items as $sub_nav_item ) {
+		$builtin_subnav_slug = $sub_nav_item['slug'];
+
+		// Set the subnav rewrite ID.
+		$sub_nav_item['rewrite_id'] = sprintf(
+			'%1$s_%2$s',
+			$parent_rewrite_id,
+			str_replace( '-', '_', $sub_nav_item['slug'] )
+		);
+
+		// Update subnav slug with potential custom slug.
+		$sub_nav_item['slug'] = bp_rewrites_get_slug( $component_id, $sub_nav_item['rewrite_id'], $sub_nav_item['slug'] );
+
+		$sub_nav_item['link'] = bp_members_rewrites_get_nav_url(
+			array(
+				'rewrite_id'     => $parent_rewrite_id,
+				'item_component' => $parent_slug,
+				'item_action'    => $sub_nav_item['slug'],
+			)
+		);
+
+		// Update the secondary nav item.
+		$bp->{$component_id}->nav->edit_nav( $sub_nav_item, $builtin_subnav_slug, $parent_slug );
+	}
+}
+
+/**
  * Simple utilily to empty a form action.
  *
  * @since 1.0.0

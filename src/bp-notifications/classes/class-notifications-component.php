@@ -70,22 +70,8 @@ class Notifications_Component extends \BP_Notifications_Component {
 		// Update the primary nav item.
 		buddypress()->members->nav->edit_nav( $main_nav, $slug );
 
-		// Get the sub nav items for this main nav.
-		$sub_nav_items = buddypress()->members->nav->get_secondary( array( 'parent_slug' => $slug ), false );
-
-		// Loop inside it to reset the link using BP Rewrites before updating it.
-		foreach ( $sub_nav_items as $sub_nav_item ) {
-			$sub_nav_item['link'] = bp_members_rewrites_get_nav_url(
-				array(
-					'rewrite_id'     => $rewrite_id,
-					'item_component' => $slug,
-					'item_action'    => $sub_nav_item['slug'],
-				)
-			);
-
-			// Update the secondary nav item.
-			buddypress()->members->nav->edit_nav( $sub_nav_item, $sub_nav_item['slug'], $slug );
-		}
+		// Update the secondary nav items.
+		reset_secondary_nav( $slug, $rewrite_id );
 	}
 
 	/**
@@ -138,7 +124,12 @@ class Notifications_Component extends \BP_Notifications_Component {
 				);
 
 				if ( $root_nav_parent !== $item_nav['parent'] && isset( $viewes_slugs[ $item_nav_id ] ) ) {
-					$url_params['item_action'] = $viewes_slugs[ $item_nav_id ];
+					$sub_nav_rewrite_id        = sprintf(
+						'%1$s_%2$s',
+						$rewrite_id,
+						str_replace( '-', '_', $viewes_slugs[ $item_nav_id ] )
+					);
+					$url_params['item_action'] = bp_rewrites_get_slug( 'members', $sub_nav_rewrite_id, $viewes_slugs[ $item_nav_id ] );
 				}
 
 				$wp_admin_nav[ $key_item_nav ]['href'] = bp_members_rewrites_get_nav_url( $url_params );

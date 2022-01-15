@@ -124,7 +124,60 @@ class Members_Component extends \BP_Members_Component {
 					unset( $bp->canonical_stack['component'] );
 				}
 			}
+
+			$current_action = \bp_current_action();
+			if ( $current_action ) {
+				// The action is stored as a slug, Rewrite IDs are keys: dashes need to be replaced by underscores.
+				$rewrite_id = sprintf( 'bp_member_%s_', $item_component ) . str_replace( '-', '_', $current_action );
+
+				$bp->canonical_stack['action'] = bp_rewrites_get_slug( 'members', $rewrite_id, $current_action );
+			}
 		}
+	}
+
+	/**
+	 * Used to very briefly use the current user ID as the displayed one.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return int The current user ID.
+	 */
+	public function override_displayed_user_id() {
+		return (int) get_current_user_id();
+	}
+
+	/**
+	 * Get the Avatar and Cover image subnavs.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return array The Avatar and Cover image subnavs.
+	 */
+	public function get_avatar_cover_image_subnavs() {
+		$has_filter = false;
+
+		/*
+		 * As `BP_Members_Component::get_avatar_cover_image_subnavs()` uses `\bp_get_members_component_link()` which
+		 * checks a user is displayed before generating the URL which is required to create a Subnav item, we need
+		 * to briefly override the displayed user ID to be able to customize Avatar & Cover Image slugs.
+		 */
+		if ( current_user_can( 'manage_options' ) && isset( $_SERVER['REQUEST_URI'] ) ) {
+			$request_uri     = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) );
+			$admin_url_parts = wp_parse_url( $request_uri );
+
+			if ( isset( $admin_url_parts['path'], $admin_url_parts['query'] ) && false !== strpos( $admin_url_parts['path'], 'wp-admin/admin.php' ) && false !== strpos( $admin_url_parts['query'], 'bp-rewrites-settings' ) ) {
+				add_filter( 'bp_displayed_user_id', array( $this, 'override_displayed_user_id' ) );
+				$has_filter = true;
+			}
+		}
+
+		$subnavs = parent::get_avatar_cover_image_subnavs();
+
+		if ( $has_filter ) {
+			remove_filter( 'bp_displayed_user_id', array( $this, 'override_displayed_user_id' ) );
+		}
+
+		return $subnavs;
 	}
 
 	/**
@@ -179,22 +232,8 @@ class Members_Component extends \BP_Members_Component {
 		// Update the primary nav item.
 		buddypress()->members->nav->edit_nav( $main_nav, $slug );
 
-		// Get the sub nav items for this main nav.
-		$sub_nav_items = buddypress()->members->nav->get_secondary( array( 'parent_slug' => $slug ), false );
-
-		// Loop inside it to reset the link using BP Rewrites before updating it.
-		foreach ( $sub_nav_items as $sub_nav_item ) {
-			$sub_nav_item['link'] = bp_members_rewrites_get_nav_url(
-				array(
-					'rewrite_id'     => $rewrite_id,
-					'item_component' => $slug,
-					'item_action'    => $sub_nav_item['slug'],
-				)
-			);
-
-			// Update the secondary nav item.
-			buddypress()->members->nav->edit_nav( $sub_nav_item, $sub_nav_item['slug'], $slug );
-		}
+		// Update the secondary nav items.
+		reset_secondary_nav( $slug, $rewrite_id, $this->id );
 
 		// In this case a new navigation is created for a fake profile component id.
 		if ( bp_displayed_user_has_front_template() && ! bp_is_active( 'xprofile' ) ) {
@@ -215,22 +254,8 @@ class Members_Component extends \BP_Members_Component {
 			// Update the primary nav item.
 			buddypress()->members->nav->edit_nav( $profile_nav, $profile_slug );
 
-			// Get the sub nav items for this main nav.
-			$profile_nav_sub_nav_items = buddypress()->members->nav->get_secondary( array( 'parent_slug' => $profile_slug ), false );
-
-			// Loop inside it to reset the link using BP Rewrites before updating it.
-			foreach ( $profile_nav_sub_nav_items as $profile_sub_nav_item ) {
-				$profile_sub_nav_item['link'] = bp_members_rewrites_get_nav_url(
-					array(
-						'rewrite_id'     => 'bp_member_profile',
-						'item_component' => $profile_slug,
-						'item_action'    => $profile_sub_nav_item['slug'],
-					)
-				);
-
-				// Update the secondary nav item.
-				buddypress()->members->nav->edit_nav( $profile_sub_nav_item, $profile_sub_nav_item['slug'], $profile_slug );
-			}
+			// Update the secondary nav items.
+			reset_secondary_nav( $profile_slug, 'bp_member_profile', $this->id );
 		}
 	}
 
@@ -268,9 +293,7 @@ class Members_Component extends \BP_Members_Component {
 			$rewrite_id      = 'bp_member_profile';
 			$root_nav_parent = buddypress()->my_account_menu_id;
 			$user_id         = bp_loggedin_user_id();
-
-			// NB: these slugs should probably be customizable.
-			$viewes_slugs = array(
+			$viewes_slugs    = array(
 				'my-account-' . $this->id . '-public' => 'public',
 				'my-account-' . $this->id . '-change-avatar' => 'change-avatar',
 				'my-account-' . $this->id . '-change-cover-image' => 'change-cover-image',
@@ -285,7 +308,12 @@ class Members_Component extends \BP_Members_Component {
 				);
 
 				if ( $root_nav_parent !== $item_nav['parent'] && isset( $viewes_slugs[ $item_nav_id ] ) ) {
-					$url_params['item_action'] = $viewes_slugs[ $item_nav_id ];
+					$sub_nav_rewrite_id        = sprintf(
+						'%1$s_%2$s',
+						$rewrite_id,
+						str_replace( '-', '_', $viewes_slugs[ $item_nav_id ] )
+					);
+					$url_params['item_action'] = bp_rewrites_get_slug( $this->id, $sub_nav_rewrite_id, $viewes_slugs[ $item_nav_id ] );
 				}
 
 				$wp_admin_nav[ $key_item_nav ]['href'] = bp_members_rewrites_get_nav_url( $url_params );
@@ -556,6 +584,17 @@ class Members_Component extends \BP_Members_Component {
 
 				$current_action = $query->get( $this->rewrite_ids['single_item_action'] );
 				if ( $current_action ) {
+					$context = sprintf( 'bp_member_%s_', $bp->current_component );
+
+					// Check if the member's component action slug has been customized.
+					$item_component_action_rewrite_id = bp_rewrites_get_custom_slug_rewrite_id( 'members', $current_action, $context );
+					if ( $item_component_action_rewrite_id ) {
+						$custom_action_slug = str_replace( $context, '', $item_component_action_rewrite_id );
+
+						// Make sure the action is stored as a slug: underscores need to be replaced by dashes.
+						$current_action = str_replace( '_', '-', $custom_action_slug );
+					}
+
 					$bp->current_action = $current_action;
 				}
 

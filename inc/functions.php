@@ -514,14 +514,14 @@ function reset_secondary_nav( $parent_slug = '', $parent_rewrite_id = '', $compo
 			str_replace( '-', '_', $sub_nav_item['slug'] )
 		);
 
-		// Update subnav slug with potential custom slug.
-		$sub_nav_item['slug'] = bp_rewrites_get_slug( $component_id, $sub_nav_item['rewrite_id'], $sub_nav_item['slug'] );
+		// Reset subnav slug with potential custom slug.
+		$subnav_slug = bp_rewrites_get_slug( $component_id, $sub_nav_item['rewrite_id'], $sub_nav_item['slug'] );
 
 		$sub_nav_item['link'] = bp_members_rewrites_get_nav_url(
 			array(
 				'rewrite_id'     => $parent_rewrite_id,
 				'item_component' => $parent_slug,
-				'item_action'    => $sub_nav_item['slug'],
+				'item_action'    => $subnav_slug,
 			)
 		);
 

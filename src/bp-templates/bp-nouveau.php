@@ -168,6 +168,72 @@ function bp_nouveau_get_activity_directory_nav_items( $nav_items = array() ) {
 add_action( 'bp_nouveau_get_activity_directory_nav_items', __NAMESPACE__ . '\bp_nouveau_get_activity_directory_nav_items', 1, 1 );
 
 /**
+ * `bp_nouveau_get_nav_scope()` needs to be edited to stop using the nav slug.
+ *
+ * @since ?.0.0
+ *
+ * @param array $attributes The field attributes.
+ * @return array The field attributes.
+ */
+function bp_nouveau_reset_nav_scope( $attributes = array() ) {
+	if ( isset( $attributes['data-bp-user-scope'] ) ) {
+		$scoped_rewrite_id = '';
+		$current_component = \bp_current_component();
+
+		if ( $current_component ) {
+			$rewrite_id = bp_rewrites_get_custom_slug_rewrite_id( 'members', $attributes['data-bp-user-scope'], $current_component );
+
+			if ( $rewrite_id ) {
+				$attributes['data-bp-user-scope'] = str_replace(
+					array( 'bp_member_' . $current_component . '_', '_' ),
+					array( '', '-' ),
+					$rewrite_id
+				);
+			}
+		}
+	}
+
+	return $attributes;
+}
+add_filter( 'bp_get_form_field_attributes', __NAMESPACE__ . '\bp_nouveau_reset_nav_scope', 1, 1 );
+
+/**
+ * `bp_nouveau_get_nav_classes()` needs to be edited to stop using the nav slug.
+ *
+ * @since ?.0.0
+ *
+ * @param string $classes            A space separated list of classes.
+ * @param array  $arr_classes        The list of classes.
+ * @param array  $nav_item           The current nav item object.
+ * @param string $current_object_nav The current nav in use.
+ * @return string A space separated list of classes.
+ */
+function bp_nouveau_reset_nav_classes( $classes = '', $arr_classes = array(), $nav_item = array(), $current_object_nav = '' ) {
+	$current_rewrite_id = '';
+
+	if ( isset( $nav_item['rewrite_id'] ) && ! in_array( 'current', $arr_classes, true ) ) {
+		$current_component = \bp_current_component();
+		$current_action    = \bp_current_action();
+
+		if ( 'personal' === $current_object_nav ) {
+			$current_rewrite_id = 'bp_member_' . $current_component;
+
+			if ( $current_action ) {
+				$current_rewrite_id .= '_' . str_replace( '-', '_', $current_action );
+			}
+
+			if ( $nav_item['rewrite_id'] === $current_rewrite_id ) {
+				$arr_classes = array_merge( $arr_classes, array( 'current', 'selected' ) );
+				$classes     = join( ' ', $arr_classes );
+			}
+		}
+	}
+
+	return $classes;
+}
+add_filter( 'bp_nouveau_get_classes', __NAMESPACE__ . '\bp_nouveau_reset_nav_classes', 1, 4 );
+
+/**
  * `\bp_nouveau_get_blogs_directory_nav_items()` needs to use BP Rewrites to built the nav item URLs.
  *
  * @since ?.0.0

@@ -129,43 +129,46 @@ function bp_core_admin_rewrites_settings() {
 							</table>
 						</div>
 					</div>
-					<div class="health-check-accordion">
-						<h4 class="health-check-accordion-heading">
-							<button aria-expanded="false" class="health-check-accordion-trigger" aria-controls="health-check-accordion-block-member-secondary-nav" type="button">
-								<span class="title"><?php esc_html_e( 'Single Member secondary views slugs', 'buddypress' ); ?></span>
-								<span class="icon"></span>
-							</button>
-						</h4>
-						<div id="health-check-accordion-block-member-secondary-nav" class="health-check-accordion-panel" hidden="hidden">
-							<table class="form-table" role="presentation">
-								<?php foreach ( $bp_members_primary_nav_items as $bp_members_primary_nav_slug => $bp_members_primary_nav_name ) : ?>
-									<?php
-									foreach ( $bp->members->nav->get_secondary( array( 'parent_slug' => $bp_members_primary_nav_slug ) ) as $secondary_nav_item ) :
-										if ( ! isset( $secondary_nav_item['rewrite_id'] ) || ! $secondary_nav_item['rewrite_id'] ) {
-											continue;
-										}
-										?>
-										<tr>
-											<th scope="row">
-												<label class="bp-nav-slug" for="<?php echo esc_attr( sprintf( '%s-slug', sanitize_key( $secondary_nav_item['rewrite_id'] ) ) ); ?>">
-													<?php
-													printf(
-														/* translators: %s is the member secondary view name */
-														esc_html__( '"%s" slug', 'buddypress' ),
-														esc_html( _bp_strip_spans_from_title( $secondary_nav_item['name'] ) )
-													);
-													?>
-												</label>
-											</th>
-											<td>
-												<input type="text" class="code" name="<?php printf( 'components[%1$d][_bp_component_slugs][%2$s]', absint( $directory_data->id ), esc_attr( $secondary_nav_item['rewrite_id'] ) ); ?>" id="<?php echo esc_attr( sprintf( '%s-slug', sanitize_key( $secondary_nav_item['rewrite_id'] ) ) ); ?>" value="<?php echo esc_attr( bp_rewrites_get_slug( $component_id, $secondary_nav_item['rewrite_id'], $secondary_nav_item['slug'] ) ); ?>">
-											</td>
-										</tr>
-									<?php endforeach; ?>
-								<?php endforeach; ?>
-							</table>
+
+					<?php foreach ( $bp_members_primary_nav_items as $bp_members_primary_nav_slug => $bp_members_primary_nav_name ) : ?>
+						<div class="health-check-accordion">
+							<h4 class="health-check-accordion-heading">
+								<button aria-expanded="false" class="health-check-accordion-trigger" aria-controls="<?php echo esc_attr( sprintf( 'health-check-accordion-block-member-%s-secondary-nav', $bp_members_primary_nav_slug ) ); ?>" type="button">
+									<?php /* translators: %s is the BP Component name the secondery views belong to. */ ?>
+									<span class="title"><?php echo esc_html( sprintf( __( 'Single Member %s secondary views slugs', 'buddypress' ), _bp_strip_spans_from_title( $bp_members_primary_nav_name ) ) ); ?></span>
+									<span class="icon"></span>
+								</button>
+							</h4>
+							<div id="<?php echo esc_attr( sprintf( 'health-check-accordion-block-member-%s-secondary-nav', $bp_members_primary_nav_slug ) ); ?>" class="health-check-accordion-panel" hidden="hidden">
+								<table class="form-table" role="presentation">
+
+										<?php
+										foreach ( $bp->members->nav->get_secondary( array( 'parent_slug' => $bp_members_primary_nav_slug ) ) as $secondary_nav_item ) :
+											if ( ! isset( $secondary_nav_item['rewrite_id'] ) || ! $secondary_nav_item['rewrite_id'] ) {
+												continue;
+											}
+											?>
+											<tr>
+												<th scope="row">
+													<label class="bp-nav-slug" for="<?php echo esc_attr( sprintf( '%s-slug', sanitize_key( $secondary_nav_item['rewrite_id'] ) ) ); ?>">
+														<?php
+														printf(
+															/* translators: %s is the member secondary view name */
+															esc_html__( '"%s" slug', 'buddypress' ),
+															esc_html( _bp_strip_spans_from_title( $secondary_nav_item['name'] ) )
+														);
+														?>
+													</label>
+												</th>
+												<td>
+													<input type="text" class="code" name="<?php printf( 'components[%1$d][_bp_component_slugs][%2$s]', absint( $directory_data->id ), esc_attr( $secondary_nav_item['rewrite_id'] ) ); ?>" id="<?php echo esc_attr( sprintf( '%s-slug', sanitize_key( $secondary_nav_item['rewrite_id'] ) ) ); ?>" value="<?php echo esc_attr( bp_rewrites_get_slug( $component_id, $secondary_nav_item['rewrite_id'], $secondary_nav_item['slug'] ) ); ?>">
+												</td>
+											</tr>
+										<?php endforeach; ?>
+								</table>
+							</div>
 						</div>
-					</div>
+					<?php endforeach; ?>
 				<?php endif; ?>
 
 				<?php if ( 'groups' === $component_id ) : ?>

@@ -44,6 +44,7 @@ function includes( $plugin_dir = '' ) {
 		require $path . 'src/bp-activity/bp-activity-rewrites.php';
 		require $path . 'src/bp-activity/bp-activity-functions.php';
 		require $path . 'src/bp-activity/bp-activity-filters.php';
+		require $path . 'src/bp-activity/bp-activity-cssjs.php';
 
 		if ( bp_is_active( 'notifications' ) ) {
 			require $path . 'src/bp-activity/bp-activity-notifications.php';

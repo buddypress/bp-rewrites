@@ -458,6 +458,14 @@ function disable_buddypress_legacy_url_parser() {
 	 * @see `BP\Rewrites\bp_members_admin_bar_add_invitations_menu()`
 	 */
 	remove_action( 'bp_setup_admin_bar', 'bp_members_admin_bar_add_invitations_menu', 90 );
+
+	/*
+	 * This filter is causing a too early call to `bp_is_activity_directory()`
+	 *
+	 * More globally the Activity Heartbeat feature should be improved by putting the script
+	 * inside its own file.
+	 */
+	remove_filter( 'bp_core_get_js_dependencies', 'bp_activity_get_js_dependencies', 10, 1 );
 }
 add_action( 'bp_init', __NAMESPACE__ . '\disable_buddypress_legacy_url_parser', 1 );
 

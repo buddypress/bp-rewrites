@@ -115,7 +115,7 @@ function bp_core_admin_rewrites_settings() {
 												<?php
 												printf(
 													/* translators: %s is the member primary view name */
-													esc_html__( '"%s" slug', 'member primary view name URL admin label', 'bp-rewrites' ),
+													esc_html_x( '"%s" slug', 'member primary view name URL admin label', 'bp-rewrites' ),
 													esc_html( _bp_strip_spans_from_title( $primary_nav_item['name'] ) )
 												);
 												?>

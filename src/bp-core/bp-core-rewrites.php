@@ -3,7 +3,7 @@
  * BuddyPress Rewrites.
  *
  * @package buddypress\bp-core
- * @since ?.0.0
+ * @since 1.0.0
  */
 
 namespace BP\Rewrites;
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Delete rewrite rules, so that they are automatically rebuilt on
  * the subsequent page load.
  *
- * @since ?.0.0
+ * @since 1.0.0
  */
 function bp_delete_rewrite_rules() {
 	delete_option( 'rewrite_rules' );
@@ -26,7 +26,7 @@ function bp_delete_rewrite_rules() {
 /**
  * Are Pretty URLs active ?
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @return bool True if Pretty URLs are on. False otherwise.
  */
@@ -38,7 +38,7 @@ function bp_has_pretty_urls() {
 /**
  * Get needed data to find a member single item from the request.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string $request The request used during parsing.
  * @return array Data to find a member single item from the request.
@@ -68,7 +68,7 @@ function bp_rewrites_get_member_data( $request = '' ) {
 /**
  * Returns the members single item (member) slug.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param int $user_id The User ID.
  * @return string The member slug.
@@ -95,7 +95,7 @@ function bp_rewrites_get_member_slug( $user_id = 0 ) {
 /**
  * Returns the slug to use for the view belonging to the requested component.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string $component_id The BuddyPress component's ID.
  * @param string $rewrite_id   The view rewrite ID.
@@ -121,7 +121,7 @@ function bp_rewrites_get_slug( $component_id = '', $rewrite_id = '', $default_sl
 /**
  * Returns the rewrite ID of a customized slug.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string $component_id The component ID (eg: `activity` for the BP Activity component).
  * @param string $slug         The customized slug.
@@ -159,7 +159,7 @@ function bp_rewrites_get_custom_slug_rewrite_id( $component_id = '', $slug = '',
  * @todo Allow customization using `bp_rewrites_get_slug()`
  *       Describe parameter.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param array $args An array of parameters.
  * @return string The BuddyPress link.

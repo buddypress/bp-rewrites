@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * `\bp_core_get_user_domain()` needs to be edited to use BP Rewrites.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string $domain        Domain for the user.
  * @param int    $user_id       ID of the user.
@@ -31,7 +31,7 @@ add_filter( 'bp_core_get_user_domain', __NAMESPACE__ . '\bp_core_get_user_domain
 /**
  * Adds backward compatibility when `\bp_get_current_member_type()` is called too early.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string $current_member_type The current member type being displayed into the Members directory.
  * @return null|string                Null if the current member type is not set yet. The current member type otherwise.
@@ -49,7 +49,7 @@ add_filter( 'bp_get_current_member_type', __NAMESPACE__ . '\bp_get_current_membe
  * `bp_core_signup_send_validation_email()` as well as `\bp_core_activation_signup_blog_notification()` need to use BP Rewrites
  * to build the `activate.url` Email tokens argument.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param array $args Email tokens.
  * @return array      Email tokens.

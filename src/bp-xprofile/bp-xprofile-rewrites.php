@@ -3,7 +3,7 @@
  * BuddyPress xProfile Rewrites.
  *
  * @package buddypress\bp-xprofile
- * @since ?.0.0
+ * @since 1.0.0
  */
 
 namespace BP\Rewrites;
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Return the Member's xProfile Edit URL.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string $url            The URL built for the BP Legacy URL parser. Never used.
  *                               But may be passed when this function is used as a filter.

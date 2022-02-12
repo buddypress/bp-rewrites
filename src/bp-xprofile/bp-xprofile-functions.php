@@ -3,7 +3,7 @@
  * BuddyPress xProfile Functions.
  *
  * @package buddypress\bp-xprofile
- * @since ?.0.0
+ * @since 1.0.0
  */
 
 namespace BP\Rewrites;
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Hooking to `bp_setup_globals` is too early, the displayed user is not set yet.
  *
- * @since ?.0.0
+ * @since 1.0.0
  */
 function xprofile_override_user_fullnames() {
 	remove_action( 'bp_setup_globals', 'xprofile_override_user_fullnames', 100 );

@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Returns the User's settings URL.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param int          $user_id    The user ID.
  * @param array        $query_vars Additional data to include to the URL as query vars.
@@ -52,7 +52,7 @@ function bp_settings_get_member_url( $user_id = 0, $query_vars = array(), $nonce
 /**
  * `\bp_settings_pending_email_notice()` needs to be edited to use BP Rewrites.
  *
- * @since ?.0.0
+ * @since 1.0.0
  */
 function bp_settings_pending_email_notice() {
 	// Remove the BuddyPress hook to replace it by BP Rewrites one.

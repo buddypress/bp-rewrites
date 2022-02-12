@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * This code should be in `\bp_core_get_admin_settings_tabs()`
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param array $tabs Tabs list.
  * @return array      Edited tabs list.
@@ -35,7 +35,7 @@ add_filter( 'bp_core_get_admin_settings_tabs', __NAMESPACE__ . '\bp_core_get_adm
 /**
  * Include the BP Rewrites tab to the Admin tabs needing specific inline styles.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param array $submenu_pages The BP_Admin submenu pages passed by reference.
  */

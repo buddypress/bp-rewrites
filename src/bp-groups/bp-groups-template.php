@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * `\bp_get_groups_directory_permalink()` needs to be edited so that it uses BP Rewrites.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string $url The Groups Directory permalink.
  * @return string     The Groups Directory permalink built using BP Rewrites.
@@ -29,7 +29,7 @@ add_filter( 'bp_get_groups_directory_permalink', __NAMESPACE__ . '\bp_get_groups
 /**
  * `\bp_get_group_permalink()` needs to be edited so that it uses BP Rewrites.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string          $url   The Group permalink.
  * @param BP_Groups_Group $group The Group object.
@@ -43,7 +43,7 @@ add_filter( 'bp_get_group_permalink', __NAMESPACE__ . '\bp_get_group_permalink',
 /**
  * Output the group's step creation link.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string $step The group creation step name.
  */
@@ -57,7 +57,7 @@ function bp_group_create_link( $step = '' ) {
  * NB: this function should be used instead of:
  * `trailingslashit( bp_get_groups_directory_permalink() . 'create' )`
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string $step The group creation step name.
  * @return string The URL of the group's step creation link.
@@ -68,7 +68,7 @@ function bp_get_group_create_link( $step = '' ) {
 	/**
 	 * Filters the group's step creation link.
 	 *
-	 * @since ?.0.0
+	 * @since 1.0.0
 	 *
 	 * @param string $link The group's step creation link.
 	 * @param string $step The group creation step name.
@@ -80,7 +80,7 @@ function bp_get_group_create_link( $step = '' ) {
  * Code to move inside `bp_get_group_create_button()` once `bp_get_group_create_link()`
  * has been merged into BP Core.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param array $button_args {
  *     Optional. An array of arguments.
@@ -98,7 +98,7 @@ add_filter( 'bp_get_group_create_button', __NAMESPACE__ . '\bp_get_group_create_
  * Code to move inside `bp_get_group_creation_form_action()` once `bp_get_group_create_link()`
  * has been merged into BP Core.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string $url The URL used by the step's creation form.
  * @return string     The URL used by the step's creation form.
@@ -118,7 +118,7 @@ add_filter( 'bp_get_group_creation_form_action', __NAMESPACE__ . '\bp_get_group_
 /**
  * Code to move inside `bp_get_group_creation_previous_link()` to use BP Rewrites.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string $url The URL used to go to the previous creation step.
  * @return string     The same URL but BP Rewrites ready.
@@ -139,7 +139,7 @@ add_filter( 'bp_get_group_creation_previous_link', __NAMESPACE__ . '\bp_get_grou
 /**
  * `\bp_get_group_admin_form_action()` needs to be edited to use BP Rewrites.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string          $url   The Group admin form action URL built for the BP Legacy URL parser.
  * @param BP_Groups_Group $group The Group object.
@@ -164,7 +164,7 @@ add_filter( 'bp_group_admin_form_action', __NAMESPACE__ . '\bp_group_admin_form_
 /**
  * `\bp_group_form_action()` needs to be edited to use BP Rewrites.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string          $url   The Group form action URL built for the BP Legacy URL parser.
  * @param BP_Groups_Group $group The Group object.
@@ -191,7 +191,7 @@ add_filter( 'bp_group_form_action', __NAMESPACE__ . '\bp_group_form_action', 1, 
  *
  * NB: This function seems to be only used by the single Group Admin Bar menu.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string $url        URL for a group component action built for the BP Legacy URL parser.
  * @param string $action     Action being taken for the group.
@@ -227,7 +227,7 @@ add_filter( 'bp_get_groups_action_link', __NAMESPACE__ . '\bp_get_groups_action_
 /**
  * `\bp_get_group_accept_invite_link()` needs to be edited to use BP Rewrites.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string          $url   The Group action URL built for the BP Legacy URL parser.
  * @param BP_Groups_Group $group The Group object.
@@ -248,7 +248,7 @@ add_filter( 'bp_get_group_accept_invite_link', __NAMESPACE__ . '\bp_get_group_ac
 /**
  * `\bp_get_group_accept_invite_link()` needs to be edited to use BP Rewrites.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param array           $args {
  *    An array of arguments.
@@ -294,7 +294,7 @@ add_filter( 'bp_get_group_join_button', __NAMESPACE__ . '\bp_get_group_join_butt
 /**
  * `\bp_get_group_request_accept_link()` needs to be edited to use BP Rewrites.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string $url The URL used by the step's creation form.
  * @return string     The URL used by the step's creation form.
@@ -323,7 +323,7 @@ add_filter( 'bp_get_group_request_accept_link', __NAMESPACE__ . '\bp_get_group_r
 /**
  * `\bp_get_group_request_reject_link()` needs to be edited to use BP Rewrites.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string $url The URL used by the step's creation form.
  * @return string     The URL used by the step's creation form.
@@ -352,7 +352,7 @@ add_filter( 'bp_get_group_request_reject_link', __NAMESPACE__ . '\bp_get_group_r
 /**
  * `\bp_get_group_type_directory_permalink()` should use BP Rewrites.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string $url  The URL built for the BP Legacy URL parser.
  * @param object $type The Group type object.

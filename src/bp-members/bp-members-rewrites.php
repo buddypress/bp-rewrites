@@ -3,7 +3,7 @@
  * BuddyPress Members Rewrites.
  *
  * @package buddypress\bp-members
- * @since ?.0.0
+ * @since 1.0.0
  */
 
 namespace BP\Rewrites;
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Sets nav item URL using BP Rewrites.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param array $args {
  *    An array of arguments.
@@ -72,7 +72,7 @@ function bp_members_rewrites_get_nav_url( $args = array() ) {
 /**
  * Return the Mmbers single item's URL.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param int    $user_id  The user ID.
  * @param string $username The user user_nicename.
@@ -110,7 +110,7 @@ function bp_member_rewrites_get_url( $user_id = 0, $username = '', $action = arr
 /**
  * Return the Members Directory URL.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @return string The URL built for the BP Rewrites URL parser.
  */
@@ -125,7 +125,7 @@ function bp_members_rewrites_get_url() {
 /**
  * Return the Member Type's URL.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param object $type The Member type object.
  * @return string      The URL built for the BP Rewrites URL parser.
@@ -146,7 +146,7 @@ function bp_member_type_rewrites_get_url( $type = null ) {
 /**
  * Return the Signup URL.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @return string The Signup URL built for the BP Rewrites URL parser.
  */
@@ -162,7 +162,7 @@ function bp_signup_rewrites_get_url() {
 /**
  * Return the Activation URL.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string $key The Activation Key. Optional.
  * @return string     The Activation URL built for the BP Rewrites URL parser.

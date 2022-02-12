@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * Doing this check inside `BuddyPress::__get()` would probably be better to improve this backcompat mechanism.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string $function  The function name. Required.
  * @param array  $bp_global An array containing the BuddyPress global name. Required.
@@ -67,7 +67,7 @@ function _was_called_too_early( $function, $bp_global ) {
 /**
  * Adds backward compatibility when `\bp_current_component()` is called too early.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param false|string $current_component False if the current component is not set yet. The component name otherwise.
  * @return null|string                    Null if the current component is not set yet. The component name otherwise.
@@ -86,7 +86,7 @@ add_filter( 'bp_current_component', __NAMESPACE__ . '\bp_current_component', 1, 
  *
  * NB: this would probably be unnecessary if `\bp_is_current_component()` was using `\bp_current_component()`.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param bool   $is_current_component True if the current component is the one being checked. False otherwise.
  * @param string $component            The component ID to check.
@@ -104,7 +104,7 @@ add_filter( 'bp_is_current_component', __NAMESPACE__ . '\bp_is_current_component
 /**
  * Adds backward compatibility when `bp_current_action()` is called too early.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string $current_action Empty string if the current action is not set yet. The component action name otherwise.
  * @return null|string           Null if the current action is not set yet. The component action name otherwise.
@@ -121,7 +121,7 @@ add_filter( 'bp_current_action', __NAMESPACE__ . '\bp_current_action', 1, 1 );
 /**
  * Adds backward compatibility when `bp_current_item()` is called too early.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param false|string $current_item False if the current item is not set yet. The single item slug otherwise.
  * @return null|string               Null if the current item is not set yet. The single item slug otherwise.
@@ -138,7 +138,7 @@ add_filter( 'bp_current_item', __NAMESPACE__ . '\bp_current_item', 1, 1 );
 /**
  * Adds backward compatibility when `bp_action_variables()` is called too early.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param false|array $action_variables False if the action variables are not set yet. The action variables otherwise.
  * @return null|array                   Null if the action variables are not set yet. The action variables otherwise.
@@ -155,7 +155,7 @@ add_filter( 'bp_action_variables', __NAMESPACE__ . '\bp_action_variables', 1, 1 
 /**
  * Adds backward compatibility when `bp_displayed_user_id()` is called too early.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param int $user_id 0 if the displayed user ID is not set yet. The the displayed user ID otherwise.
  * @return null|int    Null if the the displayed user ID is not set yet. The the displayed user ID otherwise.

@@ -3,7 +3,7 @@
  * BuddyPress Members Toolbar.
  *
  * @package buddypress\bp-members
- * @since ?.0.0
+ * @since 1.0.0
  */
 
 namespace BP\Rewrites;
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Code to use inside `\bp_members_admin_bar_add_invitations_menu()`.
  *
- * @since ?.0.0
+ * @since 1.0.0
  */
 function bp_members_admin_bar_add_invitations_menu() {
 	global $wp_admin_bar;

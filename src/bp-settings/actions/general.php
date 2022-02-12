@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * The link used for the redirection should use BP Rewrites.
  *
- * @since ?.0.0
+ * @since 1.0.0
  */
 function bp_settings_action_general() {
 	bp_core_redirect( bp_get_requested_url() );
@@ -26,7 +26,7 @@ add_action( 'bp_core_general_settings_after_save', __NAMESPACE__ . '\bp_settings
 /**
  * `bp_settings_action_general()` need to use BP Rewrites to build the `verify.url` Email tokens argument.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param array $args Email tokens.
  * @return array      Email tokens.

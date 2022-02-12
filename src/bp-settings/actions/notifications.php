@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * The link used for the redirection should use BP Rewrites.
  *
- * @since ?.0.0
+ * @since 1.0.0
  */
 function bp_settings_action_notifications() {
 	bp_core_redirect( bp_get_requested_url() );

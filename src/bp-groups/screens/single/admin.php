@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * This code should move inside `\groups_screen_group_admin()`.
  *
- * @since ?.0.0
+ * @since 1.0.0
  */
 function groups_screen_group_admin() {
 	if ( ! bp_is_groups_component() || ! bp_is_current_action( 'admin' ) ) {

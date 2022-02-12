@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * `bp_notifications_toolbar_menu()` needs to use BP Rewrites to build URLs.
  *
- * @since ?.0.0
+ * @since 1.0.0
  */
 function bp_notifications_toolbar_menu() {
 	global $wp_admin_bar;

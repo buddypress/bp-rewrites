@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * This code should be moved to `\bp_activity_action_permalink_router()`.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string               $redirect The redirection URL used for the Legacy URL Parser.
  * @param BP_Activity_Activity $activity The Activity object.

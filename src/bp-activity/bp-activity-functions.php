@@ -3,7 +3,7 @@
  * BuddyPress Activity Functions.
  *
  * @package buddypress\bp-activity
- * @since ?.0.0
+ * @since 1.0.0
  */
 
 namespace BP\Rewrites;
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * `bp_activity_get_permalink()` needs to be edited to use BP Rewrites.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string               $url      The Activity single item URL built for the Legacy URL parser.
  * @param BP_Activity_Activity $activity The activity object.

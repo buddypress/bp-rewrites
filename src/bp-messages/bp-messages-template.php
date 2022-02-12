@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * `\bp_get_message_thread_view_link()` should be edited to use BP Rewrites.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string $url       The URL built for the BP Legacy URL parser.
  * @param int    $thread_id The ID of the thread.

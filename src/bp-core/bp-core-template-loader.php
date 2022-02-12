@@ -64,7 +64,7 @@ add_action( 'parse_query', __NAMESPACE__ . '\bp_parse_query', 2 );
  *
  * This is used for specific cases such as Root Member's profile or Ajax.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string    $bp_request A specific BuddyPress request.
  * @param \WP_Query $query The WordPress query object.
@@ -134,7 +134,7 @@ function bp_reset_query( $bp_request = '', \WP_Query $query = null ) {
 /**
  * Makes sure BuddyPress globals are set during Ajax requests.
  *
- * @since ?.0.0
+ * @since 1.0.0
  */
 function bp_reset_ajax_query() {
 	if ( ! wp_doing_ajax() ) {

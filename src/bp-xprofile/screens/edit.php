@@ -4,7 +4,7 @@
  *
  * @package buddypress\bp-xprofile\screens
  *
- * @since ?.0.0
+ * @since 1.0.0
  */
 
 namespace BP\Rewrites;
@@ -12,7 +12,7 @@ namespace BP\Rewrites;
 /**
  * This code should move inside `\xprofile_screen_edit_profile()`.
  *
- * @since ?.0.0
+ * @since 1.0.0
  */
 function xprofile_screen_edit_profile() {
 

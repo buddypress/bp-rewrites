@@ -52,7 +52,7 @@ function bp_messages_format_multiple_message_notification( $content = '', $total
  *
  * This function is hooked to `bp_init` and register the above filter.
  *
- * @since ?.0.0
+ * @since 1.0.0
  */
 function messages_format_notifications() {
 	add_filter( 'bp_messages_multiple_new_message_string_notification', __NAMESPACE__ . '\bp_messages_format_multiple_message_notification', 1, 2 );

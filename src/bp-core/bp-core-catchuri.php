@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Code to move in `\bp_core_load_template()`.
  *
- * @since ?.0.0
+ * @since 1.0.0
  */
 function bp_core_load_template() {
 	if ( 'bp_core_pre_load_template' === current_action() || ( 'bp_setup_theme_compat' === current_action() && is_buddypress() ) ) {
@@ -35,7 +35,7 @@ add_action( 'bp_setup_theme_compat', __NAMESPACE__ . '\bp_core_load_template' );
  * You shouldn't really have to use this function unless you need to find a BP
  * URI segment earlier than the `'bp_parse_query'` action.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param array $bp_global An array containing the BuddyPress global name. Required.
  * @return mixed|false The global value if found. False otherwise.

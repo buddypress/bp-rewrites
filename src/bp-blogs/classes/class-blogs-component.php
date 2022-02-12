@@ -173,7 +173,7 @@ class Blogs_Component extends \BP_Blogs_Component {
 	/**
 	 * Add the component's rewrite tags.
 	 *
-	 * @since ?.0.0
+	 * @since 1.0.0
 	 *
 	 * @param array $rewrite_tags Optional. See BP_Component::add_rewrite_tags() for
 	 *                            description.
@@ -206,7 +206,7 @@ class Blogs_Component extends \BP_Blogs_Component {
 	/**
 	 * Add the component's rewrite rules.
 	 *
-	 * @since ?.0.0
+	 * @since 1.0.0
 	 *
 	 * @param array $rewrite_rules Optional. See BP_Component::add_rewrite_rules() for
 	 *                             description.
@@ -243,7 +243,7 @@ class Blogs_Component extends \BP_Blogs_Component {
 	/**
 	 * Add the component's directory permastructs.
 	 *
-	 * @since ?.0.0
+	 * @since 1.0.0
 	 *
 	 * @param array $permastructs Optional. See BP_Component::add_permastructs() for
 	 *                            description.
@@ -269,7 +269,7 @@ class Blogs_Component extends \BP_Blogs_Component {
 	/**
 	 * Parse the WP_Query and eventually display the component's directory or single item.
 	 *
-	 * @since ?.0.0
+	 * @since 1.0.0
 	 *
 	 * @param WP_Query $query Required. See BP_Component::parse_query() for
 	 *                        description.

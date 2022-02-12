@@ -3,7 +3,7 @@
  * BuddyPress Groups Filters.
  *
  * @package buddypress\bp-groups
- * @since ?.0.0
+ * @since 1.0.0
  */
 
 namespace BP\Rewrites;
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * `\bp_groups_user_can_filter` should wait the `bp_groups_parse_query` hook has fired before
  * trying to get the current group ID.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param bool   $retval     Whether or not the current user has the capability.
  * @param int    $user_id    The user ID.
@@ -51,7 +51,7 @@ function bp_groups_user_can_filter( $retval, $user_id, $capability, $site_id, $a
 /**
  * `\bp_groups_user_can_filter` can happen before the Groups component is fully set.
  *
- * @since ?.0.0
+ * @since 1.0.0
  */
 function do_it_right_groups_user_can_filter() {
 	remove_filter( 'bp_user_can', 'bp_groups_user_can_filter', 10, 5 );

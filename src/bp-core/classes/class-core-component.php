@@ -18,7 +18,7 @@ class Core_Component extends \BP_Core {
 	/**
 	 * Parse the WP_Query and eventually display the component's directory or single item.
 	 *
-	 * @since ?.0.0
+	 * @since 1.0.0
 	 *
 	 * @param WP_Query $query Required. See BP_Component::parse_query() for
 	 *                        description.

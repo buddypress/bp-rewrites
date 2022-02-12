@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * `\bp_get_notifications_permalink()` needs to be edited to use BP Rewrites.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string $url     The URL built for the BP Legacy URL parser.
  * @param int    $user_id The user ID.
@@ -40,7 +40,7 @@ add_filter( 'bp_get_notifications_permalink', __NAMESPACE__ . '\bp_get_notificat
 /**
  * `\bp_get_notifications_unread_permalink()` needs to be edited to use BP Rewrites.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string $url     The URL built for the BP Legacy URL parser.
  * @param int    $user_id The user ID.
@@ -55,7 +55,7 @@ add_filter( 'bp_get_notifications_unread_permalink', __NAMESPACE__ . '\bp_get_no
 /**
  * `\bp_get_notifications_read_permalink()` needs to be edited to use BP Rewrites.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string $url     The URL built for the BP Legacy URL parser.
  * @param int    $user_id The user ID.

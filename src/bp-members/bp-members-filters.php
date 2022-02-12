@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * `\bp_members_edit_profile_url()` needs to be edited to use BP Rewrites.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string $profile_link The BuddyPress Edit Profile URL.
  * @param string $url          The WP profile edit URL.

@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * `\bp_get_activity_directory_permalink()` needs to be edited to use BP Rewrites.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string $url The URL built for the BP Legacy URL parser.
  * @return string     The URL built for the BP Rewrites URL parser.
@@ -29,7 +29,7 @@ add_filter( 'bp_get_activity_directory_permalink', __NAMESPACE__ . '\bp_get_acti
 /**
  * `\bp_get_sitewide_activity_feed_link()` needs to be edited to use BP Rewrites.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string $url The URL built for the BP Legacy URL parser.
  * @return string     The URL built for the BP Rewrites URL parser.
@@ -42,7 +42,7 @@ add_filter( 'bp_get_sitewide_activity_feed_link', __NAMESPACE__ . '\bp_get_sitew
 /**
  * `\bp_get_activity_post_form_action()` needs to be edited to use BP Rewrites.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string $url The URL built for the BP Legacy URL parser.
  * @return string     The URL built for the BP Rewrites URL parser.
@@ -55,7 +55,7 @@ add_filter( 'bp_get_activity_post_form_action', __NAMESPACE__ . '\bp_get_activit
 /**
  * `\bp_get_activity_comment_form_action()` needs to be edited to use BP Rewrites.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string $url The URL built for the BP Legacy URL parser.
  * @return string     The URL built for the BP Rewrites URL parser.
@@ -68,7 +68,7 @@ add_filter( 'bp_get_activity_comment_form_action', __NAMESPACE__ . '\bp_get_acti
 /**
  * `\bp_get_activity_comment_link()` needs to be edited to use BP Rewrites.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string $url The URL built for the BP Legacy URL parser.
  * @return string     The URL built for the BP Rewrites URL parser.
@@ -88,7 +88,7 @@ add_filter( 'bp_get_activity_comment_link', __NAMESPACE__ . '\bp_get_activity_co
 /**
  * `\bp_get_activity_favorite_link()` needs to be edited to use BP Rewrites.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string $url The URL built for the BP Legacy URL parser.
  * @return string     The URL built for the BP Rewrites URL parser.
@@ -101,7 +101,7 @@ add_filter( 'bp_get_activity_favorite_link', __NAMESPACE__ . '\bp_get_activity_f
 /**
  * `\bp_get_activity_unfavorite_link()` needs to be edited to use BP Rewrites.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string $url The URL built for the BP Legacy URL parser.
  * @return string     The URL built for the BP Rewrites URL parser.
@@ -114,7 +114,7 @@ add_filter( 'bp_get_activity_unfavorite_link', __NAMESPACE__ . '\bp_get_activity
 /**
  * `\bp_get_activity_delete_url()` needs to be edited to use BP Rewrites.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string $url The URL built for the BP Legacy URL parser.
  * @return string     The URL built for the BP Rewrites URL parser.

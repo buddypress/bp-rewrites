@@ -3,7 +3,7 @@
  * Required BP Nouveau edits.
  *
  * @package buddypress\bp-templates\bp-nouveau
- * @since ?.0.0
+ * @since 1.0.0
  */
 
 namespace BP\Rewrites;
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * `\bp_nouveau_get_nav_link()` needs to be edited to stop modifying the nav item links.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string $link     The URL for the nav item.
  * @param object $nav_item The nav item object.
@@ -34,7 +34,7 @@ add_filter( 'bp_nouveau_get_nav_link', __NAMESPACE__ . '\bp_nouveau_get_nav_link
 /**
  * `\bp_nouveau_get_members_directory_nav_items()` needs to use BP Rewrites to built the "my friends" URL.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param array $nav_items An associative array containing the Directory nav items.
  * @return array           An associative array containing the Directory nav items.
@@ -63,7 +63,7 @@ add_action( 'bp_nouveau_get_members_directory_nav_items', __NAMESPACE__ . '\bp_n
 /**
  * `\bp_nouveau_get_groups_directory_nav_items()` needs to use BP Rewrites to built the "my groups" URL.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param array $nav_items An associative array containing the Directory nav items.
  * @return array           An associative array containing the Directory nav items.
@@ -97,7 +97,7 @@ add_action( 'bp_nouveau_get_groups_directory_nav_items', __NAMESPACE__ . '\bp_no
 /**
  * `\bp_nouveau_get_activity_directory_nav_items()` needs to use BP Rewrites to built the nav item URLs.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param array $nav_items An associative array containing the Directory nav items.
  * @return array           An associative array containing the Directory nav items.
@@ -170,7 +170,7 @@ add_action( 'bp_nouveau_get_activity_directory_nav_items', __NAMESPACE__ . '\bp_
 /**
  * `bp_nouveau_get_nav_scope()` needs to be edited to stop using the nav slug.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param array $attributes The field attributes.
  * @return array The field attributes.
@@ -200,7 +200,7 @@ add_filter( 'bp_get_form_field_attributes', __NAMESPACE__ . '\bp_nouveau_reset_n
 /**
  * At the `bp_init` time, the BuddyPress Component global variables are not fully set.
  *
- * @since ?.0.0
+ * @since 1.0.0
  */
 function bp_nouveau_reset_hooks() {
 	if ( bp_is_active( 'notifications' ) ) {
@@ -218,7 +218,7 @@ add_action( 'bp_init', __NAMESPACE__ . '\bp_nouveau_reset_hooks', 1 );
 /**
  * `\bp_nouveau_activity_get_rss_link()` needs to be edited to use BP Rewrites.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string $url The URL built for the BP Legacy URL parser.
  * @return string     The URL built for the BP Rewrites URL parser.

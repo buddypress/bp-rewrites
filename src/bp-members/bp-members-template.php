@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * `\bp_get_members_directory_permalink()` needs to be edited to use BP Rewrites.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string $url The Members directory permalink built for the BP Legacy URL parser.
  * @return string     The Members directory permalink built for the BP Rewrites URL parser.
@@ -29,7 +29,7 @@ add_filter( 'bp_get_members_directory_permalink', __NAMESPACE__ . '\bp_get_membe
 /**
  * `\bp_get_displayed_user_nav()` needs to be edited to stop modifying the nav item links.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string $output          Nav Item HTML output.
  * @param object $nav_item_object The nav item object.
@@ -46,7 +46,7 @@ function bp_get_displayed_user_nav( $output = '', $nav_item_object = null ) {
 /**
  * `\bp_get_signup_page()` needs to be edited to use BP Rewrites.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string $url The Signup URL built for the BP Legacy URL parser.
  * @return string     The Signup URL built for the BP Rewrites URL parser.
@@ -63,7 +63,7 @@ add_filter( 'bp_get_signup_page', __NAMESPACE__ . '\bp_get_signup_page', 1, 1 );
 /**
  * `\bp_get_activation_page()` needs to be edited to use BP Rewrites.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string $url The Activation URL built for the BP Legacy URL parser.
  * @return string     The Activation URL built for the BP Rewrites URL parser.
@@ -80,7 +80,7 @@ add_filter( 'bp_get_activation_page', __NAMESPACE__ . '\bp_get_activation_page',
 /**
  * `\bp_get_member_type_directory_permalink()` should use BP Rewrites.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string $url  The URL built for the BP Legacy URL parser.
  * @param object $type The Member type object.

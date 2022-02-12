@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Code to use inside `\bp_members_invitations_setup_nav()`.
  *
- * @since ?.0.0
+ * @since 1.0.0
  */
 function bp_members_invitations_setup_nav() {
 	$bp = buddypress();

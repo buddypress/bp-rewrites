@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * `messages_notification_new_message()` need to use BP Rewrites to build the `message.url` Email tokens argument.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param array $args Email tokens.
  * @return array      Email tokens.

@@ -3,7 +3,7 @@
  * BuddyPress Rewrites Admin Functions.
  *
  * @package buddypress\bp-core\admin
- * @since ?.0.0
+ * @since 1.0.0
  */
 
 namespace BP\Rewrites;
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Renders BuddyPress URLs admin panel.
  *
- * @since ?.0.O
+ * @since 1.0.0
  */
 function bp_core_admin_rewrites_settings() {
 	$bp              = buddypress();
@@ -257,7 +257,7 @@ function bp_core_admin_rewrites_settings() {
 /**
  * Handle saving of the BuddyPress customizable slugs.
  *
- * @since ?.0.0
+ * @since 1.0.0
  */
 function bp_core_admin_rewrites_setup_handler() {
 	if ( ! isset( $_POST['bp-admin-rewrites-submit'] ) ) {

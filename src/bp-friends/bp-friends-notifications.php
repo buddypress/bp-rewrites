@@ -82,7 +82,7 @@ function bp_friends_format_friendship_request_notification( $content = '', $tota
  *
  * This function is hooked to `bp_init` and register the above filter.
  *
- * @since ?.0.0
+ * @since 1.0.0
  */
 function friends_format_notifications() {
 	foreach ( array( 'friendship_accepted', 'friendship_request' ) as $action ) {

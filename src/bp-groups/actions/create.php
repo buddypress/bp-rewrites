@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * `\groups_action_create_group()` needs to be edited to allow slug customization and use BP Rewrites.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @return bool
  */
@@ -408,7 +408,7 @@ add_action( 'bp_actions', __NAMESPACE__ . '\groups_action_create_group' );
 /**
  * \groups_action_sort_creation_steps() needs to include the `rewrite_id` piece of info.
  *
- * @since ?.0.0
+ * @since 1.0.0
  */
 function groups_action_sort_creation_steps() {
 	$bp    = buddypress();

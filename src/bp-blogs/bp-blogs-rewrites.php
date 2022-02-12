@@ -3,7 +3,7 @@
  * BuddyPress Blogs Rewrites.
  *
  * @package buddypress\bp-blogs
- * @since ?.0.0
+ * @since 1.0.0
  */
 
 namespace BP\Rewrites;
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Return the Blogs Directory URL.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @return string The URL built for the BP Rewrites URL parser.
  */
@@ -31,7 +31,7 @@ function bp_blogs_rewrites_get_url() {
 /**
  * Return the Blog's creation link.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @return string The URL built for the BP Rewrites URL parser.
  */

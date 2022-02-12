@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * `friends_notification_new_request()` need to use BP Rewrites to build the `friend-requests.url` Email tokens argument.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param array $args Email tokens.
  * @return array      Email tokens.

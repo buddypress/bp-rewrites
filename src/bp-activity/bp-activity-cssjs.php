@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Enqueues the Heartbeat script if needed.
  *
- * @since ?.0.0
+ * @since 1.0.0
  */
 function bp_activity_heartbeat_enqueue_script() {
 	if ( bp_activity_do_heartbeat() ) {

@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * NB: the `\bp_get_add_friend_button` filter should pass the User ID.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param array $args {
  *    An array of arguments.
@@ -93,7 +93,7 @@ add_filter( 'bp_get_add_friend_button', __NAMESPACE__ . '\bp_get_add_friend_butt
 /**
  * `\bp_get_friend_accept_request_link()` should be edited to use BP Rewrites.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string $url           The URL built for the BP Legacy URL parser.
  * @param int    $friendship_id The ID of the friendship.
@@ -114,7 +114,7 @@ add_filter( 'bp_get_friend_accept_request_link', __NAMESPACE__ . '\bp_get_friend
 /**
  * `\bp_get_friend_reject_request_link()` should be edited to use BP Rewrites.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string $url           The URL built for the BP Legacy URL parser.
  * @param int    $friendship_id The ID of the friendship.

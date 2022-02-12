@@ -3,7 +3,7 @@
  * BuddyPress Activity Rewrites.
  *
  * @package buddypress\bp-activity
- * @since ?.0.0
+ * @since 1.0.0
  */
 
 namespace BP\Rewrites;
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Returns the Activity Directory URL.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @return string The Activity Directory URL built for the BP Rewrites URL parser.
  */
@@ -31,7 +31,7 @@ function bp_activities_rewrites_get_url() {
 /**
  * Returns the Activity single item URL.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param BP_Activity_Activity $activity The Activity Object.
  * @return string                        The Activity single item URL built for the BP Rewrites URL parser.
@@ -63,7 +63,7 @@ function bp_activity_rewrites_get_url( $activity = null ) {
 /**
  * Returns the Activity Post Form URL.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @return string The Activity Post Form URL built for the BP Rewrites URL parser.
  */
@@ -79,7 +79,7 @@ function bp_activity_rewrites_get_post_form_action() {
 /**
  * Returns the Activity Comment Form URL.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @return string The Activity Comment Form URL built for the BP Rewrites URL parser.
  */
@@ -95,7 +95,7 @@ function bp_activity_rewrites_get_comment_form_action() {
 /**
  * Returns the Activity Comment URL.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param array  $query_vars  Additional query vars to add to the Activity comment URL.
  * @param string $anchor      Anchor to add to the Activity comment URL.
@@ -129,7 +129,7 @@ function bp_activity_rewrites_get_comment_url( $query_vars = array(), $anchor = 
 /**
  * Returns the Activity Favorite Action URL.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param int $activity_id The activity ID. Optional.
  * @return string          The Activity Favorite Action URL built for the BP Rewrites URL parser.
@@ -153,7 +153,7 @@ function bp_activity_rewrites_get_favorite_url( $activity_id = 0 ) {
 /**
  * Returns the Activity Unfavorite Action URL.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param int $activity_id The activity ID. Optional.
  * @return string          The Activity Unfavorite Action URL built for the BP Rewrites URL parser.
@@ -177,7 +177,7 @@ function bp_activity_rewrites_get_unfavorite_url( $activity_id = 0 ) {
 /**
  * Returns the Activity Delete Action URL.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param int   $activity_id The activity ID. Optional.
  * @param array $query_vars  The additional query vars to add to the delete URL.
@@ -206,7 +206,7 @@ function bp_activity_rewrites_get_delete_url( $activity_id = 0, $query_vars = ar
 /**
  * Returns the Activity Sitewide Feed URL.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @return string The Activity Sitewide Feed URL built for the BP Rewrites URL parser.
  */
@@ -222,7 +222,7 @@ function bp_activity_rewrites_get_sitewide_feed_url() {
 /**
  * Returns the User's Activity Feed URL.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param int $user_id The activity ID. Optional. Defaults to the displayed user ID.
  * @return string      The User's Activity Feed URL built for the BP Rewrites URL parser.
@@ -268,7 +268,7 @@ function bp_activity_rewrites_get_member_rss_url( $user_id = 0 ) {
 /**
  * Returns the Activity redirect URL.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param BP_Activity_Activity $activity The Activity Object.
  * @return string                        The Activity redirect URL built for the BP Rewrites URL parser.

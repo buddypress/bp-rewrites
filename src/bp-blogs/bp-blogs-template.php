@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Output the create blog link.
  *
- * @since ?.0.0
+ * @since 1.0.0
  */
 function bp_blog_create_link() {
 	echo esc_url( bp_get_blog_create_link() );
@@ -28,7 +28,7 @@ function bp_blog_create_link() {
  * NB : This function should be used instead of:
  * `trailingslashit( bp_get_blogs_directory_permalink() . 'create' )`
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @return string The URL of the create blog link.
  */
@@ -38,7 +38,7 @@ function bp_get_blog_create_link() {
 	/**
 	 * Filters the create blog link.
 	 *
-	 * @since ?.0.0
+	 * @since 1.0.0
 	 *
 	 * @param string $value Permalink URL for the create blog link.
 	 */
@@ -49,7 +49,7 @@ function bp_get_blog_create_link() {
  * Code to move inside `bp_get_blog_create_button()` once `bp_get_blog_create_link()`
  * has been merged into BP Core.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param array $button_args {
  *     Optional. An array of arguments.
@@ -66,7 +66,7 @@ add_filter( 'bp_get_blog_create_button', __NAMESPACE__ . '\bp_get_blog_create_bu
 /**
  * `bp_get_blogs_directory_permalink()` needs to use BP Rewrites.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string $url The URL built for the BP Legacy URL parser.
  * @return string     The URL built for the BP Rewrites URL parser.

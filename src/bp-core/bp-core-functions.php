@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Get the BuddyPress Post Type site ID.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @return int The site ID the BuddyPress Post Type should be registered on.
  */
@@ -35,7 +35,7 @@ function bp_get_post_type_site_id() {
  *
  * Goal is to avoid a slug conflict between a Page and a BuddyPress Component `post_name`.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string $slug          The post slug.
  * @param int    $post_ID       Post ID.
@@ -76,7 +76,7 @@ add_filter( 'wp_unique_post_slug', __NAMESPACE__ . '\bp_unique_page_slug', 10, 6
  *
  * @todo This should be managed into `\bp_core_add_page_mappings()`.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param array $previous_bp_pages The previous BuddyPress directory pages.
  * @param array $bp_pages          The current BuddyPress directory pages.
@@ -133,7 +133,7 @@ add_action( 'update_option_bp-pages', __NAMESPACE__ . '\bp_core_add_page_mapping
 /**
  * Sets BuddyPress directory link.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param  string   $link The post type link.
  * @param  \WP_Post $post The post type object.
@@ -154,7 +154,7 @@ add_filter( 'post_type_link', __NAMESPACE__ . '\bp_page_directory_link', 1, 2 );
 /**
  * Checks if a component's directory is set as the site's homepage.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string $component The component ID.
  * @return bool True if a component's directory is set as the site's homepage.

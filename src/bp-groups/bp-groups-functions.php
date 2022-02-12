@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Adds backward compatibility when `\groups_get_current_group()` is called too early.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param false|BP_Groups_Group $current_group False if the current group is not set yet. The current Group object otherwise.
  * @return null|BP_Groups_Group                Null if the current group is not set yet. The current Group object otherwise.
@@ -33,7 +33,7 @@ add_filter( 'groups_get_current_group', __NAMESPACE__ . '\groups_get_current_gro
 /**
  * Adds backward compatibility when `bp_get_current_group_directory_type()` is called too early.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string $current_directory_type Empty string if the current group type is not set yet. The group type otherwise.
  * @return null|string           Null if the current group type is not set yet. The group type name otherwise.
@@ -50,7 +50,7 @@ add_filter( 'bp_get_current_group_directory_type', __NAMESPACE__ . '\bp_get_curr
 /**
  * Returns the Group restricted views.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @return array The list of the Group restricted views.
  */
@@ -74,7 +74,7 @@ function bp_get_group_restricted_views() {
 /**
  * Returns all registered Group Extension views.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string $context The display context. Required. Defaults to `read`.
  * @return array          The list of registered Group Extension views.
@@ -110,7 +110,7 @@ function bp_get_group_extension_views( $context = 'read' ) {
 /**
  * Returns all potential Group views.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string $context The display context. Required. Defaults to `read`.
  * @return array          The list of potential Group views.

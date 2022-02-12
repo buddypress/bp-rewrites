@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * `bp_core_activation_signup_blog_notification()` need to use BP Rewrites to build the `activate-site.url` Email tokens argument.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param array $args Email tokens.
  * @return array      Email tokens.
@@ -33,7 +33,7 @@ add_filter( 'bp_before_send_email_parse_args', __NAMESPACE__ . '\bp_core_activat
 /**
  * Eventually appendf BuddyPress directories to WP Dropdown's pages control.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param WP_Post[] $pages Array of page objects.
  * @param array     $args  Array of get_pages() arguments.

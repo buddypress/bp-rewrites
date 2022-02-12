@@ -51,7 +51,7 @@ function bp_activity_format_at_mentions_notification( $content = '', $url = '', 
  *
  * This function is hooked to `bp_init` and register the above filter.
  *
- * @since ?.0.0
+ * @since 1.0.0
  */
 function bp_activity_format_notifications() {
 	add_filter( 'bp_activity_single_at_mentions_notification', __NAMESPACE__ . '\bp_activity_format_at_mentions_notification', 1, 5 );

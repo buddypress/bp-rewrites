@@ -3,7 +3,7 @@
  * BuddyPress Friends Rewrites.
  *
  * @package buddypress\bp-friends
- * @since ?.0.0
+ * @since 1.0.0
  */
 
 namespace BP\Rewrites;
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Returns a Friends member action URL using the BP Rewrites URL parser.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param int    $user_id          The user ID of concerned by the member action.
  * @param string $action           The slug of the member action.

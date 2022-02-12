@@ -3,7 +3,7 @@
  * BuddyPress Groups Rewrites.
  *
  * @package buddypress\bp-groups
- * @since ?.0.0
+ * @since 1.0.0
  */
 
 namespace BP\Rewrites;
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Return the Groups single item's URL.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param BP_Groups_Group $group The Group object.
  * @return string                The URL built for the BP Rewrites URL parser.
@@ -37,7 +37,7 @@ function bp_group_rewrites_get_url( $group = null ) {
 /**
  * Return the Groups Directory URL.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @return string The URL built for the BP Rewrites URL parser.
  */
@@ -52,7 +52,7 @@ function bp_groups_rewrites_get_url() {
 /**
  * Return the Group Type's URL.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param object $type The Group type object.
  * @return string      The URL built for the BP Rewrites URL parser.
@@ -73,7 +73,7 @@ function bp_group_type_rewrites_get_url( $type = null ) {
 /**
  * Returns an URL for a group component action.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string          $action     The component action.
  * @param BP_Groups_Group $group      The Group object.
@@ -122,7 +122,7 @@ function bp_group_rewrites_get_action_url( $action = '', $group = null, $query_a
 /**
  * Return the Group's Nav Item URL.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param BP_Groups_Group $group      The Group object.
  * @param string          $slug       The Group Nav Item slug.
@@ -150,7 +150,7 @@ function bp_group_nav_rewrites_get_url( $group = null, $slug = '', $rewrite_id =
 /**
  * Return the Group's Admin URL.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param BP_Groups_Group $group The Group object.
  * @return string                The URL built for the BP Rewrites URL parser.
@@ -162,7 +162,7 @@ function bp_group_admin_rewrites_get_url( $group = null ) {
 /**
  * Return the Group's Admin form URL.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param BP_Groups_Group $group      The Group object.
  * @param string          $page       The Group Admin page to reach.
@@ -195,7 +195,7 @@ function bp_group_admin_rewrites_get_form_url( $group = null, $page = '', $rewri
 /**
  * Return the group's step creation link.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string $step The group creation step name.
  * @return string      The URL built for the BP Rewrites URL parser.
@@ -220,7 +220,7 @@ function bp_group_create_rewrites_get_url( $step = '' ) {
 /**
  * Returns a Group member action URL using the BP Rewrites URL parser.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param int    $user_id          The user ID of concerned by the member action.
  * @param string $action           The slug of the member action.
@@ -253,7 +253,7 @@ function bp_groups_rewrites_get_member_action_url( $user_id = 0, $action = '', $
  * As `\groups_format_notifications()` is simply concatenating URL parts, we need to
  * rebuild the notification URL using BP Rewrites.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param string $group_url        The Group permalink.
  * @param string $notification_url The Group notification URL.

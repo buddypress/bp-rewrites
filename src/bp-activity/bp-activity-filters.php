@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Add the Activity Group view.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param array $views The list of potential Group views.
  * @return array       The list of potential Group views (including the Activity one).

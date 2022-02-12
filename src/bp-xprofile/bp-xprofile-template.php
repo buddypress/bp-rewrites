@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Code to move inside `bp_get_the_profile_group_edit_form_action()`.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @global BP_XProfile_Group $group The Field Group object.
  * @param string $url The Member's xProfile Edit URL.
@@ -32,7 +32,7 @@ add_filter( 'bp_get_the_profile_group_edit_form_action', __NAMESPACE__ . '\bp_ge
 /**
  * Return the XProfile group tabs.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param array  $tabs       Array of tabs to display.
  * @param array  $groups     Array of profile groups.

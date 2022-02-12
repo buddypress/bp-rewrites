@@ -3,7 +3,7 @@
  * Required BP Legacy edits.
  *
  * @package buddypress\bp-templates\bp-nouveau
- * @since ?.0.0
+ * @since 1.0.0
  */
 
 namespace BP\Rewrites;
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Loop through each Primary nav item to filter its link.
  *
- * @since ?.0.0
+ * @since 1.0.0
  */
 function bp_legacy_displayed_user_nav() {
 	$user_nav_items = buddypress()->members->nav->get_primary();
@@ -39,7 +39,7 @@ add_action( 'bp_setup_nav', __NAMESPACE__ . '\bp_legacy_displayed_user_nav', 100
  *
  * @see `bp_legacy_reset_members_directory_my_friends_nav()`
  *
- * @since ?.0.0
+ * @since 1.0.0
  */
 function bp_legacy_disable_members_directory_my_friends_nav() {
 	add_filter( 'bp_get_total_friend_count', '__return_zero' );
@@ -49,7 +49,7 @@ add_action( 'bp_before_directory_members_tabs', __NAMESPACE__ . '\bp_legacy_disa
 /**
  * Resets the the Members Directory My Friends nav using BP Rewrites to build the nav link.
  *
- * @since ?.0.0
+ * @since 1.0.0
  */
 function bp_legacy_reset_members_directory_my_friends_nav() {
 	remove_filter( 'bp_get_total_friend_count', '__return_zero' );
@@ -96,7 +96,7 @@ add_action( 'bp_members_directory_member_types', __NAMESPACE__ . '\bp_legacy_res
  *
  * @see `bp_legacy_reset_groups_directory_my_groups_nav()`
  *
- * @since ?.0.0
+ * @since 1.0.0
  */
 function bp_legacy_disable_groups_directory_my_groups_nav() {
 	add_filter( 'bp_get_total_group_count_for_user', '__return_zero' );
@@ -106,7 +106,7 @@ add_action( 'bp_before_directory_groups_content', __NAMESPACE__ . '\bp_legacy_di
 /**
  * Resets the the Groups Directory My Groups nav using BP Rewrites to build the nav link.
  *
- * @since ?.0.0
+ * @since 1.0.0
  */
 function bp_legacy_reset_groups_directory_my_groups_nav() {
 	remove_filter( 'bp_get_total_group_count_for_user', '__return_zero' );
@@ -149,7 +149,7 @@ add_action( 'bp_groups_directory_group_filter', __NAMESPACE__ . '\bp_legacy_rese
 /**
  * Resets the the Activity Directory My Friends nav using BP Rewrites to build the nav link.
  *
- * @since ?.0.0
+ * @since 1.0.0
  */
 function bp_legacy_reset_activity_directory_my_friends_nav() {
 	if ( ! is_user_logged_in() || ! bp_is_active( 'friends' ) ) {
@@ -193,7 +193,7 @@ add_action( 'bp_before_activity_type_tab_friends', __NAMESPACE__ . '\bp_legacy_r
 /**
  * Resets the the Activity Directory My Groups nav using BP Rewrites to build the nav link.
  *
- * @since ?.0.0
+ * @since 1.0.0
  */
 function bp_legacy_reset_activity_directory_my_groups_nav() {
 	if ( ! is_user_logged_in() || ! bp_is_active( 'groups' ) ) {
@@ -237,7 +237,7 @@ add_action( 'bp_before_activity_type_tab_groups', __NAMESPACE__ . '\bp_legacy_re
 /**
  * Resets the the Activity Directory My Favorites/Mentions nav using BP Rewrites to build the nav link.
  *
- * @since ?.0.0
+ * @since 1.0.0
  */
 function bp_legacy_reset_activity_directory_favorites_mentions_nav() {
 	if ( ! is_user_logged_in() || ! bp_is_active( 'groups' ) ) {
@@ -322,7 +322,7 @@ add_action( 'bp_before_activity_type_tab_favorites', __NAMESPACE__ . '\bp_legacy
 /**
  * Restore Activity Directory Nav Item counts/features.
  *
- * @since ?.0.0
+ * @since 1.0.0
  */
 function bp_legacy_reset_activity_directory_nav_counts() {
 	remove_filter( 'bp_get_total_friend_count', '__return_zero' );
@@ -339,7 +339,7 @@ add_action( 'bp_activity_type_tabs', __NAMESPACE__ . '\bp_legacy_reset_activity_
  *
  * @see `bp_legacy_reset_blogs_directory_my_blogs_nav()`
  *
- * @since ?.0.0
+ * @since 1.0.0
  */
 function bp_legacy_disable_blogs_directory_my_blogs_nav() {
 	add_filter( 'bp_get_total_blog_count_for_user', '__return_zero' );
@@ -349,7 +349,7 @@ add_action( 'bp_before_directory_blogs_tabs', __NAMESPACE__ . '\bp_legacy_disabl
 /**
  * Resets the the Blogss Directory My Sites nav using BP Rewrites to build the nav link.
  *
- * @since ?.0.0
+ * @since 1.0.0
  */
 function bp_legacy_reset_blogs_directory_my_blogs_nav() {
 	remove_filter( 'bp_get_total_blog_count_for_user', '__return_zero' );

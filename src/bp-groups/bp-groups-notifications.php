@@ -133,7 +133,7 @@ function bp_groups_format_group_invite( $content, ...$args ) {
  *
  * This function is hooked to `bp_init` and registers the above filters.
  *
- * @since ?.0.0
+ * @since 1.0.0
  */
 function groups_format_notifications() {
 	$actions = array(
@@ -166,7 +166,7 @@ add_action( 'bp_init', __NAMESPACE__ . '\groups_format_notifications', 50 );
  * `groups_notification_new_membership_request()` need to use BP Rewrites
  * to build the `activate.url` Email tokens argument.
  *
- * @since ?.0.0
+ * @since 1.0.0
  *
  * @param array $args Email tokens.
  * @return array      Email tokens.

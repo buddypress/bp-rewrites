@@ -10,7 +10,7 @@ if ( ! class_exists( 'BP_Group_Extension', false ) ) :
 	/**
 	 * Adjustments to make the Group Extension API "BP Rewrites" ready.
 	 *
-	 * @since ?.0.0
+	 * @since 1.0.0
 	 */
 	class BP_Group_Extension {
 
@@ -113,7 +113,7 @@ if ( ! class_exists( 'BP_Group_Extension', false ) ) :
 		/**
 		 * The Callback function to use before showing the navigation item.
 		 *
-		 * @since ?.0.0
+		 * @since 1.0.0
 		 * @var string
 		 */
 		public $show_tab_callback = '';
@@ -121,7 +121,7 @@ if ( ! class_exists( 'BP_Group_Extension', false ) ) :
 		/**
 		 * List of Group access levels.
 		 *
-		 * @since ?.0.0
+		 * @since 1.0.0
 		 * @var string[]
 		 */
 		public $access_levels = array( 'noone', 'admin', 'mod', 'member', 'loggedin', 'anyone' );
@@ -305,7 +305,7 @@ if ( ! class_exists( 'BP_Group_Extension', false ) ) :
 		 *
 		 * @since 1.8.0
 		 * @since 2.1.0 Added 'access' and 'show_tab' arguments to `$args`.
-		 * @since ?.0.0 Set the Group Extension views.
+		 * @since 1.0.0 Set the Group Extension views.
 		 *
 		 * @param array $args {
 		 *     Array of initialization arguments.
@@ -483,7 +483,7 @@ if ( ! class_exists( 'BP_Group_Extension', false ) ) :
 		/**
 		 * Checks if the Group/URI Globals had time to be set.
 		 *
-		 * @since ?.0.0
+		 * @since 1.0.0
 		 *
 		 * @return bool True if the Group/URI Globals had time to be set.
 		 *              False otherwise.
@@ -757,7 +757,7 @@ if ( ! class_exists( 'BP_Group_Extension', false ) ) :
 		/**
 		 * Returns the Rewrite ID of the Group Extension Item according to the context.
 		 *
-		 * @since ?.0.0
+		 * @since 1.0.0
 		 *
 		 * @param string $context One of these contexts: 'create', 'manage', 'read'.
 		 * @return string         The found Rewrite ID, an empty string otherwise.

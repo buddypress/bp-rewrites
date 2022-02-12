@@ -537,7 +537,7 @@ class Members_Component extends \BP_Members_Component {
 				// If the member is marked as a spammer, 404 (unless logged-in user is a super admin).
 				if ( bp_is_user_spammer( $member->ID ) ) {
 					if ( bp_current_user_can( 'bp_moderate' ) ) {
-						bp_core_add_message( __( 'This user has been marked as a spammer. Only site admins can view this profile.', 'buddypress' ), 'warning' );
+						bp_core_add_message( __( 'This user has been marked as a spammer. Only site admins can view this profile.', 'bp-rewrites' ), 'warning' );
 					} else {
 						bp_do_404();
 						return;

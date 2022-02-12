@@ -1,0 +1,22 @@
+{
+  "name": "bp-rewrites",
+  "version": "1.0.0-beta1",
+  "description": "BuddyPress Rewrites development plugin",
+  "scripts": {
+    "pot": "wp i18n make-pot . languages/bp-rewrites.pot --exclude='.github,vendor' --headers='{\"Project-Id-Version\": \"BP Rewrites\", \"Report-Msgid-Bugs-To\": \"https://github.com/buddypress/bp-rewrites/issues\", \"Last-Translator\": \"JOHN JAMES JACOBY <jjj@buddypress.org>\", \"Language-Team\": \"ENGLISH <jjj@buddypress.org>\"}'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/buddypress/bp-rewrites.git"
+  },
+  "keywords": [
+    "buddypress",
+    "rewrites"
+  ],
+  "author": "The BuddyPress Community",
+  "license": "GPL-2.0+",
+  "bugs": {
+    "url": "https://github.com/buddypress/bp-rewrites/issues"
+  },
+  "homepage": "https://github.com/buddypress/bp-rewrites#readme"
+}

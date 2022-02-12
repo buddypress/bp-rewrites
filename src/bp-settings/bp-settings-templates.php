@@ -75,7 +75,7 @@ function bp_settings_pending_email_notice() {
 			<?php
 			printf(
 				/* translators: %s: new email address */
-				esc_html__( 'There is a pending change of your email address to %s.', 'buddypress' ),
+				esc_html__( 'There is a pending change of your email address to %s.', 'bp-rewrites' ),
 				'<code>' . esc_html( $pending_email['newemail'] ) . '</code>'
 			);
 			?>
@@ -83,7 +83,7 @@ function bp_settings_pending_email_notice() {
 			<?php
 			printf(
 				/* translators: 1: email address. 2: cancel email change url. */
-				esc_html__( 'Check your email (%1$s) for the verification link, or %2$s.', 'buddypress' ),
+				esc_html__( 'Check your email (%1$s) for the verification link, or %2$s.', 'bp-rewrites' ),
 				'<code>' . esc_html( $pending_email['newemail'] ) . '</code>',
 				sprintf(
 					'<a href="%1$s">%2$s</a>',
@@ -96,7 +96,7 @@ function bp_settings_pending_email_notice() {
 							'bp_dismiss_email_change'
 						)
 					),
-					esc_html__( 'cancel the pending change', 'buddypress' )
+					esc_html__( 'cancel the pending change', 'bp-rewrites' )
 				)
 			);
 			?>

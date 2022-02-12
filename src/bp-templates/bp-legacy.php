@@ -81,7 +81,7 @@ function bp_legacy_reset_members_directory_my_friends_nav() {
 			esc_url( $my_friends_url ),
 			sprintf(
 				/* translators: %s is the amount of friends for the current user. */
-				esc_html__( 'My Friends %s', 'buddypress' ),
+				esc_html__( 'My Friends %s', 'bp-rewrites' ),
 				'<span>' . $count . '</span>' // phpcs:ignore
 			)
 		);
@@ -138,7 +138,7 @@ function bp_legacy_reset_groups_directory_my_groups_nav() {
 			esc_url( $my_groups_url ),
 			sprintf(
 				/* translators: %s: current user groups count. */
-				esc_html__( 'My Groups %s', 'buddypress' ),
+				esc_html__( 'My Groups %s', 'bp-rewrites' ),
 				'<span>' . $count . '</span>' // phpcs:ignore
 			)
 		);
@@ -178,8 +178,8 @@ function bp_legacy_reset_activity_directory_my_friends_nav() {
 			</li>',
 			esc_url( $activity_url ),
 			sprintf(
-				/* translators: %s: current user groups count. */
-				esc_html__( 'My Friends %s', 'buddypress' ),
+				/* translators: %s is the amount of friends for the current user. */
+				esc_html__( 'My Friends %s', 'bp-rewrites' ),
 				'<span>' . $count . '</span>' // phpcs:ignore
 			)
 		);
@@ -223,7 +223,7 @@ function bp_legacy_reset_activity_directory_my_groups_nav() {
 			esc_url( $activity_url ),
 			sprintf(
 				/* translators: %s: current user groups count. */
-				esc_html__( 'My Groups %s', 'buddypress' ),
+				esc_html__( 'My Groups %s', 'bp-rewrites' ),
 				'<span>' . $count . '</span>' // phpcs:ignore
 			)
 		);
@@ -267,7 +267,7 @@ function bp_legacy_reset_activity_directory_favorites_mentions_nav() {
 			esc_url( $activity_url ),
 			sprintf(
 				/* translators: %s: current user groups count. */
-				esc_html__( 'My Favorites %s', 'buddypress' ),
+				esc_html__( 'My Favorites %s', 'bp-rewrites' ),
 				'<span>' . $count . '</span>' // phpcs:ignore
 			)
 		);
@@ -294,7 +294,7 @@ function bp_legacy_reset_activity_directory_favorites_mentions_nav() {
 				</strong>',
 				sprintf(
 					/* translators: %s: new mentions count */
-					_nx( '%s new', '%s new', $mentions_count, 'Number of new activity mentions', 'buddypress' ),
+					_nx( '%s new', '%s new', $mentions_count, 'Number of new activity mentions', 'bp-rewrites' ),
 					$mentions_count
 				)
 			);
@@ -307,7 +307,7 @@ function bp_legacy_reset_activity_directory_favorites_mentions_nav() {
 			esc_url( $activity_url ),
 			sprintf(
 				'%1$s%2$s',
-				esc_html__( 'Mentions', 'buddypress' ),
+				esc_html__( 'Mentions', 'bp-rewrites' ),
 				$mentions_count_output // phpcs:ignore
 			)
 		);
@@ -381,7 +381,7 @@ function bp_legacy_reset_blogs_directory_my_blogs_nav() {
 			esc_url( $my_blogs_url ),
 			sprintf(
 				/* translators: %s: current user blogs count */
-				esc_html__( 'My Sites %s', 'buddypress' ),
+				esc_html__( 'My Sites %s', 'bp-rewrites' ),
 				'<span>' . $count . '</span>' // phpcs:ignore
 			)
 		);

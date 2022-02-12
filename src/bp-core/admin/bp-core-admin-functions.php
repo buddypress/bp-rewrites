@@ -25,7 +25,7 @@ function bp_core_get_admin_settings_tabs( $tabs = array() ) {
 	$tabs['1'] = array(
 		'id'   => 'bp-rewrites-settings',
 		'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-rewrites-settings' ), 'admin.php' ) ),
-		'name' => __( 'URLs', 'buddypress' ),
+		'name' => __( 'URLs', 'bp-rewrites' ),
 	);
 
 	return $tabs;

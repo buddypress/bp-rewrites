@@ -57,7 +57,7 @@ function bp_notifications_toolbar_menu() {
 				array(
 					'parent' => 'bp-notifications',
 					'id'     => 'no-notifications',
-					'title'  => __( 'No new notifications', 'buddypress' ),
+					'title'  => __( 'No new notifications', 'bp-rewrites' ),
 					'href'   => $menu_link,
 				)
 			);

@@ -82,8 +82,8 @@ function admin_load() {
 function bp_admin_admin_menus() {
 	$admin_page = add_submenu_page(
 		get_settings_page(),
-		__( 'BuddyPress URLs', 'buddypress' ),
-		__( 'BuddyPress URLs', 'buddypress' ),
+		__( 'BuddyPress URLs', 'bp-rewrites' ),
+		__( 'BuddyPress URLs', 'bp-rewrites' ),
 		get_main_capability(),
 		'bp-rewrites-settings',
 		__NAMESPACE__ . '\bp_core_admin_rewrites_settings'

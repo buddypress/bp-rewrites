@@ -14,6 +14,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Load translation.
+ *
+ * @since 1.0.0
+ */
+function load_translation() {
+	$bpr = bp_rewrites();
+
+	// Load translations.
+	load_plugin_textdomain( 'bp-rewrites', false, trailingslashit( basename( $bpr->dir ) ) . 'languages' );
+}
+add_action( 'bp_loaded', __NAMESPACE__ . '\load_translation' );
+
+/**
  * Setup the Core component.
  *
  * @since 1.0.0
@@ -370,11 +383,11 @@ function bp_core_register_post_types() {
 		register_post_type(
 			'buddypress',
 			array(
-				'label'               => _x( 'BuddyPress Directories', 'Post Type label', 'buddypress' ),
+				'label'               => _x( 'BuddyPress Directories', 'Post Type label', 'bp-rewrites' ),
 				'labels'              => array(
-					'singular_name' => _x( 'BuddyPress Directory', 'Post Type singular name', 'buddypress' ),
+					'singular_name' => _x( 'BuddyPress Directory', 'Post Type singular name', 'bp-rewrites' ),
 				),
-				'description'         => __( 'The BuddyPress Post Type is used when Pretty URLs are active.', 'buddypress' ),
+				'description'         => __( 'The BuddyPress Post Type is used when Pretty URLs are active.', 'bp-rewrites' ),
 				'public'              => false,
 				'hierarchical'        => true,
 				'exclude_from_search' => true,

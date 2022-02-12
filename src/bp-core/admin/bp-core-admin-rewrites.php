@@ -41,7 +41,7 @@ function bp_core_admin_rewrites_settings() {
 
 	$bp_members_primary_nav_items = array();
 
-	bp_core_admin_tabbed_screen_header( __( 'BuddyPress Settings', 'buddypress' ), __( 'URLs', 'buddypress' ) );
+	bp_core_admin_tabbed_screen_header( __( 'BuddyPress Settings', 'bp-rewrites' ), __( 'URLs', 'bp-rewrites' ) );
 	?>
 	<div class="buddypress-body">
 		<div class="health-check-body">
@@ -61,7 +61,7 @@ function bp_core_admin_rewrites_settings() {
 					<div class="health-check-accordion">
 						<h4 class="health-check-accordion-heading">
 							<button aria-expanded="false" class="health-check-accordion-trigger" aria-controls="health-check-accordion-block-<?php echo esc_attr( $component_id ); ?>-directory" type="button">
-								<span class="title"><?php esc_html_e( 'Directory', 'buddypress' ); ?></span>
+								<span class="title"><?php esc_html_e( 'Directory', 'bp-rewrites' ); ?></span>
 								<span class="icon"></span>
 							</button>
 						</h4>
@@ -70,7 +70,7 @@ function bp_core_admin_rewrites_settings() {
 								<tr>
 									<th scope="row">
 										<label for="<?php echo esc_attr( sprintf( '%s-directory-title', sanitize_key( $component_id ) ) ); ?>">
-											<?php esc_html_e( 'Directory title', 'buddypress' ); ?>
+											<?php esc_html_e( 'Directory title', 'bp-rewrites' ); ?>
 										</label>
 									</th>
 									<td>
@@ -80,7 +80,7 @@ function bp_core_admin_rewrites_settings() {
 								<tr>
 									<th scope="row">
 										<label for="<?php echo esc_attr( sprintf( '%s-directory-slug', sanitize_key( $component_id ) ) ); ?>">
-											<?php esc_html_e( 'Directory slug', 'buddypress' ); ?>
+											<?php esc_html_e( 'Directory slug', 'bp-rewrites' ); ?>
 										</label>
 									</th>
 									<td>
@@ -95,7 +95,7 @@ function bp_core_admin_rewrites_settings() {
 					<div class="health-check-accordion">
 						<h4 class="health-check-accordion-heading">
 							<button aria-expanded="false" class="health-check-accordion-trigger" aria-controls="health-check-accordion-block-member-primary-nav" type="button">
-								<span class="title"><?php esc_html_e( 'Single Member primary views slugs', 'buddypress' ); ?></span>
+								<span class="title"><?php esc_html_e( 'Single Member primary views slugs', 'bp-rewrites' ); ?></span>
 								<span class="icon"></span>
 							</button>
 						</h4>
@@ -115,7 +115,7 @@ function bp_core_admin_rewrites_settings() {
 												<?php
 												printf(
 													/* translators: %s is the member primary view name */
-													esc_html__( '"%s" slug', 'buddypress' ),
+													esc_html__( '"%s" slug', 'member primary view name URL admin label', 'bp-rewrites' ),
 													esc_html( _bp_strip_spans_from_title( $primary_nav_item['name'] ) )
 												);
 												?>
@@ -135,7 +135,7 @@ function bp_core_admin_rewrites_settings() {
 							<h4 class="health-check-accordion-heading">
 								<button aria-expanded="false" class="health-check-accordion-trigger" aria-controls="<?php echo esc_attr( sprintf( 'health-check-accordion-block-member-%s-secondary-nav', $bp_members_primary_nav_slug ) ); ?>" type="button">
 									<?php /* translators: %s is the BP Component name the secondery views belong to. */ ?>
-									<span class="title"><?php echo esc_html( sprintf( __( 'Single Member %s secondary views slugs', 'buddypress' ), _bp_strip_spans_from_title( $bp_members_primary_nav_name ) ) ); ?></span>
+									<span class="title"><?php echo esc_html( sprintf( __( 'Single Member %s secondary views slugs', 'bp-rewrites' ), _bp_strip_spans_from_title( $bp_members_primary_nav_name ) ) ); ?></span>
 									<span class="icon"></span>
 								</button>
 							</h4>
@@ -154,7 +154,7 @@ function bp_core_admin_rewrites_settings() {
 														<?php
 														printf(
 															/* translators: %s is the member secondary view name */
-															esc_html__( '"%s" slug', 'buddypress' ),
+															esc_html_x( '"%s" slug', 'member secondary view name URL admin label', 'bp-rewrites' ),
 															esc_html( _bp_strip_spans_from_title( $secondary_nav_item['name'] ) )
 														);
 														?>
@@ -176,9 +176,9 @@ function bp_core_admin_rewrites_settings() {
 					<?php
 					foreach (
 						array(
-							'create' => __( 'Single Group Creation steps slugs', 'buddypress' ),
-							'read'   => __( 'Single Group Member views slugs', 'buddypress' ),
-							'manage' => __( 'Single Group Admin views slugs', 'buddypress' ),
+							'create' => __( 'Single Group Creation steps slugs', 'bp-rewrites' ),
+							'read'   => __( 'Single Group Member views slugs', 'bp-rewrites' ),
+							'manage' => __( 'Single Group Admin views slugs', 'bp-rewrites' ),
 						) as $view_type => $view_type_title ) :
 						?>
 
@@ -222,7 +222,7 @@ function bp_core_admin_rewrites_settings() {
 													<?php
 													printf(
 														/* translators: %s is group view name */
-														esc_html__( '"%s" slug', 'buddypress' ),
+														esc_html_x( '"%s" slug', 'group view name URL admin label', 'bp-rewrites' ),
 														esc_html( _bp_strip_spans_from_title( $group_view['name'] ) )
 													);
 													?>
@@ -243,7 +243,7 @@ function bp_core_admin_rewrites_settings() {
 				<?php endforeach; ?>
 
 				<p class="submit clear">
-					<input class="button-primary" type="submit" name="bp-admin-rewrites-submit" id="bp-admin-rewrites-submit" value="<?php esc_attr_e( 'Save Settings', 'buddypress' ); ?>"/>
+					<input class="button-primary" type="submit" name="bp-admin-rewrites-submit" id="bp-admin-rewrites-submit" value="<?php esc_attr_e( 'Save Settings', 'bp-rewrites' ); ?>"/>
 				</p>
 
 				<?php wp_nonce_field( 'bp-admin-rewrites-setup' ); ?>

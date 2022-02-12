@@ -562,7 +562,7 @@ if ( ! class_exists( 'BP_Group_Extension', false ) ) :
 					'position' => 81,
 				),
 				'edit'   => array(
-					'submit_text' => __( 'Save Changes', 'buddypress' ),
+					'submit_text' => __( 'Save Changes', 'bp-rewrites' ),
 				),
 				'admin'  => array(
 					'metabox_context'  => 'normal',
@@ -946,7 +946,7 @@ if ( ! class_exists( 'BP_Group_Extension', false ) ) :
 			if ( ! $user_can_visit && is_user_logged_in() ) {
 				$current_group = groups_get_group( $this->group_id );
 
-				$no_access_args['message']  = __( 'You do not have access to this content.', 'buddypress' );
+				$no_access_args['message']  = __( 'You do not have access to this content.', 'bp-rewrites' );
 				$no_access_args['root']     = bp_get_group_permalink( $current_group ) . 'home/';
 				$no_access_args['redirect'] = false;
 			}

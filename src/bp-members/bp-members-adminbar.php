@@ -35,7 +35,7 @@ function bp_members_admin_bar_add_invitations_menu() {
 			0 => array(
 				'id'     => 'my-account-invitations',
 				'parent' => buddypress()->my_account_menu_id,
-				'title'  => __( 'Invitations', 'buddypress' ),
+				'title'  => __( 'Invitations', 'bp-rewrites' ),
 				'href'   => bp_members_rewrites_get_nav_url(
 					array(
 						'rewrite_id'     => $rewrite_id,
@@ -47,7 +47,7 @@ function bp_members_admin_bar_add_invitations_menu() {
 			2 => array(
 				'id'     => 'my-account-invitations-invitations-list',
 				'parent' => 'my-account-invitations',
-				'title'  => __( 'Pending Invites', 'buddypress' ),
+				'title'  => __( 'Pending Invites', 'bp-rewrites' ),
 				'href'   => bp_members_rewrites_get_nav_url(
 					array(
 						'rewrite_id'     => $rewrite_id,
@@ -62,7 +62,7 @@ function bp_members_admin_bar_add_invitations_menu() {
 			$admin_nav[1] = array(
 				'id'     => 'my-account-invitations-invitations-send',
 				'parent' => 'my-account-invitations',
-				'title'  => __( 'Send Invites', 'buddypress' ),
+				'title'  => __( 'Send Invites', 'bp-rewrites' ),
 				'href'   => bp_members_rewrites_get_nav_url(
 					array(
 						'rewrite_id'     => $rewrite_id,

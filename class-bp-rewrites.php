@@ -11,13 +11,13 @@
  * Plugin Name:       BP Rewrites
  * Plugin URI:        https://github.com/buddypress/bp-rewrites
  * Description:       BuddyPress Rewrites development plugin.
- * Version:           1.0.0-alpha
+ * Version:           1.0.0-beta1
  * Author:            The BuddyPress Community
  * Author URI:        https://buddypress.org
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Domain Path:       /languages/
- * Text Domain:       buddypress
+ * Text Domain:       bp-rewrites
  * GitHub Plugin URI: https://github.com/buddypress/bp-rewrites
  */
 

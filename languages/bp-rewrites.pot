@@ -1,0 +1,335 @@
+# Copyright (C) 2022 The BuddyPress Community
+# This file is distributed under the GPL-2.0+.
+msgid ""
+msgstr ""
+"Project-Id-Version: BP Rewrites\n"
+"Report-Msgid-Bugs-To: https://github.com/buddypress/bp-rewrites/issues\n"
+"Last-Translator: JOHN JAMES JACOBY <jjj@buddypress.org>\n"
+"Language-Team: ENGLISH <jjj@buddypress.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2022-02-12T13:25:05+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.5.0\n"
+"X-Domain: bp-rewrites\n"
+
+#. Plugin Name of the plugin
+msgid "BP Rewrites"
+msgstr ""
+
+#. Plugin URI of the plugin
+msgid "https://github.com/buddypress/bp-rewrites"
+msgstr ""
+
+#. Description of the plugin
+msgid "BuddyPress Rewrites development plugin."
+msgstr ""
+
+#. Author of the plugin
+msgid "The BuddyPress Community"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://buddypress.org"
+msgstr ""
+
+#: inc/admin.php:85
+#: inc/admin.php:86
+msgid "BuddyPress URLs"
+msgstr ""
+
+#: inc/functions.php:386
+msgctxt "Post Type label"
+msgid "BuddyPress Directories"
+msgstr ""
+
+#: inc/functions.php:388
+msgctxt "Post Type singular name"
+msgid "BuddyPress Directory"
+msgstr ""
+
+#: inc/functions.php:390
+msgid "The BuddyPress Post Type is used when Pretty URLs are active."
+msgstr ""
+
+#: src/bp-activity/bp-activity-filters.php:28
+msgctxt "Group activity view"
+msgid "Activity"
+msgstr ""
+
+#: src/bp-core/admin/bp-core-admin-functions.php:28
+#: src/bp-core/admin/bp-core-admin-rewrites.php:44
+msgid "URLs"
+msgstr ""
+
+#: src/bp-core/admin/bp-core-admin-rewrites.php:44
+msgid "BuddyPress Settings"
+msgstr ""
+
+#: src/bp-core/admin/bp-core-admin-rewrites.php:64
+msgid "Directory"
+msgstr ""
+
+#: src/bp-core/admin/bp-core-admin-rewrites.php:73
+msgid "Directory title"
+msgstr ""
+
+#: src/bp-core/admin/bp-core-admin-rewrites.php:83
+msgid "Directory slug"
+msgstr ""
+
+#: src/bp-core/admin/bp-core-admin-rewrites.php:98
+msgid "Single Member primary views slugs"
+msgstr ""
+
+#. translators: %s is the BP Component name the secondery views belong to.
+#: src/bp-core/admin/bp-core-admin-rewrites.php:138
+msgid "Single Member %s secondary views slugs"
+msgstr ""
+
+#. translators: %s is the member secondary view name
+#: src/bp-core/admin/bp-core-admin-rewrites.php:157
+msgctxt "member secondary view name URL admin label"
+msgid "\"%s\" slug"
+msgstr ""
+
+#: src/bp-core/admin/bp-core-admin-rewrites.php:179
+msgid "Single Group Creation steps slugs"
+msgstr ""
+
+#: src/bp-core/admin/bp-core-admin-rewrites.php:180
+msgid "Single Group Member views slugs"
+msgstr ""
+
+#: src/bp-core/admin/bp-core-admin-rewrites.php:181
+msgid "Single Group Admin views slugs"
+msgstr ""
+
+#. translators: %s is group view name
+#: src/bp-core/admin/bp-core-admin-rewrites.php:225
+msgctxt "group view name URL admin label"
+msgid "\"%s\" slug"
+msgstr ""
+
+#: src/bp-core/admin/bp-core-admin-rewrites.php:246
+msgid "Save Settings"
+msgstr ""
+
+#: src/bp-groups/actions/create.php:35
+msgid "Sorry, you are not allowed to create groups."
+msgstr ""
+
+#: src/bp-groups/actions/create.php:67
+#: src/bp-groups/actions/create.php:133
+#: src/bp-groups/actions/create.php:165
+msgid "There was an error saving group details. Please try again."
+msgstr ""
+
+#: src/bp-groups/actions/create.php:82
+msgid "Only the group creator may continue editing this group."
+msgstr ""
+
+#: src/bp-groups/actions/create.php:106
+msgid "Please fill in all of the required fields"
+msgstr ""
+
+#: src/bp-groups/actions/create.php:326
+msgid "Invite successfully removed"
+msgstr ""
+
+#: src/bp-groups/actions/create.php:332
+msgid "There was an error removing the invite"
+msgstr ""
+
+#: src/bp-groups/actions/create.php:377
+msgid "There was an error saving the group profile photo, please try uploading again."
+msgstr ""
+
+#: src/bp-groups/actions/create.php:392
+msgid "The group profile photo was uploaded successfully."
+msgstr ""
+
+#: src/bp-groups/bp-groups-functions.php:62
+msgctxt "Group create restricted rewrite id"
+msgid "Create Group root slug"
+msgstr ""
+
+#: src/bp-groups/bp-groups-functions.php:68
+msgctxt "Group create restricted rewrite id"
+msgid "Create step slug"
+msgstr ""
+
+#: src/bp-groups/bp-groups-functions.php:124
+msgctxt "Group create view"
+msgid "Details"
+msgstr ""
+
+#: src/bp-groups/bp-groups-functions.php:130
+msgctxt "Group create view"
+msgid "Settings"
+msgstr ""
+
+#: src/bp-groups/bp-groups-functions.php:136
+msgctxt "Group create view"
+msgid "Photo"
+msgstr ""
+
+#: src/bp-groups/bp-groups-functions.php:142
+msgctxt "Group create view"
+msgid "Cover Image"
+msgstr ""
+
+#: src/bp-groups/bp-groups-functions.php:148
+msgctxt "Group create view"
+msgid "Invites"
+msgstr ""
+
+#: src/bp-groups/bp-groups-functions.php:156
+msgctxt "Group read view"
+msgid "Home"
+msgstr ""
+
+#: src/bp-groups/bp-groups-functions.php:164
+msgctxt "Group read view"
+msgid "Request Membership"
+msgstr ""
+
+#. translators: %s: total member count
+#: src/bp-groups/bp-groups-functions.php:172
+msgctxt "Group read view"
+msgid "Members %s"
+msgstr ""
+
+#: src/bp-groups/bp-groups-functions.php:182
+msgctxt "Group read view"
+msgid "Send Invites"
+msgstr ""
+
+#: src/bp-groups/bp-groups-functions.php:192
+msgctxt "Group read view"
+msgid "Manage"
+msgstr ""
+
+#: src/bp-groups/bp-groups-functions.php:204
+msgctxt "Group manage view"
+msgid "Details"
+msgstr ""
+
+#: src/bp-groups/bp-groups-functions.php:213
+msgctxt "Group manage view"
+msgid "Settings"
+msgstr ""
+
+#: src/bp-groups/bp-groups-functions.php:222
+msgctxt "Group manage view"
+msgid "Photo"
+msgstr ""
+
+#: src/bp-groups/bp-groups-functions.php:231
+msgctxt "Group manage view"
+msgid "Cover Image"
+msgstr ""
+
+#: src/bp-groups/bp-groups-functions.php:240
+msgctxt "Group manage view"
+msgid "Members"
+msgstr ""
+
+#: src/bp-groups/bp-groups-functions.php:249
+msgctxt "Group manage view"
+msgid "Requests"
+msgstr ""
+
+#: src/bp-groups/bp-groups-functions.php:258
+msgctxt "Group manage view"
+msgid "Delete"
+msgstr ""
+
+#: src/bp-groups/classes/class-bp-group-extension.php:565
+msgid "Save Changes"
+msgstr ""
+
+#: src/bp-groups/classes/class-bp-group-extension.php:949
+msgid "You do not have access to this content."
+msgstr ""
+
+#: src/bp-members/bp-members-adminbar.php:38
+msgid "Invitations"
+msgstr ""
+
+#: src/bp-members/bp-members-adminbar.php:50
+msgid "Pending Invites"
+msgstr ""
+
+#: src/bp-members/bp-members-adminbar.php:65
+msgid "Send Invites"
+msgstr ""
+
+#: src/bp-members/classes/class-members-component.php:540
+msgid "This user has been marked as a spammer. Only site admins can view this profile."
+msgstr ""
+
+#: src/bp-notifications/bp-notifications-adminbar.php:60
+msgid "No new notifications"
+msgstr ""
+
+#. translators: %s: new email address
+#: src/bp-settings/bp-settings-templates.php:78
+msgid "There is a pending change of your email address to %s."
+msgstr ""
+
+#. translators: 1: email address. 2: cancel email change url.
+#: src/bp-settings/bp-settings-templates.php:86
+msgid "Check your email (%1$s) for the verification link, or %2$s."
+msgstr ""
+
+#: src/bp-settings/bp-settings-templates.php:99
+msgid "cancel the pending change"
+msgstr ""
+
+#. translators: %s is the amount of friends for the current user.
+#: src/bp-templates/bp-legacy.php:84
+#: src/bp-templates/bp-legacy.php:182
+msgid "My Friends %s"
+msgstr ""
+
+#. translators: %s: current user groups count.
+#: src/bp-templates/bp-legacy.php:141
+#: src/bp-templates/bp-legacy.php:226
+msgid "My Groups %s"
+msgstr ""
+
+#. translators: %s: current user groups count.
+#: src/bp-templates/bp-legacy.php:270
+msgid "My Favorites %s"
+msgstr ""
+
+#. translators: %s: new mentions count
+#: src/bp-templates/bp-legacy.php:297
+msgctxt "Number of new activity mentions"
+msgid "%s new"
+msgid_plural "%s new"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/bp-templates/bp-legacy.php:310
+msgid "Mentions"
+msgstr ""
+
+#. translators: %s: current user blogs count
+#: src/bp-templates/bp-legacy.php:384
+msgid "My Sites %s"
+msgstr ""
+
+#: src/bp-xprofile/screens/edit.php:71
+msgid "Your changes have not been saved. Please fill in all required fields, and save your changes again."
+msgstr ""
+
+#: src/bp-xprofile/screens/edit.php:176
+msgid "There was a problem updating some of your profile information. Please try again."
+msgstr ""
+
+#: src/bp-xprofile/screens/edit.php:178
+msgid "Changes saved."
+msgstr ""

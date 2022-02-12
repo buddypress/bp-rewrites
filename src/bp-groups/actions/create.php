@@ -32,7 +32,7 @@ function groups_action_create_group() {
 	}
 
 	if ( ! bp_user_can_create_groups() ) {
-		bp_core_add_message( __( 'Sorry, you are not allowed to create groups.', 'buddypress' ), 'error' );
+		bp_core_add_message( __( 'Sorry, you are not allowed to create groups.', 'bp-rewrites' ), 'error' );
 		bp_core_redirect( bp_groups_rewrites_get_url() );
 	}
 
@@ -64,7 +64,7 @@ function groups_action_create_group() {
 
 	// If this is a creation step that is not recognized, just redirect them back to the first screen.
 	if ( $current_create_step && empty( $bp->groups->group_creation_steps[ $current_create_step ] ) ) {
-		bp_core_add_message( __( 'There was an error saving group details. Please try again.', 'buddypress' ), 'error' );
+		bp_core_add_message( __( 'There was an error saving group details. Please try again.', 'bp-rewrites' ), 'error' );
 		bp_core_redirect( bp_get_group_create_link() );
 	}
 
@@ -79,7 +79,7 @@ function groups_action_create_group() {
 
 		// Only allow the group creator to continue to edit the new group.
 		if ( ! bp_is_group_creator( $bp->groups->current_group, bp_loggedin_user_id() ) ) {
-			bp_core_add_message( __( 'Only the group creator may continue editing this group.', 'buddypress' ), 'error' );
+			bp_core_add_message( __( 'Only the group creator may continue editing this group.', 'bp-rewrites' ), 'error' );
 			bp_core_redirect( bp_get_group_create_link() );
 		}
 	}
@@ -103,7 +103,7 @@ function groups_action_create_group() {
 
 		if ( 'group-details' === $current_create_step ) {
 			if ( empty( $_POST['group-name'] ) || empty( $_POST['group-desc'] ) || ! strlen( trim( $_POST['group-name'] ) ) || ! strlen( trim( $_POST['group-desc'] ) ) ) { // phpcs:ignore
-				bp_core_add_message( __( 'Please fill in all of the required fields', 'buddypress' ), 'error' );
+				bp_core_add_message( __( 'Please fill in all of the required fields', 'bp-rewrites' ), 'error' );
 				bp_core_redirect( bp_get_group_create_link( $current_step_slug ) );
 			}
 
@@ -130,7 +130,7 @@ function groups_action_create_group() {
 			);
 
 			if ( ! $bp->groups->new_group_id ) {
-				bp_core_add_message( __( 'There was an error saving group details. Please try again.', 'buddypress' ), 'error' );
+				bp_core_add_message( __( 'There was an error saving group details. Please try again.', 'bp-rewrites' ), 'error' );
 				bp_core_redirect( bp_get_group_create_link( $current_step_slug ) );
 			}
 		}
@@ -162,7 +162,7 @@ function groups_action_create_group() {
 			);
 
 			if ( ! $bp->groups->new_group_id ) {
-				bp_core_add_message( __( 'There was an error saving group details. Please try again.', 'buddypress' ), 'error' );
+				bp_core_add_message( __( 'There was an error saving group details. Please try again.', 'bp-rewrites' ), 'error' );
 				bp_core_redirect( bp_get_group_create_link( $current_step_slug ) );
 			}
 
@@ -323,13 +323,13 @@ function groups_action_create_group() {
 			return false;
 		}
 
-		$message   = __( 'Invite successfully removed', 'buddypress' );
+		$message   = __( 'Invite successfully removed', 'bp-rewrites' );
 		$error     = false;
 		$user_id   = intval( wp_unslash( $_REQUEST['user_id'] ) );
 		$uninvited = groups_uninvite_user( $user_id, $bp->groups->new_group_id );
 
 		if ( ! $uninvited ) {
-			$message = __( 'There was an error removing the invite', 'buddypress' );
+			$message = __( 'There was an error removing the invite', 'bp-rewrites' );
 			$error   = 'error';
 		}
 
@@ -374,7 +374,7 @@ function groups_action_create_group() {
 			$cropped_avatar = bp_core_avatar_handle_crop( $args, 'array' );
 
 			if ( ! $cropped_avatar ) {
-				bp_core_add_message( __( 'There was an error saving the group profile photo, please try uploading again.', 'buddypress' ), 'error' );
+				bp_core_add_message( __( 'There was an error saving the group profile photo, please try uploading again.', 'bp-rewrites' ), 'error' );
 			} else {
 				/**
 				 * Fires after a group avatar is uploaded.
@@ -389,7 +389,7 @@ function groups_action_create_group() {
 				 */
 				do_action( 'groups_avatar_uploaded', bp_get_current_group_id(), 'crop', $args, $cropped_avatar );
 
-				bp_core_add_message( __( 'The group profile photo was uploaded successfully.', 'buddypress' ) );
+				bp_core_add_message( __( 'The group profile photo was uploaded successfully.', 'bp-rewrites' ) );
 			}
 		}
 	}

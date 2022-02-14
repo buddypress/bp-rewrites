@@ -30,8 +30,8 @@ function updater() {
 	}
 
 	// Do not check post slugs nor post types.
-	remove_filter( 'wp_unique_post_slug', __NAMESPACE__ . '\bp_unique_page_slug', 10, 6 );
-	remove_action( 'update_option_bp-pages', __NAMESPACE__ . '\bp_core_add_page_mappings', 10, 2 );
+	remove_filter( 'wp_unique_post_slug', __NAMESPACE__ . '\bp_unique_page_slug', 10 );
+	remove_action( 'update_option_bp-pages', __NAMESPACE__ . '\bp_core_add_page_mappings', 10 );
 
 	// Update Directory pages post types.
 	foreach ( $directory_pages as $directory_page ) {

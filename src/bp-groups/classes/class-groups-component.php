@@ -514,7 +514,7 @@ class Groups_Component extends \BP_Groups_Component {
 	 * @return array The Admin Bar items.
 	 */
 	public function reset_admin_nav( $wp_admin_nav = array() ) {
-		remove_filter( 'bp_' . $this->id . '_admin_nav', array( $this, 'reset_admin_nav' ), 10, 1 );
+		remove_filter( 'bp_' . $this->id . '_admin_nav', array( $this, 'reset_admin_nav' ), 10 );
 
 		if ( $wp_admin_nav ) {
 			$parent_slug     = bp_get_groups_slug();

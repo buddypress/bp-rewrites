@@ -43,3 +43,13 @@ function bp_admin_submenu_pages( &$submenu_pages = array() ) {
 	$submenu_pages['settings']['bp-rewrites-settings'] = get_plugin_page_hookname( 'bp-rewrites-settings', get_settings_page() );
 }
 add_action( 'bp_admin_submenu_pages', __NAMESPACE__ . '\bp_admin_submenu_pages', 10, 1 );
+
+/**
+ * Remove `bp-page-settings` submenu page to make sure only BP Rewrites tab working.
+ *
+ * @since 1.0.0
+ */
+function bp_remove_page_settings_submenu_page() {
+	remove_submenu_page( get_settings_page(), 'bp-page-settings' );
+}
+add_action( 'bp_admin_init', __NAMESPACE__ . '\bp_remove_page_settings_submenu_page' );

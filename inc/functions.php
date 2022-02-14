@@ -362,7 +362,7 @@ function bp_component_parse_query( \WP_Query $query ) {
  */
 function bp_component_pre_query( $return = null, \WP_Query $query = null ) {
 	// This should be `array( $this, 'pre_query' )`.
-	remove_filter( 'posts_pre_query', __NAMESPACE__ . '\bp_component_pre_query', 10, 2 );
+	remove_filter( 'posts_pre_query', __NAMESPACE__ . '\bp_component_pre_query', 10 );
 
 	$queried_object = $query->get_queried_object();
 
@@ -478,7 +478,7 @@ function disable_buddypress_legacy_url_parser() {
 	 * More globally the Activity Heartbeat feature should be improved by putting the script
 	 * inside its own file.
 	 */
-	remove_filter( 'bp_core_get_js_dependencies', 'bp_activity_get_js_dependencies', 10, 1 );
+	remove_filter( 'bp_core_get_js_dependencies', 'bp_activity_get_js_dependencies', 10 );
 }
 add_action( 'bp_init', __NAMESPACE__ . '\disable_buddypress_legacy_url_parser', 1 );
 

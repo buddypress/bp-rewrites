@@ -54,7 +54,7 @@ function bp_groups_user_can_filter( $retval, $user_id, $capability, $site_id, $a
  * @since 1.0.0
  */
 function do_it_right_groups_user_can_filter() {
-	remove_filter( 'bp_user_can', 'bp_groups_user_can_filter', 10, 5 );
+	remove_filter( 'bp_user_can', 'bp_groups_user_can_filter', 10 );
 	add_filter( 'bp_user_can', __NAMESPACE__ . '\bp_groups_user_can_filter', 10, 5 );
 }
 add_action( 'bp_init', __NAMESPACE__ . '\do_it_right_groups_user_can_filter', 1 );

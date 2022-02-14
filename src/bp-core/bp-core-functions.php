@@ -113,7 +113,7 @@ function bp_core_add_page_mappings( $previous_bp_pages = array(), $bp_pages = ar
 
 	if ( $page_switches ) {
 		// Do not check post slugs.
-		remove_filter( 'wp_unique_post_slug', __NAMESPACE__ . '\bp_unique_page_slug', 10, 6 );
+		remove_filter( 'wp_unique_post_slug', __NAMESPACE__ . '\bp_unique_page_slug', 10 );
 
 		foreach ( $page_switches as $page_id ) {
 			wp_update_post(

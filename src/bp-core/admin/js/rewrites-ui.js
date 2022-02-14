@@ -25,6 +25,6 @@
 	if ( 'loading' === document.readyState ) {
 		document.addEventListener( 'DOMContentLoaded', bpRewritesUI );
 	} else {
-		bpRewritesUI;
+		bpRewritesUI();
 	}
 } )();

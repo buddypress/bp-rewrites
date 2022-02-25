@@ -4,15 +4,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BP Rewrites\n"
 "Report-Msgid-Bugs-To: https://github.com/buddypress/bp-rewrites/issues\n"
-"POT-Creation-Date: 2022-02-12T13:25:05+00:00\n"
-"PO-Revision-Date: 2022-02-12 14:28+0100\n"
+"POT-Creation-Date: 2022-02-25T14:58:09+00:00\n"
+"PO-Revision-Date: 2022-02-25 16:02+0100\n"
 "Last-Translator: \n"
 "Language-Team: ENGLISH <jjj@buddypress.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4.2\n"
+"X-Generator: Poedit 2.3.1\n"
 "X-Domain: bp-rewrites\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
@@ -28,7 +28,7 @@ msgstr "https://github.com/buddypress/bp-rewrites"
 msgid "BuddyPress Rewrites development plugin."
 msgstr ""
 "Extension de développement de l’utilisation de la réécriture d’URL de "
-"BuddyPress"
+"BuddyPress."
 
 #. Author of the plugin
 msgid "The BuddyPress Community"
@@ -38,9 +38,23 @@ msgstr "La communauté BuddyPress"
 msgid "https://buddypress.org"
 msgstr "https://buddypress.org"
 
+#: class-bp-rewrites.php:106
+msgctxt "BuddyPress WP plugin directory URL"
+msgid "https://wordpress.org/plugins/buddypress"
+msgstr "https://fr.wordpress.org/plugins/buddypress"
+
+#. translators: 1. is the link to the BuddyPress plugin on the WordPress.org plugin directory.
+#: class-bp-rewrites.php:112
+msgid ""
+"BP Rewrites requires the %1$s plugin to be active. Please deactivate BP "
+"Rewrites, activate %1$s and only then, reactivate BP Rewrites."
+msgstr ""
+"BP Rewrites nécessite que l’extension %1$s soit active. Merci de désactiver "
+"BP Rewrites, d’activer %1$s et seulement alors, de réactiver BP Rewrites."
+
 #: inc/admin.php:85 inc/admin.php:86
 msgid "BuddyPress URLs"
-msgstr ""
+msgstr "URLs de BuddyPress"
 
 #: inc/functions.php:386
 msgctxt "Post Type label"
@@ -88,6 +102,12 @@ msgstr "Terminaison d’URL du répertoire"
 msgid "Single Member primary views slugs"
 msgstr "Terminaisons d’URL des vues principales du membre"
 
+#. translators: %s is the member primary view name
+#: src/bp-core/admin/bp-core-admin-rewrites.php:118
+msgctxt "member primary view name URL admin label"
+msgid "\"%s\" slug"
+msgstr "Terminaison d’URL de « %s »"
+
 #. translators: %s is the BP Component name the secondery views belong to.
 #: src/bp-core/admin/bp-core-admin-rewrites.php:138
 msgid "Single Member %s secondary views slugs"
@@ -115,7 +135,7 @@ msgstr "Terminaisons d’URL des vues visibles des administrateurs du groupe"
 #: src/bp-core/admin/bp-core-admin-rewrites.php:225
 msgctxt "group view name URL admin label"
 msgid "\"%s\" slug"
-msgstr "Terminaison d’URL « %s » "
+msgstr "Terminaison d’URL « %s »"
 
 #: src/bp-core/admin/bp-core-admin-rewrites.php:246
 msgid "Save Settings"

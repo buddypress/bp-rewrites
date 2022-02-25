@@ -19,6 +19,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 1.0.0
  */
 function updater() {
+	if ( ! BP_Rewrites::is_buddypress_active() ) {
+		return false;
+	}
+
 	$directory_pages   = bp_core_get_directory_pages();
 	$nav_menu_item_ids = array();
 	$post_type         = 'buddypress';

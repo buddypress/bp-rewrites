@@ -83,18 +83,7 @@ function bp_reset_query( $bp_request = '', \WP_Query $query = null ) {
 	}
 
 	// Temporarly override it.
-	if ( isset( $wp->request ) ) {
-		$_SERVER['REQUEST_URI'] = str_replace( $wp->request, $bp_request, $reset_server_request_uri );
-
-		// Reparse request.
-		$wp->parse_request();
-
-		// Reparse query.
-		bp_remove_all_filters( 'parse_query' );
-		$query->parse_query( $wp->query_vars );
-		bp_restore_all_filters( 'parse_query' );
-
-	} elseif ( isset( $bp->ajax ) ) {
+	if ( isset( $bp->ajax ) ) {
 		$_SERVER['REQUEST_URI'] = $bp_request;
 
 		if ( bp_has_pretty_urls() ) {
@@ -122,6 +111,17 @@ function bp_reset_query( $bp_request = '', \WP_Query $query = null ) {
 		 * This should be `remove_action( 'parse_query', 'bp_parse_query', 2 );` in BP Core.
 		 */
 		remove_action( 'parse_query', __NAMESPACE__ . '\bp_parse_query', 2 );
+
+	} elseif ( isset( $wp->request ) ) {
+		$_SERVER['REQUEST_URI'] = str_replace( $wp->request, $bp_request, $reset_server_request_uri );
+
+		// Reparse request.
+		$wp->parse_request();
+
+		// Reparse query.
+		bp_remove_all_filters( 'parse_query' );
+		$query->parse_query( $wp->query_vars );
+		bp_restore_all_filters( 'parse_query' );
 	}
 
 	// Restore request uri.

@@ -70,7 +70,7 @@ final class BP_Rewrites {
 		$sitewide_plugins     = (array) get_site_option( 'active_sitewide_plugins', array() );
 
 		if ( $sitewide_plugins ) {
-			$is_buddypress_active = in_array( $bp_plugin_basename, $sitewide_plugins, true );
+			$is_buddypress_active = isset( $sitewide_plugins[ $bp_plugin_basename ] );
 		}
 
 		if ( ! $is_buddypress_active ) {

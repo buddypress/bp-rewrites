@@ -24,6 +24,34 @@ class Members_Component extends \BP_Members_Component {
 	}
 
 	/**
+	 * Magic getter.
+	 *
+	 * This exists specifically to avoid a fatal error when a plugin tries to create
+	 * a BP Nav Item too early.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $key The name of the property.
+	 * @return null|BP\Rewrites\Core_Nav_Compat
+	 */
+	public function __get( $key = '' ) {
+		$retval = null;
+
+		if ( 'nav' === $key && ! did_action( 'bp_parse_query' ) ) {
+			$core_path = trailingslashit( plugin_dir_path( dirname( dirname( __FILE__ ) ) ) ) . 'bp-core/';
+			require $core_path . 'classes/class-core-nav-compat.php';
+
+			$retval = new Core_Nav_Compat();
+		}
+
+		if ( isset( $this->{$key} ) ) {
+			$retval = $this->{$key};
+		}
+
+		return $retval;
+	}
+
+	/**
 	 * Set up additional globals for the component.
 	 *
 	 * NB: Setting the displayed user as well as the BP Members Nav at this stage in

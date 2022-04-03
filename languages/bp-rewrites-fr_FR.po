@@ -4,17 +4,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BP Rewrites\n"
 "Report-Msgid-Bugs-To: https://github.com/buddypress/bp-rewrites/issues\n"
-"POT-Creation-Date: 2022-03-12T08:17:23+00:00\n"
-"PO-Revision-Date: 2022-03-12 09:18+0100\n"
+"POT-Creation-Date: 2022-04-03T09:35:03+00:00\n"
+"PO-Revision-Date: 2022-04-03 11:36+0200\n"
 "Last-Translator: \n"
 "Language-Team: ENGLISH <jjj@buddypress.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4.2\n"
-"X-Domain: bp-rewrites\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 3.0.1\n"
+"X-Domain: bp-rewrites\n"
 
 #. Plugin Name of the plugin
 msgid "BP Rewrites"
@@ -140,6 +140,22 @@ msgstr "Terminaison d’URL « %s »"
 #: src/bp-core/admin/bp-core-admin-rewrites.php:246
 msgid "Save Settings"
 msgstr "Enregistrer les réglages"
+
+#: src/bp-core/bp-core-template.php:51
+msgid "Please wait for the `bp_parse_query` hook to be fired before using it."
+msgstr ""
+"Merci d’attendre que le « hook » `bp_parse_query` soit intervenu avant "
+"d’essayer de l’utiliser."
+
+#. Translators: 1: the list of nav items that were not added.
+#: src/bp-core/classes/class-core-nav-compat.php:47
+msgid ""
+"Please wait for the `bp_setup_nav` hook to be fired before trying to create "
+"a nav or a subnav item. The following nav item slugs are problematic: %s."
+msgstr ""
+"Merci d’attendre que le « hook » `bp_setup_nav` soit intervenu avant "
+"d’essayer de créer un éléments de navigation ou de sous-navigation. Les "
+"terminaisons d’url des éléments suivants sont problématique : %s."
 
 #: src/bp-groups/actions/create.php:35
 msgid "Sorry, you are not allowed to create groups."
@@ -276,6 +292,14 @@ msgctxt "Group manage view"
 msgid "Delete"
 msgstr "Supprimer"
 
+#: src/bp-groups/classes/class-bp-group-extension.php:517
+msgid ""
+"Please wait for the `bp_parse_query` hook to be fired before trying to get "
+"the Group ID."
+msgstr ""
+"Merci d’attendre que le « hook » `bp_parse_query` soit intervenu avant "
+"d’essayer de récupérer l’identifiant de groupe."
+
 #: src/bp-groups/classes/class-bp-group-extension.php:565
 msgid "Save Changes"
 msgstr "Enregistrer les changements"
@@ -296,7 +320,7 @@ msgstr "Invitations en attente"
 msgid "Send Invites"
 msgstr "Inviter"
 
-#: src/bp-members/classes/class-members-component.php:540
+#: src/bp-members/classes/class-members-component.php:567
 msgid ""
 "This user has been marked as a spammer. Only site admins can view this "
 "profile."

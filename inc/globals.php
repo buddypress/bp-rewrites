@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 function globals() {
 	$bpr = bp_rewrites();
 
-	$bpr->version = '1.0.0-beta2';
+	$bpr->version = '1.0.0-RC1';
 
 	// Path.
 	$plugin_dir = plugin_dir_path( dirname( __FILE__ ) );

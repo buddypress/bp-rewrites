@@ -514,7 +514,7 @@ if ( ! class_exists( 'BP_Group_Extension', false ) ) :
 			if ( self::query_parsed() ) {
 				$group_id = bp_get_current_group_id();
 			} else {
-				_doing_it_wrong( __METHOD__, esc_html__( 'Please wait for the `bp_parse_query` hook to be fired before trying to get the Group ID.' ), 'BP Rewrites' );
+				_doing_it_wrong( __METHOD__, esc_html__( 'Please wait for the `bp_parse_query` hook to be fired before trying to get the Group ID.', 'bp-rewrites' ), 'BP Rewrites' );
 				$current_group = BP\Rewrites\bp_core_get_from_uri( array( 'current_group' ) );
 
 				if ( isset( $current_group->id ) && $current_group->id ) {

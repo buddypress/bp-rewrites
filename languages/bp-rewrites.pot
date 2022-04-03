@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-03-12T08:17:23+00:00\n"
+"POT-Creation-Date: 2022-04-03T09:35:03+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: bp-rewrites\n"
@@ -130,6 +130,15 @@ msgstr ""
 
 #: src/bp-core/admin/bp-core-admin-rewrites.php:246
 msgid "Save Settings"
+msgstr ""
+
+#: src/bp-core/bp-core-template.php:51
+msgid "Please wait for the `bp_parse_query` hook to be fired before using it."
+msgstr ""
+
+#. Translators: 1: the list of nav items that were not added.
+#: src/bp-core/classes/class-core-nav-compat.php:47
+msgid "Please wait for the `bp_setup_nav` hook to be fired before trying to create a nav or a subnav item. The following nav item slugs are problematic: %s."
 msgstr ""
 
 #: src/bp-groups/actions/create.php:35
@@ -262,6 +271,10 @@ msgctxt "Group manage view"
 msgid "Delete"
 msgstr ""
 
+#: src/bp-groups/classes/class-bp-group-extension.php:517
+msgid "Please wait for the `bp_parse_query` hook to be fired before trying to get the Group ID."
+msgstr ""
+
 #: src/bp-groups/classes/class-bp-group-extension.php:565
 msgid "Save Changes"
 msgstr ""
@@ -282,7 +295,7 @@ msgstr ""
 msgid "Send Invites"
 msgstr ""
 
-#: src/bp-members/classes/class-members-component.php:540
+#: src/bp-members/classes/class-members-component.php:567
 msgid "This user has been marked as a spammer. Only site admins can view this profile."
 msgstr ""
 

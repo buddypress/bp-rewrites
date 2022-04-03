@@ -1,5 +1,27 @@
 # Change Log
 
+## 1.0.0-RC1
+
+_Requires WordPress 5.4_
+_Tested up to WordPress 6.0-alpha_
+_Requires BuddyPress 10.0_
+_Tested up to BuddyPress 11.0-alpha_
+
+### Description
+
+This is the BuddyPress Rewrites feature as a plugin. Thanks to it you'll get full control on any BuddyPress URLs. Please note this plugin is still under active development: you should probably use a local/staging site to play with it 😉.
+
+### Bug fixes
+
+- Make sure BP Rewrites loads when BuddyPress is network activated. See #32.
+- Avoid a fatar error when trying to access to a BP Core Nav too early. See #33.
+
+### Props
+
+@adiloztaser, @eha1, @imath.
+
+---
+
 ## 1.0.0-beta2
 
 _Requires WordPress 5.4_

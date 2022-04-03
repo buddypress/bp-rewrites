@@ -37,15 +37,14 @@ class Members_Component extends \BP_Members_Component {
 	public function __get( $key = '' ) {
 		$retval = null;
 
-		if ( 'nav' === $key && ! did_action( 'bp_parse_query' ) ) {
-			$core_path = trailingslashit( plugin_dir_path( dirname( dirname( __FILE__ ) ) ) ) . 'bp-core/';
-			require $core_path . 'classes/class-core-nav-compat.php';
-
-			$retval = new Core_Nav_Compat();
-		}
-
 		if ( isset( $this->{$key} ) ) {
 			$retval = $this->{$key};
+		} elseif ( 'nav' === $key && ! did_action( 'bp_parse_query' ) ) {
+			$core_path = trailingslashit( plugin_dir_path( dirname( dirname( __FILE__ ) ) ) ) . 'bp-core/';
+			require_once $core_path . 'classes/class-core-nav-compat.php';
+
+			$retval    = new Core_Nav_Compat();
+			$this->nav = $retval;
 		}
 
 		return $retval;

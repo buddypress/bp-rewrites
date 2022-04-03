@@ -29,6 +29,7 @@ class Core_Nav_Compat {
 	 */
 	public function __construct() {
 		add_action( 'bp_parse_query', array( $this, 'doing_it_wrong' ), 11 );
+		add_action( 'bp_setup_nav', array( $this, 'compat' ), 1000 );
 	}
 
 	/**
@@ -43,10 +44,10 @@ class Core_Nav_Compat {
 			'BuddyPress Members Nav',
 			sprintf(
 				/* Translators: 1: the list of nav items that were not added. */
-				esc_html__( 'Please wait for the `bp_setup_nav` hook to be fired before trying to create a nav or a subnav item. The following nav item slugs were not created: %s.', 'bp-rewrites' ),
+				esc_html__( 'Please wait for the `bp_setup_nav` hook to be fired before trying to create a nav or a subnav item. The following nav item slugs are problematic: %s.', 'bp-rewrites' ),
 				'<strong style="color: red">' . implode( ', ', array_map( 'esc_html', $nav_item_slugs ) ) . '</strong>'
 			),
-			'BP Rewrites 1.0.0'
+			'BP Rewrites'
 		);
 	}
 
@@ -58,6 +59,58 @@ class Core_Nav_Compat {
 	 * @param array $args The nav item's arguments.
 	 */
 	public function add_nav( $args ) {
-		$this->nav[] = (object) $args;
+		$slug = '';
+		if ( isset( $args['slug'] ) ) {
+			$slug = $args['slug'];
+		}
+
+		if ( isset( $args['parent_slug'] ) && isset( $args['link'] ) && ! isset( $args['parent_url'] ) ) {
+			$path               = wp_parse_url( $args['link'], PHP_URL_PATH );
+			$args['parent_url'] = str_replace( $slug, '', untrailingslashit( home_url( $path ) ) );
+
+			// Unset the link to be sure subnav will be created into the self::compat() method.
+			unset( $args['link'] );
+		}
+
+		$this->nav[ $slug ] = (object) $args;
+	}
+
+	/**
+	 * Adds a new nav item.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array $args Filters to select the specific primary.
+	 * @param bool  $sort True Not used.
+	 * @return object|null The primary object nav if found. Null otherwise.
+	 */
+	public function get_primary( $args = array(), $sort = true ) {
+		$slug = '';
+		if ( isset( $args['slug'] ) ) {
+			$slug = $args['slug'];
+		}
+
+		if ( ! isset( $this->nav[ $slug ] ) ) {
+			return null;
+		}
+
+		return $this->nav[ $slug ];
+	}
+
+	/**
+	 * Restores problematic nav items.
+	 *
+	 * @since 1.0.0
+	 */
+	public function compat() {
+		foreach ( $this->nav as $nav_item ) {
+			$nav_args = (array) $nav_item;
+
+			if ( ! isset( $nav_args['parent_slug'] ) ) {
+				bp_core_new_nav_item( $nav_args );
+			} else {
+				bp_core_new_subnav_item( $nav_args );
+			}
+		}
 	}
 }

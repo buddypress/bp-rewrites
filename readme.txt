@@ -63,11 +63,11 @@ Our community provides free support at [https://buddypress.org/support/](https:/
 
 Report bugs or suggest ideas at [https://github.com/buddypress/bp-rewrites/issues](https://github.com/buddypress/bp-rewrites/issues), participate to this plugin development at [https://github.com/buddypress/bp-rewrites/pulls](https://github.com/buddypress/bp-rewrites/pulls).
 
-= Who builds the BP Rewrites? =
+= Who builds the BP Rewrites add-on? =
 
 The BP Rewrites is a BuddyPress add-on and is free software, built by an international community of volunteers. Some contributors to BuddyPress are employed by companies that use BuddyPress, while others are consultants who offer BuddyPress-related services for hire. No one is paid by the BuddyPress project for his or her contributions.
 
-If you would like to provide monetary support to the BP Rewrites or BuddyPress plugins, please consider a donation to the <a href="https://wordpressfoundation.org">WordPress Foundation</a>, or ask your favorite contributor how they prefer to have their efforts rewarded.
+If you would like to provide monetary support to the BP Rewrites or BuddyPress plugins, please consider a donation to the [WordPress Foundation](https://wordpressfoundation.org), or ask your favorite contributor how they prefer to have their efforts rewarded.
 
 == Screenshots ==
 

@@ -9,7 +9,7 @@ Requires PHP: 5.6
 Tested up to: 5.9
 Stable tag: 1.0.0
 
-The BP Rewrites plugin is a BuddyPress add-on using the WP Rewrite API to parse BuddyPress generated URLs.
+The BP Rewrites plugin is a BuddyPress add-on giving you the full control of any BuddyPress generated URLs.
 
 == Description ==
 
@@ -24,6 +24,12 @@ Once activated, The plugin is editing the post type of the existing BuddyPress p
 If you notice one of your BuddyPress plugin or your theme are not behaving the way they should, please temporarly define the `WP_DEBUG` constant to `true` into the `wp-config.php` file of your website. You should see some warning notices confirming there's an issue. You can tell us about it using this plugin's support forum or best submitting an issue into the [GitHub repository](https://github.com/buddypress/bp-rewrites) of the plugin.
 
 When you deactivate the plugin, the `buddypress` post type’s items are switched back to regular pages and you get them back into the corresponding WordPress Administation edit screen. Post metas are still there in case you want to activate BP Rewrites back (this can happen when you’re testing another BuddyPress plugin). If you absolutely want to get rid of these post metas, you can delete the BuddyPress pages, create new ones and redo the page mapping from the BuddyPress Pages settings screen.
+
+= Benefits about using the WP Rewrite API =
+
+* All BuddyPress generated URLs are customizable.
+* BuddyPress is fully compatible with plain URL permalinks.
+* Parsing BuddyPress URLs is faster, more reliable, extensible, testable and fully compliant with WP best practices.
 
 = Join our community =
 
@@ -41,7 +47,7 @@ Growing the BuddyPress community means better software for everyone!
 = Automatic installation =
 
 Using the automatic installation let WordPress handles everything itself. To do an automatic install of BP Rewrites, log in to your WordPress dashboard, navigate to the Plugins menu. Click on the Add New link, then activate the "BuddyPress Add-ons" tab to quickly find the BP Rewrites plugin's card.
-Once you've found the BP Rewrites, you can view details about the latest release, such as community reviews, ratings, and description. Install the BP Search Block by simply pressing "Install Now".
+Once you've found the BP Rewrites, you can view details about the latest release, such as community reviews, ratings, and description. Install the BP Rewrites add-on by simply pressing "Install Now".
 
 == Frequently Asked Questions ==
 

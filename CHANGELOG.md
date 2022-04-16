@@ -1,5 +1,27 @@
 # Change Log
 
+## 1.0.0
+
+_Requires WordPress 5.4_
+_Tested up to WordPress 6.0-beta1_
+_Requires BuddyPress 10.0_
+_Tested up to BuddyPress 11.0-alpha_
+
+### Description
+
+This is the first stable version of the BuddyPress Rewrites feature as a plugin. Thanks to it you'll get full control on any BuddyPress URLs.
+
+### Changes
+
+- Create the `readme.txt` used by the WordPress.org plugin directory.
+- Submit the request about hosting the plugin on this directory.
+
+### Props
+
+@adiloztaser, @eha1, @shanebp, @boonebgorges, @r-a-y, @imath.
+
+---
+
 ## 1.0.0-RC1
 
 _Requires WordPress 5.4_

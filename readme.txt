@@ -19,17 +19,21 @@ BP Rewrites is a BuddyPress feature as a plugin which end goal is to be merged w
 
 Please help us meeting this challenge by testing the BP Rewrites plugin with your specific configurations (Plugins, theme, bp-custom.php file, constants).
 
-Once activated, The plugin is editing the post type of the existing BuddyPress pages in favor of the `buddypress` post type. That’s why you don’t see the BuddyPress pages anymore (as long as the BP Rewrites plugin is active) into the corresponding WordPress Administation edit screen. The BuddyPress Pages settings screen is replaced by a BuddyPress URLs settings screen (see the screenshot below). This new screen is where you can define custom slugs which will be saved as a post meta of the corresponding `buddypress` post type item. Then the BP Rewrites plugin is taking benefit from BuddyPress hooks/APIs to change BP Core’s behavior.
-
-If you notice one of your BuddyPress plugin or your theme are not behaving the way they should, please temporarly define the `WP_DEBUG` constant to `true` into the `wp-config.php` file of your website. You should see some warning notices confirming there's an issue. You can tell us about it using this plugin's support forum or best submitting an issue into the [GitHub repository](https://github.com/buddypress/bp-rewrites) of the plugin.
-
-When you deactivate the plugin, the `buddypress` post type’s items are switched back to regular pages and you get them back into the corresponding WordPress Administation edit screen. Post metas are still there in case you want to activate BP Rewrites back (this can happen when you’re testing another BuddyPress plugin). If you absolutely want to get rid of these post metas, you can delete the BuddyPress pages, create new ones and redo the page mapping from the BuddyPress Pages settings screen.
-
 = Benefits about using the WP Rewrite API =
 
 * All BuddyPress generated URLs are customizable.
 * BuddyPress is fully compatible with plain URL permalinks.
-* Parsing BuddyPress URLs is faster, more reliable, extensible, testable and fully compliant with WP best practices.
+* Parsing BuddyPress URLs is faster, more reliable, extensible, testable and fully compliant with WordPress best practices.
+
+= How BP Rewrites changes BuddyPress’ behavior? =
+
+Once activated, The plugin is editing the post type of the existing BuddyPress pages in favor of the `buddypress` post type. That’s why you don’t see the BuddyPress pages anymore (as long as the BP Rewrites plugin is active) into the corresponding WordPress Administation edit screen. The BuddyPress Pages settings screen is replaced by a BuddyPress URLs settings screen (see the screenshot below). This new screen is where you can define custom slugs which will be saved as a post meta of the corresponding `buddypress` post type item. Then the BP Rewrites plugin is taking benefit from BuddyPress hooks/APIs to change BP Core’s behavior.
+
+If you notice one of your BuddyPress plugins or your theme are not behaving the way they should, please temporarly define the `WP_DEBUG` constant to `true` into the `wp-config.php` file of your website. You should see some warning notices confirming there's an issue involving changes introduced by the BP Rewrites add-on. You can tell us about it using this plugin's support forum or best submitting an issue into the [GitHub repository](https://github.com/buddypress/bp-rewrites) of the plugin.
+
+= How to get regular BuddyPress’ behavior back? =
+
+Simply deactivate BP Rewrites. When you deactivate the plugin, the `buddypress` post type’s items are switched back to regular pages and you get them back into the corresponding WordPress Administation edit screen. Post metas are still there in case you want to activate BP Rewrites again (this can happen when you’re testing another BuddyPress plugin). If you absolutely want to get rid of these post metas, you can delete the BuddyPress pages, create new ones and redo the page mapping from the BuddyPress Pages settings screen.
 
 = Join our community =
 

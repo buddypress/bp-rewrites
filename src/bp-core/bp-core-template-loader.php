@@ -79,7 +79,7 @@ function bp_reset_query( $bp_request = '', \WP_Query $query = null ) {
 	// Back up request uri.
 	$reset_server_request_uri = '';
 	if ( isset( $_SERVER['REQUEST_URI'] ) ) {
-		$reset_server_request_uri = wp_unslash( $_SERVER['REQUEST_URI'] ); // phpcs:ignore
+		$reset_server_request_uri = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) );
 	}
 
 	// Temporarly override it.

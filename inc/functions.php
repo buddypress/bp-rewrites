@@ -416,8 +416,9 @@ function is_login_page() {
 
 	if ( isset( $GLOBALS['pagenow'] ) && ( false !== strpos( $GLOBALS['pagenow'], 'wp-login.php' ) ) ) {
 		$is_login = true;
-	} elseif ( isset( $_SERVER['SCRIPT_NAME'] ) && false !== strpos( $_SERVER['SCRIPT_NAME'], 'wp-login.php' ) ) { // phpcs:ignore
-		$is_login = true;
+	} elseif ( isset( $_SERVER['SCRIPT_NAME'] ) ) {
+		$script_name = esc_url_raw( wp_unslash( $_SERVER['SCRIPT_NAME'] ) );
+		$is_login    = false !== strpos( $script_name, 'wp-login.php' );
 	}
 
 	return $is_login;

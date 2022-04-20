@@ -25,8 +25,13 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return mixed            The BuddyPress global value set using the BP Legacy URL parser.
  */
 function _was_called_too_early( $function, $bp_global ) {
-	$retval   = null;
-	$request  = wp_parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ); // phpcs:ignore
+	$retval      = null;
+	$request_uri = '';
+	if ( isset( $_SERVER['REQUEST_URI'] ) ) {
+		$request_uri = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) );
+	}
+
+	$request  = wp_parse_url( $request_uri, PHP_URL_PATH );
 	$is_admin = ( false !== strpos( $request, '/wp-admin' ) || is_admin() ) && ! wp_doing_ajax();
 
 	// The BP REST API needs more work.

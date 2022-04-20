@@ -112,11 +112,9 @@ function groups_action_create_group() {
 				$new_group_id = $bp->groups->new_group_id;
 			}
 
-			// phpcs:disable WordPress.Security.ValidatedSanitizedInput
-			$new_group_name = wp_unslash( $_POST['group-name'] );
-			$new_group_slug = sanitize_title( esc_attr( $new_group_name ) );
-			$new_group_desc = wp_unslash( $_POST['group-desc'] );
-			// phpcs:enable WordPress.Security.ValidatedSanitizedInput
+			$new_group_name = sanitize_text_field( wp_unslash( $_POST['group-name'] ) );
+			$new_group_slug = sanitize_title( $new_group_name );
+			$new_group_desc = sanitize_textarea_field( wp_unslash( $_POST['group-desc'] ) );
 
 			$bp->groups->new_group_id = groups_create_group(
 				array(
@@ -143,15 +141,12 @@ function groups_action_create_group() {
 				$group_enable_forum = 0;
 			}
 
-			// phpcs:disable WordPress.Security.ValidatedSanitizedInput
 			if ( isset( $_POST['group-status'] ) ) {
-				if ( 'private' === wp_unslash( $_POST['group-status'] ) ) {
-					$group_status = 'private';
-				} elseif ( 'hidden' === wp_unslash( $_POST['group-status'] ) ) {
-					$group_status = 'hidden';
+				$posted_group_status = sanitize_text_field( wp_unslash( $_POST['group-status'] ) );
+				if ( 'private' === $posted_group_status || 'hidden' === $posted_group_status ) {
+					$group_status = $posted_group_status;
 				}
 			}
-			// phpcs:enable WordPress.Security.ValidatedSanitizedInput
 
 			$bp->groups->new_group_id = groups_create_group(
 				array(
@@ -362,13 +357,11 @@ function groups_action_create_group() {
 				'object'        => 'group',
 				'avatar_dir'    => 'group-avatars',
 				'item_id'       => $bp->groups->current_group->id,
-				// phpcs:disable WordPress.Security.ValidatedSanitizedInput
-				'original_file' => wp_unslash( $_POST['image_src'] ),
-				'crop_x'        => wp_unslash( $_POST['x'] ),
-				'crop_y'        => wp_unslash( $_POST['y'] ),
-				'crop_w'        => wp_unslash( $_POST['w'] ),
-				'crop_h'        => wp_unslash( $_POST['h'] ),
-				// phpcs:enable WordPress.Security.ValidatedSanitizedInput
+				'original_file' => esc_url_raw( wp_unslash( $_POST['image_src'] ) ),
+				'crop_x'        => ! isset( $_POST['x'] ) ? 0 : sanitize_text_field( wp_unslash( $_POST['x'] ) ),
+				'crop_y'        => ! isset( $_POST['y'] ) ? 0 : sanitize_text_field( wp_unslash( $_POST['y'] ) ),
+				'crop_w'        => ! isset( $_POST['w'] ) ? bp_core_avatar_full_width() : sanitize_text_field( wp_unslash( $_POST['w'] ) ),
+				'crop_h'        => ! isset( $_POST['h'] ) ? bp_core_avatar_full_height() : sanitize_text_field( wp_unslash( $_POST['h'] ) ),
 			);
 
 			$cropped_avatar = bp_core_avatar_handle_crop( $args, 'array' );

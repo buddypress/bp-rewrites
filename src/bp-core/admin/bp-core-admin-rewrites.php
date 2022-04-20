@@ -272,12 +272,14 @@ function bp_core_admin_rewrites_setup_handler() {
 		wp_safe_redirect( add_query_arg( 'error', 'true', $base_url ) );
 	}
 
-	$directory_pages     = bp_core_get_directory_pages();
+	$directory_pages     = (array) bp_core_get_directory_pages();
 	$current_page_slugs  = wp_list_pluck( $directory_pages, 'slug', 'id' );
 	$current_page_titles = wp_list_pluck( $directory_pages, 'title', 'id' );
 	$reset_rewrites      = false;
 
-	$components = wp_unslash( $_POST['components'] ); // phpcs:ignore
+	// Data is sanitized inside the foreach loop.
+	$components = wp_unslash( $_POST['components'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
+
 	foreach ( $components as $page_id => $posted_data ) {
 		$postarr = array();
 
@@ -287,13 +289,21 @@ function bp_core_admin_rewrites_setup_handler() {
 
 		$postarr['ID'] = $page_id;
 
-		if ( $current_page_titles[ $page_id ] !== $posted_data['post_title'] ) {
-			$postarr['post_title'] = $posted_data['post_title'];
+		if ( isset( $posted_data['post_title'] ) ) {
+			$post_title = sanitize_text_field( $posted_data['post_title'] );
+
+			if ( $current_page_titles[ $page_id ] !== $post_title ) {
+				$postarr['post_title'] = $post_title;
+			}
 		}
 
-		if ( $current_page_slugs[ $page_id ] !== $posted_data['post_name'] ) {
-			$reset_rewrites       = true;
-			$postarr['post_name'] = $posted_data['post_name'];
+		if ( isset( $posted_data['post_name'] ) ) {
+			$post_name = sanitize_text_field( $posted_data['post_name'] );
+
+			if ( $current_page_slugs[ $page_id ] !== $post_name ) {
+				$reset_rewrites       = true;
+				$postarr['post_name'] = $post_name;
+			}
 		}
 
 		if ( isset( $posted_data['_bp_component_slugs'] ) && is_array( $posted_data['_bp_component_slugs'] ) ) {
@@ -301,7 +311,7 @@ function bp_core_admin_rewrites_setup_handler() {
 		}
 
 		if ( isset( $posted_data['_bp_component_slugs']['bp_group_create'] ) ) {
-			$new_current_group_create_slug    = $posted_data['_bp_component_slugs']['bp_group_create'];
+			$new_current_group_create_slug    = sanitize_text_field( $posted_data['_bp_component_slugs']['bp_group_create'] );
 			$current_group_create_custom_slug = '';
 
 			if ( isset( $directory_pages->groups->custom_slugs['bp_group_create'] ) ) {

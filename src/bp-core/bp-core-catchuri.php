@@ -61,7 +61,7 @@ function bp_core_get_from_uri( $bp_global = array() ) {
 
 		// calculate the BuddyPress URI.
 	} elseif ( isset( $_SERVER['REQUEST_URI'] ) ) {
-		$requested_uri = esc_url( wp_unslash( $_SERVER['REQUEST_URI'] ) ); // phpcs:ignore
+		$requested_uri = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) );
 
 		/**
 		 * Filters the BuddyPress global URI path.

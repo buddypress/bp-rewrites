@@ -549,9 +549,11 @@ if ( ! class_exists( 'BP_Group_Extension', false ) ) :
 			 * $_POST array
 			 * @todo Figure out why this is happening during group creation.
 			 */
-			if ( empty( $group_id ) && isset( $_POST['group_id'] ) ) { // phpcs:ignore
-				$group_id = (int) $_POST['group_id']; // phpcs:ignore
+			// phpcs:disable WordPress.Security.NonceVerification
+			if ( empty( $group_id ) && isset( $_POST['group_id'] ) ) {
+				$group_id = (int) sanitize_text_field( wp_unslash( $_POST['group_id'] ) );
 			}
+			// phpcs:enable WordPress.Security.NonceVerification
 
 			return $group_id;
 		}
@@ -1138,9 +1140,11 @@ if ( ! class_exists( 'BP_Group_Extension', false ) ) :
 		 * @since 1.8.0
 		 */
 		public function call_edit_screen_save() {
-			if ( empty( $_POST ) ) { // phpcs:ignore
+			// phpcs:disable WordPress.Security.NonceVerification
+			if ( empty( $_POST ) ) {
 				return;
 			}
+			// phpcs:enable WordPress.Security.NonceVerification
 
 			/*
 			 * When DOING_AJAX, the POST global will be populated, but we

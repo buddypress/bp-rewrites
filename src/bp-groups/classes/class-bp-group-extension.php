@@ -523,8 +523,17 @@ if ( ! class_exists( 'BP_Group_Extension', false ) ) :
 			}
 
 			// On the admin, get the group id out of the $_GET params.
-			if ( empty( $group_id ) && is_admin() && ( isset( $_GET['page'] ) && ( 'bp-groups' === $_GET['page'] ) ) && ! empty( $_GET['gid'] ) ) { // phpcs:ignore
-				$group_id = (int) $_GET['gid']; // phpcs:ignore
+			if ( empty( $group_id ) && is_admin() ) {
+				// phpcs:disable WordPress.Security.NonceVerification
+				$admin_page = '';
+				if ( isset( $_GET['page'] ) ) {
+					$admin_page = sanitize_text_field( wp_unslash( $_GET['page'] ) );
+				}
+
+				if ( 'bp-groups' === $admin_page && isset( $_GET['gid'] ) ) {
+					$group_id = (int) sanitize_text_field( wp_unslash( $_GET['gid'] ) );
+				}
+				// phpcs:enable WordPress.Security.NonceVerification
 			}
 
 			/*
@@ -1250,7 +1259,7 @@ if ( ! class_exists( 'BP_Group_Extension', false ) ) :
 			add_action( 'bp_groups_admin_meta_box_content_' . $this->slug, array( $this, 'call_admin_screen' ) );
 
 			// Initialize the metabox.
-			add_action( 'bp_groups_admin_meta_boxes', array( $this, '_meta_box_display_callback' ) );
+			add_action( 'bp_groups_admin_meta_boxes', array( $this, 'meta_box_display_callback' ) );
 
 			// Catch the metabox save.
 			add_action( 'bp_group_admin_edit_after', array( $this, 'call_admin_screen_save' ), 10 );
@@ -1281,9 +1290,15 @@ if ( ! class_exists( 'BP_Group_Extension', false ) ) :
 		 *
 		 * @since 1.7.0
 		 */
-		public function _meta_box_display_callback() { // phpcs:ignore
-			$group_id = isset( $_GET['gid'] ) ? (int) $_GET['gid'] : 0; // phpcs:ignore
-			$screen   = $this->screens['admin'];
+		public function meta_box_display_callback() {
+			// phpcs:disable WordPress.Security.NonceVerification
+			$group_id = 0;
+			if ( isset( $_GET['gid'] ) ) {
+				$group_id = (int) sanitize_text_field( wp_unslash( $_GET['gid'] ) );
+			}
+			// phpcs:enable WordPress.Security.NonceVerification
+
+			$screen = $this->screens['admin'];
 
 			$extension_slug = $this->slug;
 			$callback       = function () use ( $extension_slug, $group_id ) {

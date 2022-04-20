@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BP Rewrites\n"
 "Report-Msgid-Bugs-To: https://github.com/buddypress/bp-rewrites/issues\n"
-"POT-Creation-Date: 2022-04-16T08:02:47+00:00\n"
-"PO-Revision-Date: 2022-04-16 10:03+0200\n"
+"POT-Creation-Date: 2022-04-20T10:09:10+00:00\n"
+"PO-Revision-Date: 2022-04-20 12:09+0200\n"
 "Last-Translator: \n"
 "Language-Team: ENGLISH <jjj@buddypress.org>\n"
 "Language: fr\n"
@@ -141,7 +141,7 @@ msgstr "Terminaison d’URL « %s »"
 msgid "Save Settings"
 msgstr "Enregistrer les réglages"
 
-#: src/bp-core/bp-core-template.php:51
+#: src/bp-core/bp-core-template.php:56
 msgid "Please wait for the `bp_parse_query` hook to be fired before using it."
 msgstr ""
 "Merci d’attendre que le « hook » `bp_parse_query` soit intervenu avant "
@@ -161,8 +161,8 @@ msgstr ""
 msgid "Sorry, you are not allowed to create groups."
 msgstr "Désolé, vous n’êtes pas autorisé·e à créer des groupes."
 
-#: src/bp-groups/actions/create.php:67 src/bp-groups/actions/create.php:133
-#: src/bp-groups/actions/create.php:165
+#: src/bp-groups/actions/create.php:67 src/bp-groups/actions/create.php:131
+#: src/bp-groups/actions/create.php:160
 msgid "There was an error saving group details. Please try again."
 msgstr ""
 "Une erreur s’est produite lors de l’enregistrement des détails du groupe. "
@@ -176,15 +176,15 @@ msgstr "Seul le créateur du groupe peut continuer à modifier ce groupe."
 msgid "Please fill in all of the required fields"
 msgstr "Merci de renseigner tous les champs obligatoires"
 
-#: src/bp-groups/actions/create.php:326
+#: src/bp-groups/actions/create.php:321
 msgid "Invite successfully removed"
 msgstr "Invitation supprimée avec succès"
 
-#: src/bp-groups/actions/create.php:332
+#: src/bp-groups/actions/create.php:327
 msgid "There was an error removing the invite"
 msgstr "Une erreur s’est produite lors de la suppression de l’invitation"
 
-#: src/bp-groups/actions/create.php:377
+#: src/bp-groups/actions/create.php:370
 msgid ""
 "There was an error saving the group profile photo, please try uploading "
 "again."
@@ -192,7 +192,7 @@ msgstr ""
 "Une erreur s’est produite lors de l’enregistrement de la photo de profil, "
 "merci de réessayer de la téléverser."
 
-#: src/bp-groups/actions/create.php:392
+#: src/bp-groups/actions/create.php:385
 msgid "The group profile photo was uploaded successfully."
 msgstr "La photo de profil du groupe a été téléversée avec succès."
 
@@ -300,11 +300,11 @@ msgstr ""
 "Merci d’attendre que le « hook » `bp_parse_query` soit intervenu avant "
 "d’essayer de récupérer l’identifiant de groupe."
 
-#: src/bp-groups/classes/class-bp-group-extension.php:565
+#: src/bp-groups/classes/class-bp-group-extension.php:576
 msgid "Save Changes"
 msgstr "Enregistrer les changements"
 
-#: src/bp-groups/classes/class-bp-group-extension.php:949
+#: src/bp-groups/classes/class-bp-group-extension.php:960
 msgid "You do not have access to this content."
 msgstr "Vous n’avez pas accès à ce contenu."
 

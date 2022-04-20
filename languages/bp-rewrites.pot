@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-04-16T08:02:47+00:00\n"
+"POT-Creation-Date: 2022-04-20T10:09:10+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: bp-rewrites\n"
@@ -132,7 +132,7 @@ msgstr ""
 msgid "Save Settings"
 msgstr ""
 
-#: src/bp-core/bp-core-template.php:51
+#: src/bp-core/bp-core-template.php:56
 msgid "Please wait for the `bp_parse_query` hook to be fired before using it."
 msgstr ""
 
@@ -146,8 +146,8 @@ msgid "Sorry, you are not allowed to create groups."
 msgstr ""
 
 #: src/bp-groups/actions/create.php:67
-#: src/bp-groups/actions/create.php:133
-#: src/bp-groups/actions/create.php:165
+#: src/bp-groups/actions/create.php:131
+#: src/bp-groups/actions/create.php:160
 msgid "There was an error saving group details. Please try again."
 msgstr ""
 
@@ -159,19 +159,19 @@ msgstr ""
 msgid "Please fill in all of the required fields"
 msgstr ""
 
-#: src/bp-groups/actions/create.php:326
+#: src/bp-groups/actions/create.php:321
 msgid "Invite successfully removed"
 msgstr ""
 
-#: src/bp-groups/actions/create.php:332
+#: src/bp-groups/actions/create.php:327
 msgid "There was an error removing the invite"
 msgstr ""
 
-#: src/bp-groups/actions/create.php:377
+#: src/bp-groups/actions/create.php:370
 msgid "There was an error saving the group profile photo, please try uploading again."
 msgstr ""
 
-#: src/bp-groups/actions/create.php:392
+#: src/bp-groups/actions/create.php:385
 msgid "The group profile photo was uploaded successfully."
 msgstr ""
 
@@ -275,11 +275,11 @@ msgstr ""
 msgid "Please wait for the `bp_parse_query` hook to be fired before trying to get the Group ID."
 msgstr ""
 
-#: src/bp-groups/classes/class-bp-group-extension.php:565
+#: src/bp-groups/classes/class-bp-group-extension.php:576
 msgid "Save Changes"
 msgstr ""
 
-#: src/bp-groups/classes/class-bp-group-extension.php:949
+#: src/bp-groups/classes/class-bp-group-extension.php:960
 msgid "You do not have access to this content."
 msgstr ""
 

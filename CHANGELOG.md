@@ -1,5 +1,22 @@
 # Change Log
 
+## 1.0.1
+
+_Requires WordPress 5.4_
+_Tested up to WordPress 6.0-beta2_
+_Requires BuddyPress 10.0_
+_Tested up to BuddyPress 11.0-alpha_
+
+### Description
+
+This is the first security release of the BuddyPress Rewrites feature as a plugin. It applies the security fixes recommanded into the review of WordPress.org Plugins team. Please upgrade asap.
+
+### Changes
+
+- Sanitize, escape, and validate $_POST, $_GET, $_REQUEST and $_FILE missed calls in the plugin. See #36.
+
+---
+
 ## 1.0.0
 
 _Requires WordPress 5.4_

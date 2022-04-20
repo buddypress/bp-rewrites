@@ -7,7 +7,7 @@ _PS: We plan to publish `BP Rewrites` to the [WordPress.org Plugins directory](h
 ## Goal
 Migrate BP's custom URI parser to use WP's Rewrite API. See [#4954](https://buddypress.trac.wordpress.org/ticket/4954) for more information.
 
-![Admin screen](./screenshot.png)
+![Admin screen](./.wordpress/screenshot-1.png)
 
 ## Benefits
 + BuddyPress URLs customization improved and easier.

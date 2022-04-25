@@ -28,25 +28,32 @@ function bp_members_invitations_setup_nav() {
 
 	// Get the main nav.
 	$main_nav = $bp->members->nav->get_primary( array( 'slug' => bp_get_members_invitations_slug() ), false );
+	if ( ! $main_nav ) {
+		return;
+	}
+
 	$main_nav = reset( $main_nav );
-	$slug     = $main_nav['slug'];
 
-	// Set the main nav `rewrite_id` property.
-	$main_nav['rewrite_id'] = sprintf( 'bp_member_%s', $slug );
-	$rewrite_id             = $main_nav['rewrite_id'];
+	if ( isset( $main_nav['slug'] ) ) {
+		$slug = $main_nav['slug'];
 
-	// Reset the link using BP Rewrites.
-	$main_nav['link'] = bp_members_rewrites_get_nav_url(
-		array(
-			'rewrite_id'     => $rewrite_id,
-			'item_component' => $slug,
-		)
-	);
+		// Set the main nav `rewrite_id` property.
+		$main_nav['rewrite_id'] = sprintf( 'bp_member_%s', $slug );
+		$rewrite_id             = $main_nav['rewrite_id'];
 
-	// Update the primary nav item.
-	$bp->members->nav->edit_nav( $main_nav, $slug );
+		// Reset the link using BP Rewrites.
+		$main_nav['link'] = bp_members_rewrites_get_nav_url(
+			array(
+				'rewrite_id'     => $rewrite_id,
+				'item_component' => $slug,
+			)
+		);
 
-	// Update the secondary nav items.
-	reset_secondary_nav( $slug, $rewrite_id );
+		// Update the primary nav item.
+		$bp->members->nav->edit_nav( $main_nav, $slug );
+
+		// Update the secondary nav items.
+		reset_secondary_nav( $slug, $rewrite_id );
+	}
 }
 add_action( 'bp_setup_nav', __NAMESPACE__ . '\bp_members_invitations_setup_nav', 11 );

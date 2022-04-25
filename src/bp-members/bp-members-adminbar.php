@@ -38,6 +38,7 @@ function bp_members_admin_bar_add_invitations_menu() {
 				'title'  => __( 'Invitations', 'bp-rewrites' ),
 				'href'   => bp_members_rewrites_get_nav_url(
 					array(
+						'user_id'        => $user_id,
 						'rewrite_id'     => $rewrite_id,
 						'item_component' => $parent_slug,
 					)
@@ -50,9 +51,10 @@ function bp_members_admin_bar_add_invitations_menu() {
 				'title'  => __( 'Pending Invites', 'bp-rewrites' ),
 				'href'   => bp_members_rewrites_get_nav_url(
 					array(
+						'user_id'        => $user_id,
 						'rewrite_id'     => $rewrite_id,
 						'item_component' => $parent_slug,
-						'item_action'    => 'list-invites',
+						'item_action'    => bp_rewrites_get_slug( 'members', 'bp_member_invitations_list_invites', 'list-invites' ),
 					)
 				),
 			),
@@ -65,9 +67,10 @@ function bp_members_admin_bar_add_invitations_menu() {
 				'title'  => __( 'Send Invites', 'bp-rewrites' ),
 				'href'   => bp_members_rewrites_get_nav_url(
 					array(
+						'user_id'        => $user_id,
 						'rewrite_id'     => $rewrite_id,
 						'item_component' => $parent_slug,
-						'item_action'    => 'send-invites',
+						'item_action'    => bp_rewrites_get_slug( 'members', 'bp_member_invitations_send_invites', 'send-invites' ),
 					)
 				),
 			);

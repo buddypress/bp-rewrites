@@ -7,7 +7,7 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 5.9
 Requires PHP: 5.6
 Tested up to: 5.9
-Stable tag: 1.0.1
+Stable tag: 1.1.0
 
 The BP Rewrites plugin is a BuddyPress add-on giving you the full control of any BuddyPress generated URLs.
 
@@ -75,10 +75,21 @@ If you would like to provide monetary support to the BP Rewrites or BuddyPress p
 
 == Upgrade Notice ==
 
+= 1.1.0 =
+
+Maintenance release. No specific upgrade routines are performed.
+
 = 1.0.1 =
+
 Initial version of the plugin, no upgrade needed.
 
 == Changelog ==
 
+= 1.1.0 =
+
+- Make sure Members Invitations URLs are handled.
+- Rewrite the Member's header private message link.
+
 = 1.0.1 =
+
 Initial version of the plugin.

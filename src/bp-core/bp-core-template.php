@@ -31,9 +31,10 @@ function _was_called_too_early( $function, $bp_global ) {
 		$request_uri = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) );
 	}
 
+	// Into WP Admin & WP Login contexts BP Front end globals are not set.
 	$request  = wp_parse_url( $request_uri, PHP_URL_PATH );
 	$is_admin = ( false !== strpos( $request, '/wp-admin' ) || is_admin() ) && ! wp_doing_ajax();
-	$is_login =  false !== strpos( $request, '/wp-login.php' );
+	$is_login = false !== strpos( $request, '/wp-login.php' );
 
 	// The BP REST API needs more work.
 	$is_rest = false !== strpos( $request, '/' . rest_get_url_prefix() ) || ( defined( 'REST_REQUEST' ) && REST_REQUEST );

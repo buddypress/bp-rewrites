@@ -33,12 +33,16 @@ function _was_called_too_early( $function, $bp_global ) {
 
 	$request  = wp_parse_url( $request_uri, PHP_URL_PATH );
 	$is_admin = ( false !== strpos( $request, '/wp-admin' ) || is_admin() ) && ! wp_doing_ajax();
+	$is_login =  false !== strpos( $request, '/wp-login.php' );
 
 	// The BP REST API needs more work.
 	$is_rest = false !== strpos( $request, '/' . rest_get_url_prefix() ) || ( defined( 'REST_REQUEST' ) && REST_REQUEST );
 
+	// The XML RPC API needs more work.
+	$is_xmlrpc = defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST;
+
 	// `bp_parse_query` is not fired in WP Admin.
-	if ( did_action( 'bp_parse_query' ) || $is_admin || $is_rest ) {
+	if ( did_action( 'bp_parse_query' ) || $is_admin || $is_login || $is_rest || $is_xmlrpc ) {
 		return $retval;
 	}
 

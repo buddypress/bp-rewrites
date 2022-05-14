@@ -227,3 +227,60 @@ function bp_nouveau_activity_get_rss_link( $url = '' ) {
 	return bp_activity_rewrites_get_member_rss_url();
 }
 add_filter( 'bp_nouveau_activity_get_rss_link', __NAMESPACE__ . '\bp_nouveau_activity_get_rss_link', 1, 1 );
+
+/**
+ * `\bp_nouveau_messages_adjust_admin_nav()` needs to be edited to use BP Rewrites.
+ *
+ * @since 1.2.0
+ *
+ * @param array $admin_nav The list of WP Admin Bar Messages items.
+ * @return array The list of WP Admin Bar Messages items.
+ */
+function bp_nouveau_messages_adjust_admin_nav( $admin_nav = array() ) {
+	if ( ! is_array( $admin_nav ) ) {
+		return $admin_nav;
+	}
+
+	$parent_slug = bp_get_messages_slug();
+	$rewrite_id  = sprintf( 'bp_member_%s', $parent_slug );
+
+	// Get the generated front-end link.
+	$user_messages_link = bp_members_rewrites_get_nav_url(
+		array(
+			'user_id'        => bp_loggedin_user_id(),
+			'rewrite_id'     => $rewrite_id,
+			'item_component' => $parent_slug,
+			'item_action'    => bp_rewrites_get_slug( 'members', $rewrite_id . '_notices', 'notices' ),
+		)
+	);
+
+	if ( $user_messages_link ) {
+		foreach ( $admin_nav as $nav_iterator => $nav ) {
+			if ( $user_messages_link !== $nav['href'] ) {
+				continue;
+			}
+
+			$admin_nav[ $nav_iterator ]['href'] = esc_url(
+				add_query_arg(
+					array( 'page' => 'bp-notices' ),
+					bp_get_admin_url( 'users.php' )
+				)
+			);
+		}
+	}
+
+	return $admin_nav;
+}
+
+/**
+ * Adjust some Nouveau actions and filters.
+ *
+ * @since 1.2.0
+ */
+function component_actions_and_filters() {
+	if ( bp_is_active( 'messages' ) ) {
+		remove_filter( 'bp_messages_admin_nav', 'bp_nouveau_messages_adjust_admin_nav', 10, 1 );
+		add_filter( 'bp_messages_admin_nav', __NAMESPACE__ . '\bp_nouveau_messages_adjust_admin_nav', 20, 1 );
+	}
+}
+add_action( 'bp_nouveau_includes', __NAMESPACE__ . '\component_actions_and_filters', 11 );

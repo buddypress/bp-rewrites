@@ -43,7 +43,7 @@ function _was_called_too_early( $function, $bp_global ) {
 	$is_xmlrpc = defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST;
 
 	// `bp_parse_query` is not fired in WP Admin.
-	if ( did_action( 'bp_parse_query' ) || $is_admin || $is_login || $is_rest || $is_xmlrpc ) {
+	if ( did_action( 'bp_parse_query' ) || $is_admin || $is_login || $is_rest || $is_xmlrpc || wp_doing_cron() ) {
 		return $retval;
 	}
 

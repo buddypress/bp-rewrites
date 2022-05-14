@@ -335,14 +335,20 @@ class Groups_Component extends \BP_Groups_Component {
 		$bp = buddypress();
 
 		// Get the main nav.
-		$main_nav = $bp->members->nav->get_primary( array( 'component_id' => $this->id ), false );
+		$groups_slug = bp_get_groups_slug();
+		$main_nav    = $bp->members->nav->get_primary( array( 'component_id' => $this->id ), false );
+
+		// Make sure the main navigation was built the right way.
+		if ( ! is_array( $main_nav ) || ! isset( $main_nav[ $groups_slug ] ) ) {
+			return;
+		}
 
 		// Set the main nav slug.
 		$main_nav = reset( $main_nav );
 		$slug     = $main_nav['slug'];
 
 		// Set the main nav `rewrite_id` property.
-		$rewrite_id             = sprintf( 'bp_member_%s', bp_get_groups_slug() );
+		$rewrite_id             = sprintf( 'bp_member_%s', $groups_slug );
 		$main_nav['rewrite_id'] = $rewrite_id;
 
 		// Reset the link using BP Rewrites.

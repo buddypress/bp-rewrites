@@ -1,5 +1,27 @@
 # Change Log
 
+## 1.2.0
+
+_Requires WordPress 5.4_
+_Tested up to WordPress 6.0-RC2_
+_Requires BuddyPress 10.0_
+_Tested up to BuddyPress 11.0-alpha_
+
+### Description
+
+BP Rewrites feature as a plugin maintenance release, please upgrade. With BP Rewrites activated, you'll get full control on any BuddyPress URLs.
+
+### Changes
+
+- Make sure the primary nav is set before resetting it. See [#39](https://github.com/buddypress/bp-rewrites/pull/39).
+- Make sure the Global Notices link is reset for BP Nouveau.
+
+## Props
+
+@shawfactor & @imath.
+
+---
+
 ## 1.1.0
 
 _Requires WordPress 5.4_
@@ -13,7 +35,7 @@ This is the first maintenance release of the BuddyPress Rewrites feature as a pl
 
 ### Changes
 
-- Make sure Members Invitations URLs are handled. See #37.
+- Make sure Members Invitations URLs are handled. See [#37](https://github.com/buddypress/bp-rewrites/pull/37).
 - Rewrite the Member's header private message link.
 
 ## Props
@@ -35,7 +57,7 @@ This is the first security release of the BuddyPress Rewrites feature as a plugi
 
 ### Changes
 
-- Sanitize, escape, and validate $_POST, $_GET, $_REQUEST and $_FILE missed calls in the plugin. See #36.
+- Sanitize, escape, and validate $_POST, $_GET, $_REQUEST and $_FILE missed calls in the plugin. See [#36](https://github.com/buddypress/bp-rewrites/pull/36).
 
 ### Props
 
@@ -78,8 +100,8 @@ This is the BuddyPress Rewrites feature as a plugin. Thanks to it you'll get ful
 
 ### Bug fixes
 
-- Make sure BP Rewrites loads when BuddyPress is network activated. See #32.
-- Avoid a fatar error when trying to access to a BP Core Nav too early. See #33.
+- Make sure BP Rewrites loads when BuddyPress is network activated. See [#32](https://github.com/buddypress/bp-rewrites/pull/32).
+- Avoid a fatar error when trying to access to a BP Core Nav too early. See [#33](https://github.com/buddypress/bp-rewrites/pull/33).
 
 ### Props
 
@@ -100,11 +122,11 @@ This is the BuddyPress Rewrites feature as a plugin. Thanks to it you'll get ful
 
 ### Bug fixes
 
-- Anticipate WordPress 6.0 changes about the WP Request to make sure BP Ajax requests are using the Rewrite API. See #31.
-- Make sure BuddyPress is active before trying to change anything into the site's set up. See #29.
-- Remove the BP Pages settings tab to prevent any rewrite rule errors. See #27.
-- Fix `bpRewritesUI()` function call when `readyState` is not fired. See #26
-- Remove superfluous parameters on `remove_filter()` calls. See #25.
+- Anticipate WordPress 6.0 changes about the WP Request to make sure BP Ajax requests are using the Rewrite API. See [#31](https://github.com/buddypress/bp-rewrites/pull/31).
+- Make sure BuddyPress is active before trying to change anything into the site's set up. See [#29](https://github.com/buddypress/bp-rewrites/pull/29).
+- Remove the BP Pages settings tab to prevent any rewrite rule errors. See [#27](https://github.com/buddypress/bp-rewrites/pull/27).
+- Fix `bpRewritesUI()` function call when `readyState` is not fired. See [#26](https://github.com/buddypress/bp-rewrites/pull/26)
+- Remove superfluous parameters on `remove_filter()` calls. See [#25](https://github.com/buddypress/bp-rewrites/pull/25).
 
 ### Props
 

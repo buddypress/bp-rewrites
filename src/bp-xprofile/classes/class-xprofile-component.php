@@ -72,7 +72,13 @@ class XProfile_Component extends \BP_XProfile_Component {
 		remove_action( 'bp_' . $this->id . '_setup_nav', array( $this, 'reset_nav' ), 20 );
 
 		// Get the main nav.
-		$main_nav = buddypress()->members->nav->get_primary( array( 'slug' => bp_get_profile_slug() ), false );
+		$xprofile_slug = bp_get_profile_slug();
+		$main_nav      = buddypress()->members->nav->get_primary( array( 'slug' => $xprofile_slug ), false );
+
+		// Make sure the main navigation was built the right way.
+		if ( ! is_array( $main_nav ) || ! isset( $main_nav[ $xprofile_slug ] ) ) {
+			return;
+		}
 
 		// Set the main nav slug.
 		$main_nav = reset( $main_nav );

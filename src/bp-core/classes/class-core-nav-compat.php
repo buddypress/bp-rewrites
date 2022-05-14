@@ -98,6 +98,17 @@ class Core_Nav_Compat {
 	}
 
 	/**
+	 * Prevents a notice when the secondary nav wasn't set the right way.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @return null
+	 */
+	public function get_secondary() {
+		return null;
+	}
+
+	/**
 	 * Restores problematic nav items.
 	 *
 	 * @since 1.0.0

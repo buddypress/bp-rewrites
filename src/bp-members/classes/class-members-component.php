@@ -233,20 +233,25 @@ class Members_Component extends \BP_Members_Component {
 		remove_action( 'bp_' . $this->id . '_setup_nav', array( $this, 'reset_nav' ), 20 );
 
 		// Get the main nav.
-		$main_nav = buddypress()->members->nav->get_primary( array( 'component_id' => $this->id ), false );
+		$members_slug = bp_get_profile_slug();
+		$main_nav     = buddypress()->members->nav->get_primary( array( 'component_id' => $this->id ), false );
+
+		if ( bp_displayed_user_has_front_template() ) {
+			$members_slug = 'front';
+		}
+
+		// Make sure the main navigation was built the right way.
+		if ( ! is_array( $main_nav ) || ! isset( $main_nav[ $members_slug ] ) ) {
+			return;
+		}
 
 		// Set the main nav slug.
 		$main_nav = reset( $main_nav );
 		$slug     = $main_nav['slug'];
 
-		if ( bp_get_profile_slug() === $slug ) {
-			$main_nav['rewrite_id'] = 'bp_member_profile';
-		} elseif ( 'front' === $slug ) {
-			$main_nav['rewrite_id'] = 'bp_member_front';
-		}
-
 		// Set the main nav `rewrite_id` property.
-		$rewrite_id = $main_nav['rewrite_id'];
+		$rewrite_id             = sprintf( 'bp_member_%s', $members_slug );
+		$main_nav['rewrite_id'] = $rewrite_id;
 
 		// Reset the link using BP Rewrites.
 		$main_nav['link'] = bp_members_rewrites_get_nav_url(

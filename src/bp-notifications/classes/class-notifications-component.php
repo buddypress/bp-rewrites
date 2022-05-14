@@ -49,14 +49,20 @@ class Notifications_Component extends \BP_Notifications_Component {
 		remove_action( 'bp_' . $this->id . '_setup_nav', array( $this, 'reset_nav' ), 20 );
 
 		// Get the main nav.
-		$main_nav = buddypress()->members->nav->get_primary( array( 'component_id' => $this->id ), false );
+		$notifications_slug = bp_get_notifications_slug();
+		$main_nav           = buddypress()->members->nav->get_primary( array( 'component_id' => $this->id ), false );
+
+		// Make sure the main navigation was built the right way.
+		if ( ! is_array( $main_nav ) || ! isset( $main_nav[ $notifications_slug ] ) ) {
+			return;
+		}
 
 		// Set the main nav slug.
 		$main_nav = reset( $main_nav );
 		$slug     = $main_nav['slug'];
 
 		// Set the main nav`rewrite_id` property.
-		$rewrite_id             = sprintf( 'bp_member_%s', bp_get_notifications_slug() );
+		$rewrite_id             = sprintf( 'bp_member_%s', $notifications_slug );
 		$main_nav['rewrite_id'] = $rewrite_id;
 
 		// Reset the link using BP Rewrites.

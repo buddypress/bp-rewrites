@@ -3,7 +3,7 @@
 ## 1.2.0
 
 _Requires WordPress 5.4_
-_Tested up to WordPress 6.0-RC2_
+_Tested up to WordPress 6.0_
 _Requires BuddyPress 10.0_
 _Tested up to BuddyPress 11.0-alpha_
 

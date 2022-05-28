@@ -75,6 +75,10 @@ If you would like to provide monetary support to the BP Rewrites or BuddyPress p
 
 == Upgrade Notice ==
 
+= 1.2.0 =
+
+Maintenance release. No specific upgrade routines are performed.
+
 = 1.1.0 =
 
 Maintenance release. No specific upgrade routines are performed.
@@ -84,6 +88,11 @@ Maintenance release. No specific upgrade routines are performed.
 Initial version of the plugin, no upgrade needed.
 
 == Changelog ==
+
+= 1.2.0 =
+
+- Make sure the primary nav is set before resetting it.
+- Make sure the Global Notices link is reset for BP Nouveau.
 
 = 1.1.0 =
 

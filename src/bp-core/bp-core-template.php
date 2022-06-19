@@ -32,7 +32,7 @@ function _was_called_too_early( $function, $bp_global ) {
 	}
 
 	// Into WP Admin & WP Login contexts BP Front end globals are not set.
-	$request  = wp_parse_url( $request_uri, PHP_URL_PATH );
+	$request         = wp_parse_url( $request_uri, PHP_URL_PATH );
 	$is_admin        = ( false !== strpos( $request, '/wp-admin' ) || is_admin() ) && ! wp_doing_ajax();
 	$is_login        = false !== strpos( $request, '/wp-login.php' );
 	$is_comment_post = false !== strpos( $request, '/wp-comments-post.php' );

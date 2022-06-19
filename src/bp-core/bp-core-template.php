@@ -31,11 +31,21 @@ function _was_called_too_early( $function, $bp_global ) {
 		$request_uri = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) );
 	}
 
-	// Into WP Admin & WP Login contexts BP Front end globals are not set.
-	$request         = wp_parse_url( $request_uri, PHP_URL_PATH );
-	$is_admin        = ( false !== strpos( $request, '/wp-admin' ) || is_admin() ) && ! wp_doing_ajax();
-	$is_login        = false !== strpos( $request, '/wp-login.php' );
-	$is_comment_post = false !== strpos( $request, '/wp-comments-post.php' );
+	// Into WP Admin context BP Front end globals are not set.
+	$request  = wp_parse_url( $request_uri, PHP_URL_PATH );
+	$is_admin = ( false !== strpos( $request, '/wp-admin' ) || is_admin() ) && ! wp_doing_ajax();
+
+	// Into the following contexts BP Front end globals are also not set.
+	$wp_specific_paths   = array( '/wp-login.php', '/wp-comments-post.php', '/wp-signup.php', '/wp-activate.php', '/wp-trackback.php' );
+	$is_wp_specific_path = false;
+
+	foreach ( $wp_specific_paths as $wp_specific_path ) {
+		if ( false === strpos( $request, $wp_specific_path ) ) {
+			continue;
+		}
+
+		$is_wp_specific_path = true;
+	}
 
 	// The BP REST API needs more work.
 	$is_rest = false !== strpos( $request, '/' . rest_get_url_prefix() ) || ( defined( 'REST_REQUEST' ) && REST_REQUEST );
@@ -44,7 +54,7 @@ function _was_called_too_early( $function, $bp_global ) {
 	$is_xmlrpc = defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST;
 
 	// `bp_parse_query` is not fired in WP Admin.
-	if ( did_action( 'bp_parse_query' ) || $is_admin || $is_login || $is_comment_post || $is_rest || $is_xmlrpc || wp_doing_cron() ) {
+	if ( did_action( 'bp_parse_query' ) || $is_admin || $is_wp_specific_path || $is_rest || $is_xmlrpc || wp_doing_cron() ) {
 		return $retval;
 	}
 

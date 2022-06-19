@@ -33,8 +33,9 @@ function _was_called_too_early( $function, $bp_global ) {
 
 	// Into WP Admin & WP Login contexts BP Front end globals are not set.
 	$request  = wp_parse_url( $request_uri, PHP_URL_PATH );
-	$is_admin = ( false !== strpos( $request, '/wp-admin' ) || is_admin() ) && ! wp_doing_ajax();
-	$is_login = false !== strpos( $request, '/wp-login.php' );
+	$is_admin        = ( false !== strpos( $request, '/wp-admin' ) || is_admin() ) && ! wp_doing_ajax();
+	$is_login        = false !== strpos( $request, '/wp-login.php' );
+	$is_comment_post = false !== strpos( $request, '/wp-comments-post.php' );
 
 	// The BP REST API needs more work.
 	$is_rest = false !== strpos( $request, '/' . rest_get_url_prefix() ) || ( defined( 'REST_REQUEST' ) && REST_REQUEST );
@@ -43,7 +44,7 @@ function _was_called_too_early( $function, $bp_global ) {
 	$is_xmlrpc = defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST;
 
 	// `bp_parse_query` is not fired in WP Admin.
-	if ( did_action( 'bp_parse_query' ) || $is_admin || $is_login || $is_rest || $is_xmlrpc || wp_doing_cron() ) {
+	if ( did_action( 'bp_parse_query' ) || $is_admin || $is_login || $is_comment_post || $is_rest || $is_xmlrpc || wp_doing_cron() ) {
 		return $retval;
 	}
 

@@ -111,5 +111,10 @@ function includes( $plugin_dir = '' ) {
 		require $path . 'src/bp-core/admin/bp-core-admin-functions.php';
 		require $path . 'src/bp-core/admin/bp-core-admin-rewrites.php';
 	}
+
+	// Plugins.
+	if ( function_exists( 'bbpress' ) ) {
+		require $path . 'src/bp-plugins/bbpress.php';
+	}
 }
 add_action( '_bp_rewrites_includes', __NAMESPACE__ . '\includes', 1, 1 );

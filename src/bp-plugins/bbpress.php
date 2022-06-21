@@ -84,3 +84,41 @@ function bbp_show_group_tab() {
 
 	return (bool) $retval;
 }
+
+/**
+ * Returns the Group Forum slug.
+ *
+ * @since 1.3.0
+ *
+ * @return string The Group Forum slug.
+ */
+function bbp_get_group_forum_slug() {
+	$views = bp_get_group_views( 'read' );
+	$slug  = 'forum';
+
+	if ( isset( $views[ $slug ]['rewrite_id'] ) ) {
+		$view = $views[ $slug ];
+		$slug = bp_rewrites_get_slug( 'groups', $view['rewrite_id'], $slug );
+	}
+
+	return $slug;
+}
+
+/**
+ * Returns the Group Admin Forum slug.
+ *
+ * @since 1.3.0
+ *
+ * @return string The Group Admin Forum slug.
+ */
+function bbp_get_group_admin_forum_slug() {
+	$views = bp_get_group_views( 'manage' );
+	$slug  = 'forum';
+
+	if ( isset( $views[ $slug ]['rewrite_id'] ) ) {
+		$view = $views[ $slug ];
+		$slug = bp_rewrites_get_slug( 'groups', $view['rewrite_id'], $slug );
+	}
+
+	return $slug;
+}

@@ -14,6 +14,7 @@ namespace BP\Rewrites;
  * @since 1.3.0
  */
 class Forums_Group_Extension extends \BBP_Forums_Group_Extension {
+
 	/**
 	 * The bbPress plugin should migrate to the new BP Group Extension API.
 	 *
@@ -52,9 +53,76 @@ class Forums_Group_Extension extends \BBP_Forums_Group_Extension {
 		// Forces the show tab callback to always be triggered.
 		$this->params['show_tab'] = 'noone';
 
+		// hardcoded slugs (used by bbPress).
+		$this->topic_slug = 'topic';
+		$this->reply_slug = 'reply';
+
 		$this->setup_actions();
 		$this->setup_filters();
 		$this->fully_loaded();
+	}
+
+	/**
+	 * Temporarly override the wp_redirect URL.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @return string The URL to redirect the user to.
+	 */
+	public function override_redirect() {
+		// only do it once!
+		remove_filter( 'wp_redirect', array( $this, 'override_redirect' ), 10, 0 );
+
+		return bp_rewrites_get_url(
+			array(
+				'component_id'                 => 'groups',
+				'single_item'                  => \groups_get_current_group()->slug,
+				'single_item_action'           => bp_rewrites_get_slug( 'groups', 'bp_group_read_admin', 'admin' ),
+				'single_item_action_variables' => array( bbp_get_group_admin_forum_slug() ),
+			)
+		);
+	}
+
+	/**
+	 * Make sure bbPress is using BP Rewrites to build the redirect URL.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @param int $group_id The group ID.
+	 */
+	public function edit_screen_save( $group_id = 0 ) {
+		add_filter( 'wp_redirect', array( $this, 'override_redirect' ), 10, 0 );
+
+		parent::edit_screen_save( $group_id );
+	}
+
+	/**
+	 * Redirect to the group forum screen
+	 *
+	 * @since 1.3.0
+	 *
+	 * @param string $redirect_url The original redirect URL.
+	 * @param string $redirect_to  The value of the `redirect_to` query parameter.
+	 * @param int    $topic_id     The topic ID.
+	 * @return string The URL to redirect the user to, built using BP Rewrites.
+	 */
+	public function new_topic_redirect_to( $redirect_url = '', $redirect_to = '', $topic_id = 0 ) {
+		if ( \bp_is_group() ) {
+			$topic        = \bbp_get_topic( $topic_id );
+			$topic_hash   = '#post-' . $topic_id;
+			$redirect_url = bp_rewrites_get_url(
+				array(
+					'component_id'                 => 'groups',
+					'single_item'                  => \groups_get_current_group()->slug,
+					'single_item_action'           => bbp_get_group_forum_slug(),
+					'single_item_action_variables' => array( $this->topic_slug, $topic->post_name ),
+				)
+			);
+
+			$redirect_url .= $topic_hash;
+		}
+
+		return $redirect_url;
 	}
 
 	/**

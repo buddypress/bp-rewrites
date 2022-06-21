@@ -287,7 +287,7 @@ function bp_get_group_views( $context = 'read' ) {
 		);
 
 		foreach ( $valid_custom_views as $key_view => $view ) {
-			if ( ! in_array( $view['rewrite_id'], $existing_rewrite_ids, true ) ) {
+			if ( ! isset( $view['rewrite_id'] ) || ! in_array( $view['rewrite_id'], $existing_rewrite_ids, true ) ) {
 				continue;
 			}
 

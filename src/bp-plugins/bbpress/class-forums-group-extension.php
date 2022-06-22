@@ -97,7 +97,7 @@ class Forums_Group_Extension extends \BBP_Forums_Group_Extension {
 	}
 
 	/**
-	 * Redirect to the group forum screen
+	 * Redirect to the group forum topic page.
 	 *
 	 * @since 1.3.0
 	 *
@@ -120,6 +120,50 @@ class Forums_Group_Extension extends \BBP_Forums_Group_Extension {
 			);
 
 			$redirect_url .= $topic_hash;
+		}
+
+		return $redirect_url;
+	}
+
+	/**
+	 * Redirect to the group forum topic page.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @param string $redirect_url The original redirect URL.
+	 * @param string $redirect_to  The value of the `redirect_to` query parameter.
+	 * @param int    $reply_id     The topic reply ID.
+	 * @return string The URL to redirect the user to, built using BP Rewrites.
+	 */
+	public function new_reply_redirect_to( $redirect_url = '', $redirect_to = '', $reply_id = 0 ) {
+
+		if ( bp_is_group() ) {
+			$topic_id       = bbp_get_reply_topic_id( $reply_id );
+			$topic          = bbp_get_topic( $topic_id );
+			$reply_position = bbp_get_reply_position( $reply_id, $topic_id );
+			$reply_page     = ceil( (int) $reply_position / (int) bbp_get_replies_per_page() );
+			$reply_hash     = '#post-' . $reply_id;
+			$reply_url_args = array(
+				'component_id'                 => 'groups',
+				'single_item'                  => \groups_get_current_group()->slug,
+				'single_item_action'           => bbp_get_group_forum_slug(),
+				'single_item_action_variables' => array( $this->topic_slug, $topic->post_name ),
+			);
+
+			// Don't include pagination if on first page.
+			if ( 1 >= $reply_page ) {
+				$redirect_url = bp_rewrites_get_url( $reply_url_args ) . $reply_hash;
+
+				// Include pagination.
+			} else {
+				$reply_url_args['single_item_action_variables'] = array( $this->topic_slug, $topic->post_name, bbp_get_paged_slug(), $reply_page );
+				$redirect_url                                   = bp_rewrites_get_url( $reply_url_args ) . $reply_hash;
+			}
+
+			// Add topic view query arg back to end if it is set.
+			if ( bbp_get_view_all() ) {
+				$redirect_url = bbp_add_view_all( $redirect_url );
+			}
 		}
 
 		return $redirect_url;

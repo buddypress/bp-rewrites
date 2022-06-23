@@ -170,6 +170,40 @@ class Forums_Group_Extension extends \BBP_Forums_Group_Extension {
 	}
 
 	/**
+	 * Map a topic permalink to its group forum using BP Rewrites.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @param string $url      The Group Topic URL.
+	 * @param int    $topic_id The Group Topic ID.
+	 * @return string The Group Topic URL built using BP Rewrites.
+	 */
+	public function map_topic_permalink_to_group( $url, $topic_id ) {
+		$forum_id   = \bbp_get_topic_forum_id( $topic_id );
+		$topic_name = \get_post_field( 'post_name', $topic_id );
+		$group_ids  = \bbp_get_forum_group_ids( $forum_id );
+		$group_id   = reset( $group_ids );
+
+		if ( ! $group_id ) {
+			return $url;
+		}
+
+		$group = \bp_get_group( $group_id );
+		if ( ! isset( $group->id ) || (int) $group->id !== (int) $group_id ) {
+			return $url;
+		}
+
+		return bp_rewrites_get_url(
+			array(
+				'component_id'                 => 'groups',
+				'single_item'                  => $group->slug,
+				'single_item_action'           => bbp_get_group_forum_slug(),
+				'single_item_action_variables' => array( $this->topic_slug, $topic_name ),
+			)
+		);
+	}
+
+	/**
 	 * Setup the group forums class actions.
 	 *
 	 * PS: Too bad this one is private :(.

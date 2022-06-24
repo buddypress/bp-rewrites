@@ -244,7 +244,7 @@ class Forums_Group_Extension extends \BBP_Forums_Group_Extension {
 				'single_item_action'           => bbp_get_group_forum_slug(),
 				'single_item_action_variables' => array( $this->topic_slug, $topic_name ),
 			)
-		) . '#post-' . $topic_id;
+		);
 	}
 
 	/**
@@ -274,6 +274,33 @@ class Forums_Group_Extension extends \BBP_Forums_Group_Extension {
 				'single_item_action_variables' => array( $this->topic_slug, $topic_name ),
 			)
 		) . '#post-' . $reply_id;
+	}
+
+	/**
+	 * Map a reply edit permalink to its group forum using BP Rewrites.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @param string $url      The Group Reply URL.
+	 * @param int    $reply_id The Group Reply ID.
+	 * @return string The Group Reply edit URL built using BP Rewrites.
+	 */
+	public function map_reply_edit_url_to_group( $url, $reply_id ) {
+		$forum_id = \bbp_get_reply_forum_id( $reply_id );
+		$group    = $this->get_group_for_forum( $forum_id );
+
+		if ( is_null( $group ) ) {
+			return $url;
+		}
+
+		return bp_rewrites_get_url(
+			array(
+				'component_id'                 => 'groups',
+				'single_item'                  => $group->slug,
+				'single_item_action'           => bbp_get_group_forum_slug(),
+				'single_item_action_variables' => array( $this->reply_slug, $reply_id, bbpress()->edit_id ),
+			)
+		);
 	}
 
 	/**

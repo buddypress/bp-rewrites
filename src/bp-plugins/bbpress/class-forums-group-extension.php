@@ -125,6 +125,7 @@ class Forums_Group_Extension extends \BBP_Forums_Group_Extension {
 		return $redirect_url;
 	}
 
+
 	/**
 	 * Redirect to the group forum topic page.
 	 *
@@ -170,6 +171,55 @@ class Forums_Group_Extension extends \BBP_Forums_Group_Extension {
 	}
 
 	/**
+	 * Returns the Group object for the requested forum ID.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @param int $forum_id The forum ID.
+	 * @return BP_Groups_Group|null The Group object or null if no groups were found.
+	 */
+	public function get_group_for_forum( $forum_id ) {
+		$group_ids = \bbp_get_forum_group_ids( $forum_id );
+		$group_id  = reset( $group_ids );
+
+		if ( ! $group_id ) {
+			return null;
+		}
+
+		$group = \bp_get_group( $group_id );
+		if ( ! isset( $group->id ) || (int) $group->id !== (int) $group_id ) {
+			return null;
+		}
+
+		return $group;
+	}
+
+	/**
+	 * Map a forum permalink to its group forum using BP Rewrites.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @param string $url      The Group Forum URL.
+	 * @param int    $forum_id The Group Forum ID.
+	 * @return string The Group Forum URL built using BP Rewrites.
+	 */
+	public function map_forum_permalink_to_group( $url, $forum_id ) {
+		$group = $this->get_group_for_forum( $forum_id );
+
+		if ( is_null( $group ) ) {
+			return $url;
+		}
+
+		return bp_rewrites_get_url(
+			array(
+				'component_id'       => 'groups',
+				'single_item'        => $group->slug,
+				'single_item_action' => bbp_get_group_forum_slug(),
+			)
+		);
+	}
+
+	/**
 	 * Map a topic permalink to its group forum using BP Rewrites.
 	 *
 	 * @since 1.3.0
@@ -181,15 +231,9 @@ class Forums_Group_Extension extends \BBP_Forums_Group_Extension {
 	public function map_topic_permalink_to_group( $url, $topic_id ) {
 		$forum_id   = \bbp_get_topic_forum_id( $topic_id );
 		$topic_name = \get_post_field( 'post_name', $topic_id );
-		$group_ids  = \bbp_get_forum_group_ids( $forum_id );
-		$group_id   = reset( $group_ids );
+		$group      = $this->get_group_for_forum( $forum_id );
 
-		if ( ! $group_id ) {
-			return $url;
-		}
-
-		$group = \bp_get_group( $group_id );
-		if ( ! isset( $group->id ) || (int) $group->id !== (int) $group_id ) {
+		if ( is_null( $group ) ) {
 			return $url;
 		}
 
@@ -200,7 +244,36 @@ class Forums_Group_Extension extends \BBP_Forums_Group_Extension {
 				'single_item_action'           => bbp_get_group_forum_slug(),
 				'single_item_action_variables' => array( $this->topic_slug, $topic_name ),
 			)
-		);
+		) . '#post-' . $topic_id;
+	}
+
+	/**
+	 * Map a reply permalink to its group forum using BP Rewrites.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @param string $url      The Group Reply URL.
+	 * @param int    $reply_id The Group Reply ID.
+	 * @return string The Group Reply URL built using BP Rewrites.
+	 */
+	public function map_reply_permalink_to_group( $url, $reply_id ) {
+		$forum_id   = \bbp_get_reply_forum_id( $reply_id );
+		$topic_id   = \bbp_get_reply_topic_id( $reply_id );
+		$topic_name = \get_post_field( 'post_name', $topic_id );
+		$group      = $this->get_group_for_forum( $forum_id );
+
+		if ( is_null( $group ) ) {
+			return $url;
+		}
+
+		return bp_rewrites_get_url(
+			array(
+				'component_id'                 => 'groups',
+				'single_item'                  => $group->slug,
+				'single_item_action'           => bbp_get_group_forum_slug(),
+				'single_item_action_variables' => array( $this->topic_slug, $topic_name ),
+			)
+		) . '#post-' . $reply_id;
 	}
 
 	/**

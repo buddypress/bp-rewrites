@@ -122,3 +122,51 @@ function bbp_get_group_admin_forum_slug() {
 
 	return $slug;
 }
+
+/**
+ * Make sure Activity format callback is available for groups.
+ *
+ * @since 1.3.0
+ */
+function bbp_register_activity_actions() {
+	$bp = buddypress();
+
+	// Group Forum topic.
+	bp_activity_set_action(
+		$bp->groups->id,
+		'bbp_topic_create',
+		esc_html__( 'New Group forum topic', 'bp-rewrites' ),
+		'bbp_format_activity_action_new_topic',
+		esc_html__( 'Topics', 'bp-rewrites' ),
+		array( 'group' )
+	);
+
+	// Group Forum reply.
+	bp_activity_set_action(
+		$bp->groups->id,
+		'bbp_reply_create',
+		esc_html__( 'New Group forum reply', 'bp-rewrites' ),
+		'bbp_format_activity_action_new_reply',
+		esc_html__( 'Replies', 'bp-rewrites' ),
+		array( 'group' )
+	);
+}
+add_action( 'bp_register_activity_actions', __NAMESPACE__ . '\bbp_register_activity_actions', 100 );
+
+/**
+ * Filters the action type being set for the Sitewide forum topics and replies.
+ *
+ * @since 1.3.0
+ *
+ * @param array  $args         Array of arguments for action type being set.
+ * @param string $component_id The name of the component.
+ * @return array Array of arguments for action type being set.
+ */
+function bbp_activity_set_action( $args = array(), $component_id = '' ) {
+	if ( 'bbpress' === $component_id ) {
+		$args['context'] = array_diff( $args['context'], array( 'group' ) );
+	}
+
+	return $args;
+}
+add_filter( 'bp_activity_set_action', __NAMESPACE__ . '\bbp_activity_set_action', 10, 2 );

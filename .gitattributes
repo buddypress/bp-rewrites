@@ -9,5 +9,6 @@
 /CONTRIBUTING.md export-ignore
 /LICENSE.md export-ignore
 /package.json export-ignore
+/package-lock.json export-ignore
 /README.md export-ignore
 /.wordpress export-ignore

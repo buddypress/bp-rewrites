@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BP Rewrites\n"
 "Report-Msgid-Bugs-To: https://github.com/buddypress/bp-rewrites/issues\n"
-"POT-Creation-Date: 2022-04-20T10:09:10+00:00\n"
-"PO-Revision-Date: 2022-04-20 12:09+0200\n"
+"POT-Creation-Date: 2022-06-25T08:27:28+00:00\n"
+"PO-Revision-Date: 2022-06-25 10:30+0200\n"
 "Last-Translator: \n"
 "Language-Team: ENGLISH <jjj@buddypress.org>\n"
 "Language: fr\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 2.3.1\n"
+"X-Generator: Poedit 3.0.1\n"
 "X-Domain: bp-rewrites\n"
 
 #. Plugin Name of the plugin
@@ -141,7 +141,7 @@ msgstr "Terminaison d’URL « %s »"
 msgid "Save Settings"
 msgstr "Enregistrer les réglages"
 
-#: src/bp-core/bp-core-template.php:56
+#: src/bp-core/bp-core-template.php:72
 msgid "Please wait for the `bp_parse_query` hook to be fired before using it."
 msgstr ""
 "Merci d’attendre que le « hook » `bp_parse_query` soit intervenu avant "
@@ -312,15 +312,15 @@ msgstr "Vous n’avez pas accès à ce contenu."
 msgid "Invitations"
 msgstr "Invitations"
 
-#: src/bp-members/bp-members-adminbar.php:50
+#: src/bp-members/bp-members-adminbar.php:51
 msgid "Pending Invites"
 msgstr "Invitations en attente"
 
-#: src/bp-members/bp-members-adminbar.php:65
+#: src/bp-members/bp-members-adminbar.php:67
 msgid "Send Invites"
 msgstr "Inviter"
 
-#: src/bp-members/classes/class-members-component.php:567
+#: src/bp-members/classes/class-members-component.php:572
 msgid ""
 "This user has been marked as a spammer. Only site admins can view this "
 "profile."
@@ -331,6 +331,22 @@ msgstr ""
 #: src/bp-notifications/bp-notifications-adminbar.php:60
 msgid "No new notifications"
 msgstr "Pas de nouvelle notifications"
+
+#: src/bp-plugins/bbpress.php:138
+msgid "New Group forum topic"
+msgstr "Nouveau sujet de forum de groupe"
+
+#: src/bp-plugins/bbpress.php:140
+msgid "Topics"
+msgstr "Sujets"
+
+#: src/bp-plugins/bbpress.php:148
+msgid "New Group forum reply"
+msgstr "Nouvelle réponse de forum de groupe"
+
+#: src/bp-plugins/bbpress.php:150
+msgid "Replies"
+msgstr "Réponses"
 
 #. translators: %s: new email address
 #: src/bp-settings/bp-settings-templates.php:78

@@ -1,5 +1,28 @@
 # Change Log
 
+## 1.3.0
+
+_Requires WordPress 5.4_
+_Tested up to WordPress 6.0_
+_Requires BuddyPress 10.0_
+_Tested up to BuddyPress 11.0-alpha_
+
+### Description
+
+BP Rewrites feature as a plugin maintenance release, please upgrade. With BP Rewrites activated, you'll get full control on any BuddyPress URLs.
+
+### Changes
+
+- Do not trigger "was called too early" notices when submitting comments. See [#40](https://github.com/buddypress/bp-rewrites/pull/40).
+- Do not trigger "was called too early" notices for other WordPress specific contexts: signup, activation and trackbacks management.
+- Bring BP Rewrites support to bbPress. See [#41](https://github.com/buddypress/bp-rewrites/pull/41).
+
+## Props
+
+@shawfactor & @imath.
+
+---
+
 ## 1.2.0
 
 _Requires WordPress 5.4_

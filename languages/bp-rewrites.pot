@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-04-20T10:09:10+00:00\n"
+"POT-Creation-Date: 2022-06-25T08:27:28+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: bp-rewrites\n"
@@ -132,7 +132,7 @@ msgstr ""
 msgid "Save Settings"
 msgstr ""
 
-#: src/bp-core/bp-core-template.php:56
+#: src/bp-core/bp-core-template.php:72
 msgid "Please wait for the `bp_parse_query` hook to be fired before using it."
 msgstr ""
 
@@ -287,20 +287,36 @@ msgstr ""
 msgid "Invitations"
 msgstr ""
 
-#: src/bp-members/bp-members-adminbar.php:50
+#: src/bp-members/bp-members-adminbar.php:51
 msgid "Pending Invites"
 msgstr ""
 
-#: src/bp-members/bp-members-adminbar.php:65
+#: src/bp-members/bp-members-adminbar.php:67
 msgid "Send Invites"
 msgstr ""
 
-#: src/bp-members/classes/class-members-component.php:567
+#: src/bp-members/classes/class-members-component.php:572
 msgid "This user has been marked as a spammer. Only site admins can view this profile."
 msgstr ""
 
 #: src/bp-notifications/bp-notifications-adminbar.php:60
 msgid "No new notifications"
+msgstr ""
+
+#: src/bp-plugins/bbpress.php:138
+msgid "New Group forum topic"
+msgstr ""
+
+#: src/bp-plugins/bbpress.php:140
+msgid "Topics"
+msgstr ""
+
+#: src/bp-plugins/bbpress.php:148
+msgid "New Group forum reply"
+msgstr ""
+
+#: src/bp-plugins/bbpress.php:150
+msgid "Replies"
 msgstr ""
 
 #. translators: %s: new email address

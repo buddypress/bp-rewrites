@@ -224,7 +224,7 @@ class Groups_Component extends \BP_Groups_Component {
 
 		// If avatar uploads are disabled, remove avatar view.
 		$disabled_avatar_uploads = (int) bp_disable_group_avatar_uploads();
-		if ( $disabled_avatar_uploads || ! $bp->avatar->show_avatars ) {
+		if ( $disabled_avatar_uploads || empty( $bp->avatar->show_avatars ) ) {
 			unset( $group_creation_steps['group-avatar'] );
 		}
 

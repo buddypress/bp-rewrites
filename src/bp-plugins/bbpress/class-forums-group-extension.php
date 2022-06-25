@@ -304,6 +304,29 @@ class Forums_Group_Extension extends \BBP_Forums_Group_Extension {
 	}
 
 	/**
+	 * Overrides bbPress `post_link`, `page_link` & `post_type_link` filters.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @param int    $post_id The post type ID.
+	 * @param string $url     The post type permalink.
+	 * @return string The post type permalink built usint BP Rewrites.
+	 */
+	public function maybe_map_permalink_to_group( $post_id, $url ) {
+		$post_type = get_post_type( $post_id );
+
+		if ( bbp_get_reply_post_type() === $post_type ) {
+			$url = $this->map_reply_permalink_to_group( $url, $post_id );
+		} elseif ( bbp_get_topic_post_type() === $post_type ) {
+			$url = $this->map_topic_permalink_to_group( $url, $post_id );
+		} elseif ( bbp_get_forum_post_type() === $post_type ) {
+			$url = $this->map_forum_permalink_to_group( $url, $post_id );
+		}
+
+		return $url;
+	}
+
+	/**
 	 * Setup the group forums class actions.
 	 *
 	 * PS: Too bad this one is private :(.

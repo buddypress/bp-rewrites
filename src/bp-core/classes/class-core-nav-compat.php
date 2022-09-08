@@ -124,4 +124,18 @@ class Core_Nav_Compat {
 			}
 		}
 	}
+
+	/**
+	 * Prevents a fatal error when trying to edit a nav too early.
+	 *
+	 * @since 1.3.1
+	 *
+	 * @param array  $args        The nav item's arguments.
+	 * @param string $slug        The slug of the nav item.
+	 * @param string $parent_slug The slug of the parent nav item (required to edit a child).
+	 * @return null
+	 */
+	public function edit_nav( $args = array(), $slug = '', $parent_slug = '' ) {
+		return null;
+	}
 }

@@ -452,15 +452,8 @@ function disable_buddypress_legacy_url_parser() {
 	add_action( 'bp_parse_query', '_bp_maybe_remove_redirect_canonical', 20 );
 	add_action( 'bp_parse_query', 'bp_remove_adjacent_posts_rel_link', 20 );
 
-	/**
-	 * On front-end, hook to `bp_parse_query` instead of `bp_init` to set up the navigation.
-	 *
-	 * @todo replace `apply_filters( 'wp_using_themes', defined( 'WP_USE_THEMES' ) && WP_USE_THEMES )`
-	 * with `wp_using_themes()` once BP Required version is >= 5.1
-	 *
-	 * @see `bp_nav_menu_get_loggedin_pages()`
-	 */
-	if ( apply_filters( 'wp_using_themes', defined( 'WP_USE_THEMES' ) && WP_USE_THEMES ) || wp_doing_ajax() || is_login_page() ) {
+	// On front-end, hook to `bp_parse_query` instead of `bp_init` to set up the navigation.
+	if ( wp_using_themes() || wp_doing_ajax() || is_login_page() ) {
 		remove_action( 'bp_init', 'bp_setup_nav', 6 );
 		add_action( 'bp_parse_query', 'bp_setup_nav', 12 );
 	}
@@ -583,4 +576,15 @@ function empty_form_action( $form_id = '' ) {
 			$form_id //phpcs:ignore
 		)
 	);
+}
+
+/**
+ * Checks if current context is a BuddyPress Ajax request.
+ *
+ * @since 1.4.0
+ *
+ * @return bool True if current context is a BuddyPress Ajax request. False otherwise.
+ */
+function is_bp_doing_ajax() {
+	return isset( buddypress()->ajax->WP );
 }

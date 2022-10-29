@@ -6,8 +6,8 @@ License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 5.9
 Requires PHP: 5.6
-Tested up to: 6.0
-Stable tag: 1.3.0
+Tested up to: 6.1
+Stable tag: 1.4.0
 
 The BP Rewrites plugin is a BuddyPress add-on giving you the full control of any BuddyPress generated URLs.
 
@@ -75,6 +75,10 @@ If you would like to provide monetary support to the BP Rewrites or BuddyPress p
 
 == Upgrade Notice ==
 
+= 1.4.0 =
+
+Maintenance release. No specific upgrade routines are performed.
+
 = 1.3.0 =
 
 Maintenance release. No specific upgrade routines are performed.
@@ -92,6 +96,11 @@ Maintenance release. No specific upgrade routines are performed.
 Initial version of the plugin, no upgrade needed.
 
 == Changelog ==
+
+= 1.4.0 =
+
+- Prevents a fatal error when trying to edit a nav too early.
+- Adds BP Specific exceptions to the "was called too early" notices.
 
 = 1.3.0 =
 

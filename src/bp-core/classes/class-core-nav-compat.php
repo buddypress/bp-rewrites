@@ -128,7 +128,7 @@ class Core_Nav_Compat {
 	/**
 	 * Prevents a fatal error when trying to edit a nav too early.
 	 *
-	 * @since 1.3.1
+	 * @since 1.4.0
 	 *
 	 * @param array  $args        The nav item's arguments.
 	 * @param string $slug        The slug of the nav item.

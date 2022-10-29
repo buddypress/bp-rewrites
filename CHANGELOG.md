@@ -1,5 +1,27 @@
 # Change Log
 
+## 1.4.0
+
+_Requires WordPress 5.9_
+_Tested up to WordPress 6.1_
+_Requires BuddyPress 10.0_
+_Tested up to BuddyPress 11.0-alpha_
+
+### Description
+
+BP Rewrites feature as a plugin maintenance release, please upgrade. With BP Rewrites activated, you'll get full control on any BuddyPress URLs.
+
+### Changes
+
+- Prevents a fatal error when trying to edit a nav too early. See [#42](https://github.com/buddypress/bp-rewrites/pull/42).
+- Adds BP Specific exceptions to the "was called too early" notices. See [#43](https://github.com/buddypress/bp-rewrites/pull/43).
+
+## Props
+
+@imath.
+
+---
+
 ## 1.3.0
 
 _Requires WordPress 5.4_

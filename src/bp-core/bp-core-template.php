@@ -14,6 +14,34 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * List BP Exceptions needing a fix.
+ *
+ * @since 1.4.0
+ *
+ * @param string $trace The debug backtrace called functions.
+ * @return bool True if the debug backtrace contains an exception. False otherwise.
+ */
+function _is_bp_was_called_too_early_exceptions( $trace = '' ) {
+	$is_exception = false;
+	$exceptions   = array(
+		// `BP_Core::setup_globals()` checks the displayed user ID too early when using `bp_user_has_access()`.
+		'BP_Core->setup_globals, bp_user_has_access',
+		// `bp_groups_user_can_filter` shouldn't use `bp_get_current_group_id()` that early.
+		'BP_Admin->setup_actions, bp_current_user_can',
+	);
+
+	foreach ( $exceptions as $exception ) {
+		if ( false === strpos( $trace, $exception ) ) {
+			continue;
+		}
+
+		$is_exception = true;
+	}
+
+	return $is_exception;
+}
+
+/**
  * This private function checks if a BuddyPress function retrieving a BuddyPress global was called too early.
  *
  * Doing this check inside `BuddyPress::__get()` would probably be better to improve this backcompat mechanism.
@@ -62,12 +90,8 @@ function _was_called_too_early( $function, $bp_global ) {
 		$debug_backtrace = explode( ', ' . esc_html( rtrim( $function, '()' ) ), wp_debug_backtrace_summary() ); // phpcs:ignore
 		$debug_backtrace = reset( $debug_backtrace );
 
-		/*
-		 * `BP_Core::setup_globals()` checks the displayed user ID too early when using `bp_user_has_access()`.
-		 *
-		 * While overriding BP Core could be done, let's just ignore this exception for now.
-		 */
-		if ( false === strpos( $debug_backtrace, 'BP_Core->setup_globals, bp_user_has_access' ) ) {
+		// If it's not an exception display an error notice.
+		if ( ! _is_bp_was_called_too_early_exceptions( $debug_backtrace ) ) {
 			ob_start();
 			_doing_it_wrong( esc_html( $function ), esc_html__( 'Please wait for the `bp_parse_query` hook to be fired before using it.', 'bp-rewrites' ), 'BP Rewrites' );
 			$doing_it_wrong = ob_get_clean();

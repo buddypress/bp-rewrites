@@ -29,6 +29,7 @@ function includes( $plugin_dir = '' ) {
 	require $path . 'src/bp-core/bp-core-rewrites.php';
 	require $path . 'src/bp-core/bp-core-catchuri.php';
 	require $path . 'src/bp-core/bp-core-functions.php';
+	require $path . 'src/bp-core/bp-core-caps.php';
 	require $path . 'src/bp-core/bp-core-filters.php';
 
 	// The Members component is always active.

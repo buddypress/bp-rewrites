@@ -367,9 +367,64 @@ function bp_component_pre_query( $return = null, \WP_Query $query = null ) {
 	$queried_object = $query->get_queried_object();
 
 	if ( $queried_object instanceof \WP_Post && 'buddypress' === get_post_type( $queried_object ) ) {
+		$capability_args = array(
+			'bp_page_id'              => $queried_object->ID,
+			'bp_component_visibility' => get_post_status( $queried_object ),
+		);
+
+		if ( ! current_user_can( 'bp_read', $capability_args ) ) {
+			$bp                    = buddypress();
+			$bp->current_component = 'core';
+
+			// Unset other BuddyPress URI globals.
+			foreach ( array( 'current_item', 'current_action', 'action_variables' ) as $global ) {
+				if ( 'action_variables' === $global ) {
+					$bp->{$global} = array();
+				} else {
+					$bp->{$global} = '';
+				}
+			}
+
+			// Reset the post.
+			$post = (object) array(
+				'ID'             => 0,
+				'post_type'      => 'buddypress',
+				'post_title'     => __( 'Restricted area', 'bp-rewrites' ),
+				'post_content'   => __( 'The community of this site is restricted to members.', 'bp-rewrites' ),
+				'comment_status' => 'closed',
+				'comment_count'  => 0,
+			);
+
+
+			// Reset the queried object.
+			$query->queried_object    = get_post( $post );
+			$query->queried_object_id = $query->queried_object->ID;
+
+			// Reset the posts.
+			$posts = array( $query->queried_object );
+
+			// Reset some WP Query properties.
+			$query->found_posts   = 1;
+			$query->max_num_pages = 1;
+			$query->posts         = $posts;
+			$query->post          = $post;
+			$query->post_count    = 1;
+			$query->is_home       = false;
+			$query->is_front_page = false;
+			$query->is_page       = true;
+			$query->is_single     = false;
+			$query->is_archive    = false;
+			$query->is_tax        = false;
+
+			// Return the posts making sure no additional queries are performed.
+			return $posts;
+		}
+
+		// Return the posts making sure no additional queries are performed.
 		return array( $queried_object );
 	}
 
+	// Leave WordPress query posts.
 	return null;
 }
 

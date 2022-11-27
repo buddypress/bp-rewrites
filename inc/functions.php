@@ -372,7 +372,7 @@ function bp_component_pre_query( $return = null, \WP_Query $query = null ) {
 			'bp_component_visibility' => get_post_status( $queried_object ),
 		);
 
-		if ( ! current_user_can( 'bp_read', $capability_args ) ) {
+		if ( ! bp_current_user_can( 'bp_read', $capability_args ) ) {
 			$bp                    = buddypress();
 			$bp->current_component = 'core';
 
@@ -390,11 +390,10 @@ function bp_component_pre_query( $return = null, \WP_Query $query = null ) {
 				'ID'             => 0,
 				'post_type'      => 'buddypress',
 				'post_title'     => __( 'Restricted area', 'bp-rewrites' ),
-				'post_content'   => __( 'The community of this site is restricted to members.', 'bp-rewrites' ),
+				'post_content'   => __( 'This community area is restricted to members.', 'bp-rewrites' ),
 				'comment_status' => 'closed',
 				'comment_count'  => 0,
 			);
-
 
 			// Reset the queried object.
 			$query->queried_object    = get_post( $post );
@@ -455,6 +454,15 @@ function bp_core_register_post_types() {
 				'rewrite'             => false,
 				'query_var'           => false,
 				'delete_with_user'    => false,
+			)
+		);
+
+		register_post_status(
+			'bp_restricted',
+			array(
+				'label'    => _x( 'Restricted to members', 'post status', 'bp-rewrites' ),
+				'public'   => false,
+				'internal' => true,
 			)
 		);
 	}
@@ -543,6 +551,7 @@ function get_components_custom_slugs( $pages = null ) {
 	if ( $pages ) {
 		foreach ( $pages as $component_id => $page ) {
 			$pages->{$component_id}->custom_slugs = get_post_meta( $page->id, '_bp_component_slugs', true );
+			$pages->{$component_id}->visibility   = get_post_status( $page->id );
 		}
 	}
 
@@ -643,3 +652,25 @@ function empty_form_action( $form_id = '' ) {
 function is_bp_doing_ajax() {
 	return isset( buddypress()->ajax->WP );
 }
+
+/**
+ * Edits the query used in `bp_core_get_directory_pages()` so that it includes the `bp_restricted` post status.
+ *
+ * @since 1.5.0
+ *
+ * @param string $query The MySQL query to be performed by the `$wpdb` API.
+ * @return string The MySQL query to be performed by the `$wpdb` API.
+ */
+function bp_rewrites_get_directory_pages( $query ) {
+	if ( 0 === strpos( $query, 'SELECT ID, post_name, post_parent, post_title' ) ) {
+		$page_ids_sql = implode( ',', wp_parse_id_list( bp_core_get_directory_page_ids() ) );
+		$needle       = "WHERE ID IN ({$page_ids_sql}) AND post_status = 'publish'";
+
+		if ( false !== strpos( $query, $needle ) ) {
+			$query = str_replace( "post_status = 'publish'", "post_status IN ( 'publish', 'bp_restricted' )", $query );
+		}
+	}
+
+	return $query;
+}
+add_filter( 'query', __NAMESPACE__ . '\bp_rewrites_get_directory_pages' );

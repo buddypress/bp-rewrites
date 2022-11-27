@@ -389,8 +389,9 @@ function bp_component_pre_query( $return = null, \WP_Query $query = null ) {
 			$post = (object) array(
 				'ID'             => 0,
 				'post_type'      => 'buddypress',
+				'post_name'      => 'restricted',
 				'post_title'     => __( 'Restricted area', 'bp-rewrites' ),
-				'post_content'   => __( 'This community area is restricted to members.', 'bp-rewrites' ),
+				'post_content'   => buffer_template_asset(),
 				'comment_status' => 'closed',
 				'comment_count'  => 0,
 			);
@@ -410,8 +411,8 @@ function bp_component_pre_query( $return = null, \WP_Query $query = null ) {
 			$query->post_count    = 1;
 			$query->is_home       = false;
 			$query->is_front_page = false;
-			$query->is_page       = true;
-			$query->is_single     = false;
+			$query->is_page       = false;
+			$query->is_single     = true;
 			$query->is_archive    = false;
 			$query->is_tax        = false;
 
@@ -674,3 +675,64 @@ function bp_rewrites_get_directory_pages( $query ) {
 	return $query;
 }
 add_filter( 'query', __NAMESPACE__ . '\bp_rewrites_get_directory_pages' );
+
+/**
+ * Get Templates directory.
+ *
+ * Templates in this directory are used as default templates.
+ *
+ * @since 1.5.0
+ */
+function get_templates_dir() {
+	return trailingslashit( bp_rewrites()->dir ) . 'src/bp-templates';
+}
+
+/**
+ * Temporarly add the templates directory to the BuddyPress Templates stack.
+ *
+ * @since 1.5.0
+ *
+ * @param array $stack The BuddyPress Templates stack.
+ * @return array       The same Templates stack including the templates directory.
+ */
+function get_template_stack( $stack = array() ) {
+	return array_merge( $stack, array( get_templates_dir() ) );
+}
+
+/**
+ * Start filtering the template stack to include the templates directory.
+ *
+ * @since 1.5.0
+ */
+function start_overriding_template_stack() {
+	add_filter( 'bp_get_template_stack', __NAMESPACE__ . '\get_template_stack' );
+}
+
+/**
+ * Stop filtering the template stack to exclude the templates directory.
+ *
+ * @since 1.5.0
+ */
+function stop_overriding_template_stack() {
+	remove_filter( 'bp_get_template_stack', __NAMESPACE__ . '\get_template_stack' );
+}
+
+/**
+ * Buffer the required template asset.
+ *
+ * @since 1.5.0
+ *
+ * @param string $name The template name to use.
+ */
+function buffer_template_asset( $name = 'restricted-message' ) {
+	// Temporarly overrides the BuddyPress Template Stack.
+	start_overriding_template_stack();
+
+	// Load the template parts.
+	$content = \bp_buffer_template_part( 'assets/utils/' . $name, null, false );
+
+	// Stop overidding the BuddyPress Template Stack.
+	stop_overriding_template_stack();
+
+	return $content;
+}

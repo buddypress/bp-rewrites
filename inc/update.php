@@ -44,8 +44,9 @@ function updater() {
 		// Switch the post type.
 		wp_update_post(
 			array(
-				'ID'        => $directory_page->id,
-				'post_type' => $post_type,
+				'ID'          => $directory_page->id,
+				'post_type'   => $post_type,
+				'post_status' => 'publish',
 			)
 		);
 	}

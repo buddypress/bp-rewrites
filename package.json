@@ -1,6 +1,6 @@
 {
   "name": "bp-rewrites",
-  "version": "1.4.0",
+  "version": "1.5.0-alpha",
   "description": "BuddyPress Rewrites development plugin",
   "scripts": {
     "pot": "wp i18n make-pot . languages/bp-rewrites.pot --exclude='.github,vendor' --headers='{\"Project-Id-Version\": \"BP Rewrites\", \"Report-Msgid-Bugs-To\": \"https://github.com/buddypress/bp-rewrites/issues\", \"Last-Translator\": \"JOHN JAMES JACOBY <jjj@buddypress.org>\", \"Language-Team\": \"ENGLISH <jjj@buddypress.org>\"}'"

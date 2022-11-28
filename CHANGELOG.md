@@ -1,5 +1,26 @@
 # Change Log
 
+## 1.5.0
+
+_Requires WordPress 5.9_
+_Tested up to WordPress 6.1_
+_Requires BuddyPress 10.0_
+_Tested up to BuddyPress 11.0-beta2_
+
+### Description
+
+BP Rewrites feature as a plugin maintenance release, please upgrade. With BP Rewrites activated, you'll get full control on any BuddyPress URLs.
+
+### Changes
+
+- Introduce a visibility feature to restrict community pages’ access to members only. See [#44](https://github.com/buddypress/bp-rewrites/pull/44).
+
+## Props
+
+@imath.
+
+---
+
 ## 1.4.0
 
 _Requires WordPress 5.9_

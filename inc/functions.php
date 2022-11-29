@@ -655,26 +655,18 @@ function is_bp_doing_ajax() {
 }
 
 /**
- * Edits the query used in `bp_core_get_directory_pages()` so that it includes the `bp_restricted` post status.
+ * Adds the `bp_restricted` status to the allowed BP Directory Pages stati.
  *
  * @since 1.5.0
  *
- * @param string $query The MySQL query to be performed by the `$wpdb` API.
- * @return string The MySQL query to be performed by the `$wpdb` API.
+ * @param array $stati The allowed BP Directory Pages stati.
+ * @return array The allowed BP Directory Pages stati.
  */
-function get_directory_pages( $query ) {
-	if ( 0 === strpos( $query, 'SELECT ID, post_name, post_parent, post_title' ) ) {
-		$page_ids_sql = implode( ',', wp_parse_id_list( bp_core_get_directory_page_ids() ) );
-		$needle       = "WHERE ID IN ({$page_ids_sql}) AND post_status = 'publish'";
-
-		if ( false !== strpos( $query, $needle ) ) {
-			$query = str_replace( "post_status = 'publish'", "post_status IN ( 'publish', 'bp_restricted' )", $query );
-		}
-	}
-
-	return $query;
+function get_directory_pages_stati( $stati = array() ) {
+	$stati[] = 'bp_restricted';
+	return $stati;
 }
-add_filter( 'query', __NAMESPACE__ . '\get_directory_pages' );
+add_filter( 'bp_core_get_directory_pages_stati', __NAMESPACE__ . '\get_directory_pages_stati' );
 
 /**
  * Get Templates directory.

@@ -820,8 +820,10 @@ class Groups_Component extends \BP_Groups_Component {
 			/**
 			 * Set the BuddyPress queried object.
 			 */
-			$query->queried_object    = get_post( $bp->pages->groups->id );
-			$query->queried_object_id = $query->queried_object->ID;
+			if ( isset( $bp->pages->groups->id ) ) {
+				$query->queried_object    = get_post( $bp->pages->groups->id );
+				$query->queried_object_id = $query->queried_object->ID;
+			}
 
 			if ( $this->current_group ) {
 				$query->queried_object->single_item_name = $this->current_group->name;

@@ -662,7 +662,7 @@ function is_bp_doing_ajax() {
  * @param string $query The MySQL query to be performed by the `$wpdb` API.
  * @return string The MySQL query to be performed by the `$wpdb` API.
  */
-function bp_rewrites_get_directory_pages( $query ) {
+function get_directory_pages( $query ) {
 	if ( 0 === strpos( $query, 'SELECT ID, post_name, post_parent, post_title' ) ) {
 		$page_ids_sql = implode( ',', wp_parse_id_list( bp_core_get_directory_page_ids() ) );
 		$needle       = "WHERE ID IN ({$page_ids_sql}) AND post_status = 'publish'";
@@ -674,7 +674,7 @@ function bp_rewrites_get_directory_pages( $query ) {
 
 	return $query;
 }
-add_filter( 'query', __NAMESPACE__ . '\bp_rewrites_get_directory_pages' );
+add_filter( 'query', __NAMESPACE__ . '\get_directory_pages' );
 
 /**
  * Get Templates directory.

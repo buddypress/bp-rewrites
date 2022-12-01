@@ -823,12 +823,12 @@ class Groups_Component extends \BP_Groups_Component {
 			if ( isset( $bp->pages->groups->id ) ) {
 				$query->queried_object    = get_post( $bp->pages->groups->id );
 				$query->queried_object_id = $query->queried_object->ID;
-			}
 
-			if ( $this->current_group ) {
-				$query->queried_object->single_item_name = $this->current_group->name;
-			} elseif ( $group_type ) {
-				$query->queried_object->directory_type_name = $group_type;
+				if ( $this->current_group ) {
+					$query->queried_object->single_item_name = $this->current_group->name;
+				} elseif ( $group_type ) {
+					$query->queried_object->directory_type_name = $group_type;
+				}
 			}
 		}
 

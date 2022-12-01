@@ -458,14 +458,17 @@ function bp_core_register_post_types() {
 			)
 		);
 
-		register_post_status(
-			'bp_restricted',
-			array(
-				'label'    => _x( 'Restricted to members', 'post status', 'bp-rewrites' ),
-				'public'   => false,
-				'internal' => true,
-			)
-		);
+		// Check BuddyPress is >= 11.0.
+		if ( function_exists( 'bp_core_get_directory_pages_stati' ) ) {
+			register_post_status(
+				'bp_restricted',
+				array(
+					'label'    => _x( 'Restricted to members', 'post status', 'bp-rewrites' ),
+					'public'   => false,
+					'internal' => true,
+				)
+			);
+		}
 	}
 }
 add_action( 'bp_core_register_post_types', __NAMESPACE__ . '\bp_core_register_post_types' );

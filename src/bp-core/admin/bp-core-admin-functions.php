@@ -132,6 +132,11 @@ function bp_admin_setting_callback_community_update_visibility( $status = 'publi
  * @since ?.0.0
  */
 function bp_register_admin_settings() {
+	// Check BuddyPress is >= 11.0.
+	if ( ! function_exists( 'bp_core_get_directory_pages_stati' ) ) {
+		return;
+	}
+
 	// Community visibility.
 	add_settings_field( '_bp_community_visibility', __( 'Community Visibility', 'bp-rewrites' ), __NAMESPACE__ . '\bp_admin_setting_callback_community_visibility', 'buddypress', 'bp_main', array( 'label_for' => '_bp_community_visibility' ) );
 	register_setting( 'buddypress', '_bp_community_visibility', __NAMESPACE__ . '\bp_admin_setting_callback_community_update_visibility' );

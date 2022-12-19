@@ -55,75 +55,21 @@ function bp_remove_page_settings_submenu_page() {
 add_action( 'bp_admin_init', __NAMESPACE__ . '\bp_remove_page_settings_submenu_page' );
 
 /**
- * Returns the current visibility of community pages.
- *
- * @since ?.0.0
- *
- * @return string The current visibility of community pages.
- */
-function bp_admin_get_community_visibility() {
-	$visibility = 'anyone';
-	$bp_pages   = (array) buddypress()->pages;
-
-	// Remove pages needing to always be visible.
-	unset( $bp_pages['activate'], $bp_pages['register'] );
-
-	if ( count( $bp_pages ) === count( wp_filter_object_list( $bp_pages, array( 'visibility' => 'bp_restricted' ) ) ) ) {
-		$visibility = 'members';
-	}
-
-	return $visibility;
-}
-
-/**
  * Outputs the community visibility settings.
  *
  * @since ?.0.0
  */
 function bp_admin_setting_callback_community_visibility() {
-	$visibility = bp_admin_get_community_visibility();
+	$visibility = bp_get_community_visibility();
 	?>
 
 		<select name="_bp_community_visibility" id="_bp_community_visibility" aria-describedby="_bp_community_visibility_description">
-			<option value="publish" <?php selected( 'anyone', $visibility, true ); ?>><?php esc_html_e( 'Anyone', 'bp-rewrites' ); ?></option>
-			<option value="bp_restricted" <?php selected( 'members', $visibility, true ); ?>><?php esc_html_e( 'Members', 'bp-rewrites' ); ?></option>
+			<option value="anyone" <?php selected( 'anyone', $visibility, true ); ?>><?php esc_html_e( 'Anyone', 'bp-rewrites' ); ?></option>
+			<option value="members" <?php selected( 'members', $visibility, true ); ?>><?php esc_html_e( 'Members', 'bp-rewrites' ); ?></option>
 		</select>
 		<p id="_bp_community_visibility_description" class="description"><?php esc_html_e( 'Choose "Members" to restrict your community area to logged in members only. Choose "Anyone" to allow any user to access to your community area.', 'bp-rewrites' ); ?></p>
 
 	<?php
-}
-
-/**
- * Sanitizes the community visibility option and updates community pages status.
- *
- * @since ?.0.0
- *
- * @param string $status The post status to use for community pages.
- * @return string The sanitized community visibility option.
- */
-function bp_admin_setting_callback_community_update_visibility( $status = 'publish' ) {
-	$visibility = bp_admin_get_community_visibility();
-
-	if ( 'publish' !== $status && 'bp_restricted' !== $status ) {
-		return 'members' === $visibility ? 'bp_restricted' : 'publish';
-	}
-
-	if ( $visibility !== $status ) {
-		foreach ( buddypress()->pages as $key => $page ) {
-			if ( 'register' === $key || 'activate' === $key ) {
-				continue;
-			}
-
-			wp_update_post(
-				array(
-					'ID'          => $page->id,
-					'post_status' => $status,
-				)
-			);
-		}
-	}
-
-	return $status;
 }
 
 /**
@@ -132,13 +78,9 @@ function bp_admin_setting_callback_community_update_visibility( $status = 'publi
  * @since ?.0.0
  */
 function bp_register_admin_settings() {
-	// Check BuddyPress is >= 11.0.
-	if ( ! function_exists( 'bp_core_get_directory_pages_stati' ) ) {
-		return;
-	}
 
 	// Community visibility.
 	add_settings_field( '_bp_community_visibility', __( 'Community Visibility', 'bp-rewrites' ), __NAMESPACE__ . '\bp_admin_setting_callback_community_visibility', 'buddypress', 'bp_main', array( 'label_for' => '_bp_community_visibility' ) );
-	register_setting( 'buddypress', '_bp_community_visibility', __NAMESPACE__ . '\bp_admin_setting_callback_community_update_visibility' );
+	register_setting( 'buddypress', '_bp_community_visibility', 'sanitize_text_field' );
 }
 add_action( 'bp_register_admin_settings', __NAMESPACE__ . '\bp_register_admin_settings', 100 );

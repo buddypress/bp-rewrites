@@ -367,12 +367,7 @@ function bp_component_pre_query( $return = null, \WP_Query $query = null ) {
 	$queried_object = $query->get_queried_object();
 
 	if ( $queried_object instanceof \WP_Post && 'buddypress' === get_post_type( $queried_object ) ) {
-		$capability_args = array(
-			'bp_page_id'              => $queried_object->ID,
-			'bp_component_visibility' => get_post_status( $queried_object ),
-		);
-
-		if ( ! bp_current_user_can( 'bp_read', $capability_args ) ) {
+		if ( ! bp_current_user_can( 'bp_read' ) ) {
 			$bp                    = buddypress();
 			$bp->current_component = 'core';
 
@@ -457,18 +452,6 @@ function bp_core_register_post_types() {
 				'delete_with_user'    => false,
 			)
 		);
-
-		// Check BuddyPress is >= 11.0.
-		if ( function_exists( 'bp_core_get_directory_pages_stati' ) ) {
-			register_post_status(
-				'bp_restricted',
-				array(
-					'label'    => _x( 'Restricted to members', 'post status', 'bp-rewrites' ),
-					'public'   => false,
-					'internal' => true,
-				)
-			);
-		}
 	}
 }
 add_action( 'bp_core_register_post_types', __NAMESPACE__ . '\bp_core_register_post_types' );
@@ -555,7 +538,6 @@ function get_components_custom_slugs( $pages = null ) {
 	if ( $pages ) {
 		foreach ( $pages as $component_id => $page ) {
 			$pages->{$component_id}->custom_slugs = get_post_meta( $page->id, '_bp_component_slugs', true );
-			$pages->{$component_id}->visibility   = get_post_status( $page->id );
 		}
 	}
 

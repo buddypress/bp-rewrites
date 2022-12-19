@@ -30,15 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function bp_map_meta_caps( $caps, $cap, $user_id, $args ) {
 	if ( 'bp_read' === $cap ) {
-		$capability_args = (array) $args;
-		$capability_args = reset( $capability_args );
-
-		// Resticted to Site's subscribers by default.
-		$caps = array( 'read' );
-		if ( isset( $capability_args['bp_component_visibility'] ) && 'publish' === $capability_args['bp_component_visibility'] ) {
-			// Allowed for everyone.
-			$caps = array( 'exist' );
-		}
+		$caps = 'members' === bp_get_community_visibility() ? array( 'read' ) : array( 'exist' );
 	}
 
 	return $caps;

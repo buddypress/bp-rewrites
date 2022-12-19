@@ -172,3 +172,24 @@ function bp_is_directory_homepage( $component = '' ) {
 
 	return $is_directory_homepage;
 }
+
+/**
+ * Get the community area visibility.
+ *
+ * @since ?.0.0
+ *
+ * @param string $default Optional. Fallback value if not found in the database.
+ *                        Default: 'anyone'.
+ * @return string The visibility of the community area. Possible values are `anyone` or `members`.
+ */
+function bp_get_community_visibility( $default = 'anyone' ) {
+
+	/**
+	 * Filters the current community area visibility.
+	 *
+	 * @since ?.0.0
+	 *
+	 * @param string $value The current community area visibility.
+	 */
+	return apply_filters( 'bp_get_community_visibility', bp_get_option( '_bp_community_visibility', $default ) );
+}

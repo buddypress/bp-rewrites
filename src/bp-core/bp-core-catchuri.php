@@ -97,6 +97,16 @@ function bp_core_get_from_uri( $bp_global = array() ) {
 
 	if ( ! isset( $backcompat[ $main_key ] ) || is_null( $backcompat[ $main_key ] ) ) {
 		if ( ! isset( $bp->pages ) || ! $bp->pages ) {
+			/*
+			 * As `\bp_groups_user_can_filter` is triggered way to early, we need to make
+			 * sure the `'bp_restricted'` status is registered to fetch potential directory pages
+			 * using this status.
+			 */
+			$is_restricted_status_registered = get_post_status_object( 'bp_restricted' );
+			if ( ! $is_restricted_status_registered ) {
+				bp_rewrites_register_post_status();
+			}
+
 			$bp->pages = bp_core_get_directory_pages();
 		}
 

@@ -458,20 +458,29 @@ function bp_core_register_post_types() {
 			)
 		);
 
-		// Check BuddyPress is >= 11.0.
-		if ( function_exists( 'bp_core_get_directory_pages_stati' ) ) {
-			register_post_status(
-				'bp_restricted',
-				array(
-					'label'    => _x( 'Restricted to members', 'post status', 'bp-rewrites' ),
-					'public'   => false,
-					'internal' => true,
-				)
-			);
-		}
+		bp_rewrites_register_post_status();
 	}
 }
 add_action( 'bp_core_register_post_types', __NAMESPACE__ . '\bp_core_register_post_types' );
+
+/**
+ * Registers a specific post status used to make the community only visible to members.
+ *
+ * @since 1.5.0
+ */
+function bp_rewrites_register_post_status() {
+	// Check BuddyPress is >= 11.0.
+	if ( function_exists( 'bp_core_get_directory_pages_stati' ) ) {
+		register_post_status(
+			'bp_restricted',
+			array(
+				'label'    => _x( 'Restricted to members', 'post status', 'bp-rewrites' ),
+				'public'   => false,
+				'internal' => true,
+			)
+		);
+	}
+}
 
 /**
  * Checks if the displayed page is the WP Login one.

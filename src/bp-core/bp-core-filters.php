@@ -99,3 +99,24 @@ function bp_core_include_directory_on_front( $pages = array(), $args = array() )
 	return $pages;
 }
 add_filter( 'get_pages', __NAMESPACE__ . '\bp_core_include_directory_on_front', 10, 2 );
+
+/**
+ * Set the page title when the restricted page is displayed.
+ *
+ * @since 1.5.0
+ *
+ * @param array $bp_title_parts The document title parts.
+ * @return array The document title parts.
+ */
+function bp_get_title_parts( $bp_title_parts ) {
+	if ( \bp_is_current_component( 'core' ) ) {
+		$post = get_post();
+
+		if ( 'buddypress' === get_post_type( $post ) && 'restricted' === get_post_field( 'post_name', $post, 'raw' ) ) {
+			$bp_title_parts = array( esc_html( $post->post_title ) );
+		}
+	}
+
+	return $bp_title_parts;
+}
+add_filter( 'bp_get_title_parts', __NAMESPACE__ . '\bp_get_title_parts', 10, 1 );

@@ -377,9 +377,11 @@ function bp_component_pre_query( $return = null, \WP_Query $query = null ) {
 			$bp->current_component = 'core';
 
 			// Unset other BuddyPress URI globals.
-			foreach ( array( 'current_item', 'current_action', 'action_variables' ) as $global ) {
+			foreach ( array( 'current_item', 'current_action', 'action_variables', 'displayed_user' ) as $global ) {
 				if ( 'action_variables' === $global ) {
 					$bp->{$global} = array();
+				} elseif ( 'displayed_user' === $global ) {
+					$bp->{$global} = new \stdClass();
 				} else {
 					$bp->{$global} = '';
 				}
@@ -415,6 +417,9 @@ function bp_component_pre_query( $return = null, \WP_Query $query = null ) {
 			$query->is_single     = true;
 			$query->is_archive    = false;
 			$query->is_tax        = false;
+
+			// Make sure no comments are displayed for this page.
+			add_filter( 'comments_pre_query', 'bp_comments_pre_query', 10, 2 );
 
 			// Return the posts making sure no additional queries are performed.
 			return $posts;

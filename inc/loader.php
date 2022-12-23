@@ -24,6 +24,7 @@ function includes( $plugin_dir = '' ) {
 	$path = trailingslashit( $plugin_dir );
 
 	// Core is always required.
+	require $path . 'src/bp-core/bp-core-options.php';
 	require $path . 'src/bp-core/bp-core-template-loader.php';
 	require $path . 'src/bp-core/bp-core-template.php';
 	require $path . 'src/bp-core/bp-core-rewrites.php';

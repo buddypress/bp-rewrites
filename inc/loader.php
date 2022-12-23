@@ -104,11 +104,6 @@ function includes( $plugin_dir = '' ) {
 		require $path . 'src/bp-xprofile/bp-xprofile-functions.php';
 	}
 
-	$template_pack_dir = sprintf( $path . 'src/bp-templates/bp-%s.php', bp_get_theme_package_id() );
-	if ( file_exists( $template_pack_dir ) ) {
-		require $template_pack_dir;
-	}
-
 	if ( is_admin() ) {
 		require $path . 'src/bp-core/admin/bp-core-admin-functions.php';
 		require $path . 'src/bp-core/admin/bp-core-admin-rewrites.php';
@@ -120,3 +115,20 @@ function includes( $plugin_dir = '' ) {
 	}
 }
 add_action( '_bp_rewrites_includes', __NAMESPACE__ . '\includes', 1, 1 );
+
+/**
+ * Only include the specific Template Pack file if the Theme does not support BuddyPress.
+ *
+ * @since 1.5.0
+ */
+function template_pack_includes() {
+	if ( current_theme_supports( 'buddypress' ) ) {
+		return;
+	}
+
+	$template_pack_dir = sprintf( trailingslashit( plugin_dir_path( dirname( __FILE__ ) ) ) . 'src/bp-templates/bp-%s.php', bp_get_theme_package_id() );
+	if ( file_exists( $template_pack_dir ) ) {
+		require $template_pack_dir;
+	}
+}
+add_action( 'bp_after_setup_theme', __NAMESPACE__ . '\template_pack_includes', 100 );

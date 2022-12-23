@@ -367,12 +367,13 @@ function bp_component_pre_query( $return = null, \WP_Query $query = null ) {
 	$queried_object = $query->get_queried_object();
 
 	if ( $queried_object instanceof \WP_Post && 'buddypress' === get_post_type( $queried_object ) ) {
-		$capability_args = array(
-			'bp_page_id'              => $queried_object->ID,
-			'bp_component_visibility' => get_post_status( $queried_object ),
-		);
-
-		if ( ! bp_current_user_can( 'bp_read', $capability_args ) ) {
+		/*
+		 * @todo check the following in BuddyPress Core.
+		 *
+		 * `bp_current_user_can` is removing the first argument if it's an integer and use it as the
+		 * site's ID for backward compatibility. Is this still necessary?
+		 */
+		if ( ! bp_current_user_can( 'bp_read', array( 'bp_page' => $queried_object ) ) ) {
 			$bp                    = buddypress();
 			$bp->current_component = 'core';
 

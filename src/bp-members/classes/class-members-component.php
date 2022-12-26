@@ -539,6 +539,7 @@ class Members_Component extends \BP_Members_Component {
 			$bp->current_component = 'members';
 			$member_slug           = $query->get( $this->rewrite_ids['single_item'] );
 			$member_type_slug      = $query->get( $this->rewrite_ids['directory_type'] );
+			$member_templates      = array( 'members/index.php' );
 
 			if ( $member_slug ) {
 				/**
@@ -662,8 +663,9 @@ class Members_Component extends \BP_Members_Component {
 			 * Set the BuddyPress queried object.
 			 */
 			if ( isset( $bp->pages->members->id ) ) {
-				$query->queried_object    = get_post( $bp->pages->members->id );
-				$query->queried_object_id = $query->queried_object->ID;
+				$query->queried_object            = get_post( $bp->pages->members->id );
+				$query->queried_object_id         = $query->queried_object->ID;
+				$query->queried_object->templates = $member_templates;
 
 				if ( $member ) {
 					$query->queried_object->single_item_name = $member->display_name;

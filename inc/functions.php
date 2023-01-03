@@ -422,6 +422,10 @@ function bp_component_pre_query( $return = null, \WP_Query $query = null ) {
 			// Make sure no comments are displayed for this page.
 			add_filter( 'comments_pre_query', 'bp_comments_pre_query', 10, 2 );
 
+			if ( function_exists( 'wp_get_global_styles' ) ) {
+				add_action( 'bp_enqueue_community_scripts', __NAMESPACE__ . '\add_bp_login_block_inline_style' );
+			}
+
 			// Return the posts making sure no additional queries are performed.
 			return $posts;
 		}
@@ -745,4 +749,54 @@ function buffer_template_asset( $name = 'restricted-message' ) {
 	stop_overriding_template_stack();
 
 	return $content;
+}
+
+/**
+ * Use WP global styles to improve the bp/login-form submit button display.
+ *
+ * @since 1.5.0
+ */
+function add_bp_login_block_inline_style() {
+	$styles     = wp_get_global_styles();
+	$rules      = array();
+	$hover_rule = '';
+
+	if ( isset( $styles['elements']['button']['color']['text'] ) ) {
+		$rules[] = 'color: ' . $styles['elements']['button']['color']['text'] . ';';
+	}
+
+	if ( isset( $styles['elements']['button']['color']['background'] ) ) {
+		$hover_rule = 'background: ' . $styles['elements']['button']['color']['background'] . ';';
+		$rules[]    = $hover_rule;
+		$rules[]    = 'background: var(--wp--preset--color--primary);';
+	}
+
+	if ( isset( $styles['elements']['button']['spacing']['padding'] ) ) {
+		$rules[] = 'padding: ' . $styles['elements']['button']['spacing']['padding'] . ';';
+	}
+
+	if ( $rules && $hover_rule ) {
+		wp_add_inline_style(
+			'bp-login-form-block',
+			sprintf(
+				'input#bp-login-widget-submit {
+					border-width: 0;
+					cursor: pointer;
+					%1$s
+				}
+
+				input#bp-login-widget-submit,
+				#bp-login-widget-form .bp-login-widget-register-link {
+					font-size: var(--wp--preset--font-size--medium);
+					vertical-align: baseline;
+				}
+
+				input#bp-login-widget-submit:hover {
+					%2$s
+				}',
+				implode( "\n", $rules ),
+				$hover_rule
+			)
+		);
+	}
 }

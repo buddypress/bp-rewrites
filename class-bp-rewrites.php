@@ -19,7 +19,7 @@
  * Domain Path:       /languages/
  * Text Domain:       bp-rewrites
  * GitHub Plugin URI: https://github.com/buddypress/bp-rewrites
- * Requires at least: 5.7
+ * Requires at least: 5.8
  * Requires PHP:      5.6
  * Requires Plugins:  buddypress
  */

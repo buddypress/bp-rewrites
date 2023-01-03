@@ -12,8 +12,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 ?>
-<!-- wp:paragraph -->
-<p><?php esc_html_e( 'This community area is restricted to members.', 'bp-rewrites' ); ?></p>
+<!-- wp:paragraph {"align":"center"} -->
+<p class="has-text-align-center"><?php esc_html_e( 'This community area is restricted to members.', 'bp-rewrites' ); ?></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:columns -->

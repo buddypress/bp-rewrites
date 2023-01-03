@@ -25,6 +25,8 @@ Please help us meeting this challenge by testing the BP Rewrites plugin with you
 * BuddyPress is fully compatible with plain URL permalinks.
 * Parsing BuddyPress URLs is faster, more reliable, extensible, testable and fully compliant with WordPress best practices.
 
+**PS: combined with BuddyPress 11.0, the BP Rewrites plugin is also adding a new BuddyPress Settings option to restrict the BuddyPress generated pages (aka the community area of your site) to your members only.**
+
 = How BP Rewrites changes BuddyPress’ behavior? =
 
 Once activated, The plugin is editing the post type of the existing BuddyPress pages in favor of the `buddypress` post type. That’s why you don’t see the BuddyPress pages anymore (as long as the BP Rewrites plugin is active) into the corresponding WordPress Administation edit screen. The BuddyPress Pages settings screen is replaced by a BuddyPress URLs settings screen (see the screenshot below). This new screen is where you can define custom slugs which will be saved as a post meta of the corresponding `buddypress` post type item. Then the BP Rewrites plugin is taking benefit from BuddyPress hooks/APIs to change BP Core’s behavior.
@@ -72,8 +74,13 @@ If you would like to provide monetary support to the BP Rewrites or BuddyPress p
 == Screenshots ==
 
 1. **The BuddyPress URLs admin screen**
+2. **The community visibility option**
 
 == Upgrade Notice ==
+
+= 1.5.0 =
+
+Feature release. No specific upgrade routines are performed.
 
 = 1.4.0 =
 
@@ -96,6 +103,10 @@ Maintenance release. No specific upgrade routines are performed.
 Initial version of the plugin, no upgrade needed.
 
 == Changelog ==
+
+= 1.5.0 =
+
+- Introduce a visibility feature to restrict community pages’ access to members only.
 
 = 1.4.0 =
 

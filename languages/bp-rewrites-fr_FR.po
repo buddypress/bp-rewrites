@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BP Rewrites\n"
 "Report-Msgid-Bugs-To: https://github.com/buddypress/bp-rewrites/issues\n"
-"POT-Creation-Date: 2022-06-25T08:27:28+00:00\n"
-"PO-Revision-Date: 2022-06-25 10:30+0200\n"
+"POT-Creation-Date: 2023-01-03T22:02:42+00:00\n"
+"PO-Revision-Date: 2023-01-03 23:08+0100\n"
 "Last-Translator: \n"
 "Language-Team: ENGLISH <jjj@buddypress.org>\n"
 "Language: fr\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 2.3.1\n"
 "X-Domain: bp-rewrites\n"
 
 #. Plugin Name of the plugin
@@ -38,13 +38,13 @@ msgstr "La communauté BuddyPress"
 msgid "https://buddypress.org"
 msgstr "https://buddypress.org"
 
-#: class-bp-rewrites.php:106
+#: class-bp-rewrites.php:109
 msgctxt "BuddyPress WP plugin directory URL"
 msgid "https://wordpress.org/plugins/buddypress"
 msgstr "https://fr.wordpress.org/plugins/buddypress"
 
 #. translators: 1. is the link to the BuddyPress plugin on the WordPress.org plugin directory.
-#: class-bp-rewrites.php:112
+#: class-bp-rewrites.php:115
 msgid ""
 "BP Rewrites requires the %1$s plugin to be active. Please deactivate BP "
 "Rewrites, activate %1$s and only then, reactivate BP Rewrites."
@@ -56,21 +56,30 @@ msgstr ""
 msgid "BuddyPress URLs"
 msgstr "URLs de BuddyPress"
 
-#: inc/functions.php:386
+#: inc/functions.php:396
+msgid "Restricted area"
+msgstr "Zone réservée aux membres"
+
+#: inc/functions.php:451
 msgctxt "Post Type label"
 msgid "BuddyPress Directories"
 msgstr "Répertoires BuddyPress"
 
-#: inc/functions.php:388
+#: inc/functions.php:453
 msgctxt "Post Type singular name"
 msgid "BuddyPress Directory"
 msgstr "Répertoire BuddyPress"
 
-#: inc/functions.php:390
+#: inc/functions.php:455
 msgid "The BuddyPress Post Type is used when Pretty URLs are active."
 msgstr ""
 "Le type de publication BuddyPress est utilisé lorsque la réécriture d’URL "
 "est active."
+
+#: inc/functions.php:487
+msgctxt "post status"
+msgid "Restricted to members"
+msgstr "Resérvé aux membres"
 
 #: src/bp-activity/bp-activity-filters.php:28
 msgctxt "Group activity view"
@@ -81,6 +90,27 @@ msgstr "Activités"
 #: src/bp-core/admin/bp-core-admin-rewrites.php:44
 msgid "URLs"
 msgstr "URLs"
+
+#: src/bp-core/admin/bp-core-admin-functions.php:88
+msgid "Anyone"
+msgstr "Tout le monde"
+
+#: src/bp-core/admin/bp-core-admin-functions.php:89
+msgid "Members"
+msgstr "Membres"
+
+#: src/bp-core/admin/bp-core-admin-functions.php:91
+msgid ""
+"Choose \"Members\" to restrict your community area to logged in members "
+"only. Choose \"Anyone\" to allow any user to access to your community area."
+msgstr ""
+"Choisissez « Membres » pour reserver l’accès à la communauté de votre site "
+"aux seul·e·s membres connecté·e·s. Choisissez « Tout le monde » pour "
+"autoriser l’accès à votre communauté à tout·e visiteur·euse."
+
+#: src/bp-core/admin/bp-core-admin-functions.php:141
+msgid "Community Visibility"
+msgstr "Visibilité de la communauté"
 
 #: src/bp-core/admin/bp-core-admin-rewrites.php:44
 msgid "BuddyPress Settings"
@@ -141,7 +171,7 @@ msgstr "Terminaison d’URL « %s »"
 msgid "Save Settings"
 msgstr "Enregistrer les réglages"
 
-#: src/bp-core/bp-core-template.php:72
+#: src/bp-core/bp-core-template.php:96
 msgid "Please wait for the `bp_parse_query` hook to be fired before using it."
 msgstr ""
 "Merci d’attendre que le « hook » `bp_parse_query` soit intervenu avant "
@@ -365,6 +395,10 @@ msgstr ""
 #: src/bp-settings/bp-settings-templates.php:99
 msgid "cancel the pending change"
 msgstr "annuler la modification en attente"
+
+#: src/bp-templates/assets/utils/restricted-message.php:16
+msgid "This community area is restricted to members."
+msgstr "Cette zone communautaire est réservée aux membres."
 
 #. translators: %s is the amount of friends for the current user.
 #: src/bp-templates/bp-legacy.php:84 src/bp-templates/bp-legacy.php:182

@@ -1,4 +1,4 @@
-# Copyright (C) 2022 The BuddyPress Community
+# Copyright (C) 2023 The BuddyPress Community
 # This file is distributed under the GPL-2.0+.
 msgid ""
 msgstr ""
@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-10-29T09:06:33+00:00\n"
+"POT-Creation-Date: 2023-01-03T22:02:42+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: bp-rewrites\n"
@@ -34,13 +34,13 @@ msgstr ""
 msgid "https://buddypress.org"
 msgstr ""
 
-#: class-bp-rewrites.php:106
+#: class-bp-rewrites.php:109
 msgctxt "BuddyPress WP plugin directory URL"
 msgid "https://wordpress.org/plugins/buddypress"
 msgstr ""
 
 #. translators: 1. is the link to the BuddyPress plugin on the WordPress.org plugin directory.
-#: class-bp-rewrites.php:112
+#: class-bp-rewrites.php:115
 msgid "BP Rewrites requires the %1$s plugin to be active. Please deactivate BP Rewrites, activate %1$s and only then, reactivate BP Rewrites."
 msgstr ""
 
@@ -49,18 +49,27 @@ msgstr ""
 msgid "BuddyPress URLs"
 msgstr ""
 
-#: inc/functions.php:386
+#: inc/functions.php:396
+msgid "Restricted area"
+msgstr ""
+
+#: inc/functions.php:451
 msgctxt "Post Type label"
 msgid "BuddyPress Directories"
 msgstr ""
 
-#: inc/functions.php:388
+#: inc/functions.php:453
 msgctxt "Post Type singular name"
 msgid "BuddyPress Directory"
 msgstr ""
 
-#: inc/functions.php:390
+#: inc/functions.php:455
 msgid "The BuddyPress Post Type is used when Pretty URLs are active."
+msgstr ""
+
+#: inc/functions.php:487
+msgctxt "post status"
+msgid "Restricted to members"
 msgstr ""
 
 #: src/bp-activity/bp-activity-filters.php:28
@@ -71,6 +80,22 @@ msgstr ""
 #: src/bp-core/admin/bp-core-admin-functions.php:28
 #: src/bp-core/admin/bp-core-admin-rewrites.php:44
 msgid "URLs"
+msgstr ""
+
+#: src/bp-core/admin/bp-core-admin-functions.php:88
+msgid "Anyone"
+msgstr ""
+
+#: src/bp-core/admin/bp-core-admin-functions.php:89
+msgid "Members"
+msgstr ""
+
+#: src/bp-core/admin/bp-core-admin-functions.php:91
+msgid "Choose \"Members\" to restrict your community area to logged in members only. Choose \"Anyone\" to allow any user to access to your community area."
+msgstr ""
+
+#: src/bp-core/admin/bp-core-admin-functions.php:141
+msgid "Community Visibility"
 msgstr ""
 
 #: src/bp-core/admin/bp-core-admin-rewrites.php:44
@@ -331,6 +356,10 @@ msgstr ""
 
 #: src/bp-settings/bp-settings-templates.php:99
 msgid "cancel the pending change"
+msgstr ""
+
+#: src/bp-templates/assets/utils/restricted-message.php:16
+msgid "This community area is restricted to members."
 msgstr ""
 
 #. translators: %s is the amount of friends for the current user.

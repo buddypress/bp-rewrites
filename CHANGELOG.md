@@ -5,7 +5,7 @@
 _Requires WordPress 5.9_
 _Tested up to WordPress 6.1_
 _Requires BuddyPress 10.0_
-_Tested up to BuddyPress 11.0-beta2_
+_Tested up to BuddyPress 11.0-RC1_
 
 ### Description
 
@@ -17,7 +17,7 @@ BP Rewrites feature as a plugin maintenance release, please upgrade. With BP Rew
 
 ## Props
 
-@imath.
+@imath, @dcavins.
 
 ---
 

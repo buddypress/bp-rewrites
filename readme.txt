@@ -7,7 +7,7 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 5.9
 Requires PHP: 5.6
 Tested up to: 6.1
-Stable tag: 1.4.0
+Stable tag: 1.5.0
 
 The BP Rewrites plugin is a BuddyPress add-on giving you the full control of any BuddyPress generated URLs.
 

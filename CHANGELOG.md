@@ -5,11 +5,11 @@
 _Requires WordPress 5.9_
 _Tested up to WordPress 6.1_
 _Requires BuddyPress 10.0_
-_Tested up to BuddyPress 11.0-RC1_
+_Tested up to BuddyPress 11.0_
 
 ### Description
 
-BP Rewrites feature as a plugin maintenance release, please upgrade. With BP Rewrites activated, you'll get full control on any BuddyPress URLs.
+BP Rewrites feature as a plugin feature release, please upgrade. With BP Rewrites activated, you'll get full control on any BuddyPress URLs.
 
 ### Changes
 

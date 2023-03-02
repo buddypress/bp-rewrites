@@ -10,6 +10,6 @@ In the WordPress open source project, we realize that our biggest asset is the c
 
 The BuddyPress team involved will block any user who causes any breach in this.
 
-BuddyPress development meetings happen every other Wednesday at 19:30 UTC in the [#BuddyPress](https://wordpress.slack.com/messages/buddypress) channel of the WordPress Slack.
+BuddyPress development meetings happen every other Monday at 21:00 UTC in the [#BuddyPress](https://wordpress.slack.com/messages/buddypress) channel of the WordPress Slack.
 
 BuddyPress development updates are published on the [BPDevel blog](https://bpdevel.wordpress.com/).

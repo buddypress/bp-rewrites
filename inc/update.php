@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 1.0.0
  */
 function updater() {
-	if ( ! BP_Rewrites::is_buddypress_active() ) {
+	if ( ! BP_Rewrites::is_buddypress_supported() ) {
 		return false;
 	}
 

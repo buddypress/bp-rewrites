@@ -1558,7 +1558,7 @@ if ( ! class_exists( 'BP_Group_Extension', false ) ) :
 			$properties = $this->get_legacy_property_list();
 
 			// By-reference variable for convenience.
-			$lpc =& $this->legacy_properties_converted;
+			$lpc =& $this->legacy_properties_converted; // phpcs:ignore
 
 			foreach ( $properties as $property ) {
 
@@ -1635,7 +1635,7 @@ if ( ! class_exists( 'BP_Group_Extension', false ) ) :
 
 			$properties = $this->get_legacy_property_list();
 			$params     = $this->params;
-			$lp         =& $this->legacy_properties;
+			$lp         =& $this->legacy_properties; // phpcs:ignore
 
 			foreach ( $properties as $property ) {
 				switch ( $property ) {

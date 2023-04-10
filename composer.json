@@ -31,5 +31,11 @@
     "format": "@php ./vendor/squizlabs/php_codesniffer/bin/phpcbf --standard=WordPress",
     "lint:php": "@php ./vendor/bin/parallel-lint --exclude .git --exclude node_modules --exclude vendor .",
     "phpcompat": "@php ./vendor/bin/phpcs -p --standard=PHPCompatibilityWP --extensions=php --runtime-set testVersion 5.6- inc src class-bp-rewrites.php"
+  },
+  "config": {
+    "allow-plugins": {
+      "composer/installers": true,
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
   }
 }

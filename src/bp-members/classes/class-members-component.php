@@ -459,7 +459,7 @@ class Members_Component extends \BP_Members_Component {
 				'query' => 'index.php?' . $this->rewrite_ids['directory'] . '=1&' . $this->rewrite_ids['single_item'] . '=$matches[1]',
 			),
 			'directory'                    => array(
-				'regex' => $this->root_slug,
+				'regex' => $this->root_slug . '/?$',
 				'query' => 'index.php?' . $this->rewrite_ids['directory'] . '=1',
 			),
 		);

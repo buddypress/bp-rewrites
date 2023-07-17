@@ -249,7 +249,7 @@ class Activity_Component extends \BP_Activity_Component {
 				'query' => 'index.php?' . $this->rewrite_ids['directory'] . '=1&' . $this->rewrite_ids['single_item_action'] . '=$matches[1]',
 			),
 			'directory'                    => array(
-				'regex' => $this->root_slug,
+				'regex' => $this->root_slug . '/?$',
 				'query' => 'index.php?' . $this->rewrite_ids['directory'] . '=1',
 			),
 		);

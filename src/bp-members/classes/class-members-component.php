@@ -523,7 +523,7 @@ class Members_Component extends \BP_Members_Component {
 			add_action( 'bp_screens', 'bp_members_screen_display_profile', 3 );
 		}
 
-		if ( bp_is_directory_homepage( $this->id ) ) {
+		if ( home_url( '/' ) === bp_get_requested_url() && bp_is_directory_homepage( $this->id ) ) {
 			$query->set( $this->rewrite_ids['directory'], 1 );
 		}
 

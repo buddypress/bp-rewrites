@@ -28,7 +28,10 @@ class Core_Nav_Compat {
 	 * @since 1.0.0
 	 */
 	public function __construct() {
-		add_action( 'bp_parse_query', array( $this, 'doing_it_wrong' ), 11 );
+		if ( needs_query_check() ) {
+			add_action( 'bp_parse_query', array( $this, 'doing_it_wrong' ), 11 );
+		}
+
 		add_action( 'bp_setup_nav', array( $this, 'compat' ), 1000 );
 	}
 

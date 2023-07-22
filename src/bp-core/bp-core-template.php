@@ -53,37 +53,8 @@ function _is_bp_was_called_too_early_exceptions( $trace = '' ) {
  * @return mixed            The BuddyPress global value set using the BP Legacy URL parser.
  */
 function _was_called_too_early( $function, $bp_global ) {
-	$retval      = null;
-	$request_uri = '';
-	if ( isset( $_SERVER['REQUEST_URI'] ) ) {
-		$request_uri = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) );
-	}
-
-	// Into WP Admin context BP Front end globals are not set.
-	$request  = wp_parse_url( $request_uri, PHP_URL_PATH );
-	$is_admin = ( false !== strpos( $request, '/wp-admin' ) || is_admin() ) && ! wp_doing_ajax();
-
-	// Into the following contexts BP Front end globals are also not set.
-	$wp_specific_paths   = array( '/wp-login.php', '/wp-comments-post.php', '/wp-signup.php', '/wp-activate.php', '/wp-trackback.php' );
-	$is_wp_specific_path = false;
-
-	foreach ( $wp_specific_paths as $wp_specific_path ) {
-		if ( false === strpos( $request, $wp_specific_path ) ) {
-			continue;
-		}
-
-		$is_wp_specific_path = true;
-	}
-
-	// The BP REST API needs more work.
-	$is_rest = false !== strpos( $request, '/' . rest_get_url_prefix() ) || ( defined( 'REST_REQUEST' ) && REST_REQUEST );
-
-	// The XML RPC API needs more work.
-	$is_xmlrpc = defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST;
-
-	// `bp_parse_query` is not fired in WP Admin.
-	if ( did_action( 'bp_parse_query' ) || $is_admin || $is_wp_specific_path || $is_rest || $is_xmlrpc || wp_doing_cron() ) {
-		return $retval;
+	if ( did_action( 'bp_parse_query' ) || ! needs_query_check() ) {
+		return null;
 	}
 
 	if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {

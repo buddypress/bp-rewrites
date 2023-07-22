@@ -800,3 +800,44 @@ function add_bp_login_block_inline_style() {
 		);
 	}
 }
+
+/**
+ * Checks if the current context needs a query check.
+ *
+ * @since 1.6.0
+ *
+ * @return boolean True if the current context needs a query check. False otherwise.
+ */
+function needs_query_check() {
+	$retval      = null;
+	$request_uri = '';
+	if ( isset( $_SERVER['REQUEST_URI'] ) ) {
+		$request_uri = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) );
+	}
+
+	// Into WP Admin context BP Front end globals are not set.
+	$request  = wp_parse_url( $request_uri, PHP_URL_PATH );
+	$is_admin = ( false !== strpos( $request, '/wp-admin' ) || is_admin() ) && ! wp_doing_ajax();
+
+	// Into the following contexts BP Front end globals are also not set.
+	$wp_specific_paths   = array( '/wp-login.php', '/wp-comments-post.php', '/wp-signup.php', '/wp-activate.php', '/wp-trackback.php' );
+	$is_wp_specific_path = false;
+
+	foreach ( $wp_specific_paths as $wp_specific_path ) {
+		if ( false === strpos( $request, $wp_specific_path ) ) {
+			continue;
+		}
+
+		$is_wp_specific_path = true;
+	}
+
+	// The BP REST API needs more work.
+	$is_rest = false !== strpos( $request, '/' . rest_get_url_prefix() ) || ( defined( 'REST_REQUEST' ) && REST_REQUEST );
+
+	// The XML RPC API needs more work.
+	$is_xmlrpc = defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST;
+
+	$bypass_query_check = $is_admin || $is_wp_specific_path || $is_rest || $is_xmlrpc || wp_doing_cron();
+
+	return ! $bypass_query_check;
+}

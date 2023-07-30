@@ -1,5 +1,29 @@
 # Change Log
 
+## 1.6.0
+
+_Requires WordPress 5.9_
+_Tested up to WordPress 6.3_
+_Requires BuddyPress >= 10.0 & < 12_
+
+### Description
+
+BP Rewrites feature as a plugin maintenance release, please upgrade. With BP Rewrites activated, you'll get full control on any BuddyPress URLs.
+
+### Changes
+
+- Interrupt the plugin loading process if BuddyPress is >= 12.0.0
+- Bump WordPress "Tested up to" 6.3
+- Make sure directory rewrite rules match exact directory slugs. See [#49](https://github.com/buddypress/bp-rewrites/issues/49).
+- Only check if a BP directory is set as the site homepage if the requested URL is this homepage.
+- `Core_Nav_Compat`: only send warning notices in right contexts. See [#50](https://github.com/buddypress/bp-rewrites/issues/50).
+
+## Props
+
+@imath, @shawfactor
+
+---
+
 ## 1.5.0
 
 _Requires WordPress 5.9_

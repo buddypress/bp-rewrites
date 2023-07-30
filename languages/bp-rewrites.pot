@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-01-03T22:02:42+00:00\n"
+"POT-Creation-Date: 2023-07-30T16:15:05+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: bp-rewrites\n"
@@ -34,14 +34,14 @@ msgstr ""
 msgid "https://buddypress.org"
 msgstr ""
 
-#: class-bp-rewrites.php:109
+#: class-bp-rewrites.php:113
 msgctxt "BuddyPress WP plugin directory URL"
 msgid "https://wordpress.org/plugins/buddypress"
 msgstr ""
 
 #. translators: 1. is the link to the BuddyPress plugin on the WordPress.org plugin directory.
-#: class-bp-rewrites.php:115
-msgid "BP Rewrites requires the %1$s plugin to be active. Please deactivate BP Rewrites, activate %1$s and only then, reactivate BP Rewrites."
+#: class-bp-rewrites.php:119
+msgid "BP Rewrites requires the %1$s plugin to be active and its version must be %2$s. Please deactivate BP Rewrites, activate %1$s %2$s and only then, reactivate BP Rewrites."
 msgstr ""
 
 #: inc/admin.php:85
@@ -157,12 +157,12 @@ msgstr ""
 msgid "Save Settings"
 msgstr ""
 
-#: src/bp-core/bp-core-template.php:96
+#: src/bp-core/bp-core-template.php:67
 msgid "Please wait for the `bp_parse_query` hook to be fired before using it."
 msgstr ""
 
 #. Translators: 1: the list of nav items that were not added.
-#: src/bp-core/classes/class-core-nav-compat.php:47
+#: src/bp-core/classes/class-core-nav-compat.php:50
 msgid "Please wait for the `bp_setup_nav` hook to be fired before trying to create a nav or a subnav item. The following nav item slugs are problematic: %s."
 msgstr ""
 

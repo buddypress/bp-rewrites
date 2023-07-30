@@ -6,8 +6,8 @@ License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 5.9
 Requires PHP: 5.6
-Tested up to: 6.2
-Stable tag: 1.5.0
+Tested up to: 6.3
+Stable tag: 1.6.0
 
 The BP Rewrites plugin is a BuddyPress add-on giving you the full control of any BuddyPress generated URLs.
 
@@ -48,7 +48,7 @@ Growing the BuddyPress community means better software for everyone!
 = Requirements =
 
 * WordPress 5.9.
-* BuddyPress 10.0
+* BuddyPress 10.0 or 11.0 (Most of this plugin has been merged into BuddyPress 12.0).
 
 = Automatic installation =
 
@@ -78,6 +78,10 @@ If you would like to provide monetary support to the BP Rewrites or BuddyPress p
 
 == Upgrade Notice ==
 
+= 1.6.0 =
+
+Maintenance release. No specific upgrade routines are performed.
+
 = 1.5.0 =
 
 Feature release. No specific upgrade routines are performed.
@@ -103,6 +107,14 @@ Maintenance release. No specific upgrade routines are performed.
 Initial version of the plugin, no upgrade needed.
 
 == Changelog ==
+
+= 1.6.0 =
+
+- Interrupt the plugin loading process if BuddyPress is >= 12.0.0
+- Bump WordPress "Tested up to" 6.3
+- Make sure directory rewrite rules match exact directory slugs
+- Only check if a BP directory is set as the site homepage if the requested URL is this homepage.
+- `Core_Nav_Compat`: only send warning notices in right contexts.
 
 = 1.5.0 =
 

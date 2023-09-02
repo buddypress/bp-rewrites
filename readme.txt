@@ -1,5 +1,5 @@
 === BP Rewrites ===
-Contributors: johnjamesjacoby, DJPaul, boonebgorges, r-a-y, imath, mercime, tw2113, dcavins, hnla, karmatosed, slaFFik, dimensionmedia, henrywright, netweb, offereins, espellcaste, modemlooper, danbp, Venutius, apeatling, shanebp
+Contributors: buddypress
 Donate link: https://wordpressfoundation.org
 Tags: BuddyPress, rewrites, beta, feature-as-a-plugin
 License: GPLv2 or later
